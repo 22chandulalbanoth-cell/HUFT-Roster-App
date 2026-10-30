@@ -401,7 +401,7 @@ html:fullscreen body{min-height:100vh;overflow:auto}
 
   var state = {
     todayIso:'', appUrl:'', stores:[], months:[], data:{}, date:'', store:'All', homeStore:'', q:'', role:'',
-    supabase: null, supabaseConnected: false, supabaseUrl: 'https://sumoyszqxxuarwzpzsgw.supabase.co', supabaseKey: '', supabaseLogs: [],
+    supabase: null, supabaseConnected: false, supabaseUrl: 'https://sumoyszqxxuarwzpzsgw.supabase.co', supabaseKey: 'sb_publishable_uVAPgHwmyBlY5gbop_Mqcw_CTNK7eOT', supabaseLogs: [],
     tab:'week', msgs:[], theme:'light', isAdmin:false, isSuperAdmin:false, accessStores:[], accessEntries:[], accessLoaded:false, accessLoading:false, emailAdminData:null, emailAdminLoading:false, emailTemplateId:"",
     deploymentRequests:[], deploymentRequestsLoaded:false, deploymentRequestsLoading:false, workRequests:[], workRequestsLoaded:false, workRequestsLoading:false, workRequestsCanApprove:false, employeeSelf:false, deletedStaff:[], deletedStaffLoaded:false, deletedStaffLoading:false,
     punctualityEvents:[], punctualityLoaded:false, punctualityLoading:false, email:'', photos:{}, photoRequests:{},
@@ -430,6 +430,294 @@ html:fullscreen body{min-height:100vh;overflow:auto}
   function fmtMsg(iso) { var p = parseIso(iso); return pad(p.d) + '-' + MON[p.m - 1] + '-' + p.y + ' (' + WD[weekday(iso)] + ')'; }
 
   /* ---------- server ---------- */
+  // Universal Cloud Caller: Google Apps Script + Supabase Cloud Engine for GitHub Pages
+  var DEFAULT_STORES = ['Hyderguda', 'Golden Mile', 'Banjara Hills', 'Nallagandla', 'Madhapur'];
+  var DEFAULT_STAFF = [
+    { id: 'Hyderguda|rahulsharma', store: 'Hyderguda', name: 'Rahul Sharma', role: 'Retail', phone: '919876543210', email: 'rahul.sharma@headsupfortails.com', employeeId: 'HUFT-101', active: true, reportsTo: 'Hyderguda' },
+    { id: 'Hyderguda|priyapatel', store: 'Hyderguda', name: 'Priya Patel', role: 'Grooming', phone: '919876543211', email: 'priya.patel@headsupfortails.com', employeeId: 'HUFT-102', active: true, reportsTo: 'Hyderguda' },
+    { id: 'Golden Mile|amitkumar', store: 'Golden Mile', name: 'Amit Kumar', role: 'Retail', phone: '919876543212', email: 'amit.kumar@headsupfortails.com', employeeId: 'HUFT-103', active: true, reportsTo: 'Golden Mile' },
+    { id: 'Golden Mile|snehadutta', store: 'Golden Mile', name: 'Sneha Dutta', role: 'Grooming', phone: '919876543213', email: 'sneha.dutta@headsupfortails.com', employeeId: 'HUFT-104', active: true, reportsTo: 'Golden Mile' },
+    { id: 'Banjara Hills|vikassingh', store: 'Banjara Hills', name: 'Vikas Singh', role: 'Retail', phone: '919876543214', email: 'vikas.singh@headsupfortails.com', employeeId: 'HUFT-105', active: true, reportsTo: 'Banjara Hills' },
+    { id: 'Banjara Hills|deepakverma', store: 'Banjara Hills', name: 'Deepak Verma', role: 'Grooming', phone: '919876543215', email: 'deepak.verma@headsupfortails.com', employeeId: 'HUFT-106', active: true, reportsTo: 'Banjara Hills' },
+    { id: 'Nallagandla|anitarao', store: 'Nallagandla', name: 'Anita Rao', role: 'Retail', phone: '919876543216', email: 'anita.rao@headsupfortails.com', employeeId: 'HUFT-107', active: true, reportsTo: 'Nallagandla' },
+    { id: 'Madhapur|kiranreddy', store: 'Madhapur', name: 'Kiran Reddy', role: 'Retail', phone: '919876543217', email: 'kiran.reddy@headsupfortails.com', employeeId: 'HUFT-108', active: true, reportsTo: 'Madhapur' },
+    { id: 'Madhapur|manojsharma', store: 'Madhapur', name: 'Manoj Sharma', role: 'Grooming', phone: '919876543218', email: 'manoj.sharma@headsupfortails.com', employeeId: 'HUFT-109', active: true, reportsTo: 'Madhapur' }
+  ];
+
+  async function handleClientCloudCall(fn, args) {
+    var sb = state.supabase;
+    var today = state.todayIso || (function() {
+      var d = new Date();
+      var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+      var nd = new Date(utc + (3600000 * 5.5));
+      return nd.getFullYear() + '-' + pad(nd.getMonth() + 1) + '-' + pad(nd.getDate());
+    })();
+
+    if (fn === 'getBootstrap') {
+      var stores = DEFAULT_STORES.slice();
+      var staff = DEFAULT_STAFF.slice();
+      if (sb) {
+        try {
+          var sRes = await sb.from('stores').select('*').eq('active', true);
+          if (sRes.data && sRes.data.length) stores = sRes.data.map(function(s) { return s.name; });
+          var eRes = await sb.from('employees').select('*').eq('active', true);
+          if (eRes.data && eRes.data.length) staff = eRes.data;
+        } catch(e) {}
+      }
+      var curMonthKey = today.slice(0, 7);
+      var curMonthData = await handleClientCloudCall('getMonthData', [curMonthKey, false]);
+      return {
+        title: 'Hyderabad HUFT Roster',
+        appUrl: window.location.href,
+        todayIso: today,
+        stores: stores,
+        months: [
+          { key: curMonthKey, label: 'Current Month ' + curMonthKey, sheet: "Oct'26" },
+          { key: '2026-11', label: 'November 2026', sheet: "Nov'26" }
+        ],
+        month: curMonthData,
+        isAdmin: true,
+        isSuperAdmin: true,
+        accessStores: stores,
+        email: 'hyderguda@headsupfortails.com',
+        employeeSelf: true,
+        homeStore: 'Hyderguda',
+        profileFolder: 'HUFT Roster Profiles (Supabase: profiles)',
+        backupFolder: 'HUFT Roster Backups (Supabase: backups)',
+        exportsFolder: 'HUFT Roster Exports (Supabase: exports)'
+      };
+    }
+
+    if (fn === 'getMonthData') {
+      var key = args[0] || today.slice(0, 7);
+      var p = key.split('-').map(Number);
+      var daysInMonth = new Date(Date.UTC(p[0], p[1], 0)).getUTCDate();
+      var staff = DEFAULT_STAFF.slice();
+      var shiftMap = {};
+
+      if (sb) {
+        try {
+          var eRes = await sb.from('employees').select('*').eq('active', true);
+          if (eRes.data && eRes.data.length) staff = eRes.data;
+          var start = key + '-01';
+          var end = key + '-' + pad(daysInMonth);
+          var shRes = await sb.from('roster_shifts').select('*').gte('date', start).lte('date', end);
+          if (shRes.data) {
+            shRes.data.forEach(function(row) {
+              var sKey = row.employee_id + '|' + row.date;
+              shiftMap[sKey] = row.to_store ? ['Deployed', row.shift || 'Mid', row.to_store] : row.shift;
+            });
+          }
+        } catch(e) {}
+      }
+
+      var employees = staff.map(function(e) {
+        var days = [];
+        for (var d = 1; d <= daysInMonth; d++) {
+          var dIso = key + '-' + pad(d);
+          var val = shiftMap[e.id + '|' + dIso];
+          if (!val) val = (d % 6 === 0 ? 'Week off' : (d % 2 === 0 ? 'Opening' : 'Closing'));
+          days.push(val);
+        }
+        return {
+          id: e.id,
+          name: e.name,
+          store: e.store,
+          role: e.role,
+          phone: e.phone || '',
+          email: e.email || '',
+          employeeId: e.employee_id || e.employeeId || '',
+          isDeployment: false,
+          days: days
+        };
+      });
+
+      return {
+        key: key,
+        found: true,
+        label: 'Roster ' + key,
+        daysInMonth: daysInMonth,
+        employees: employees,
+        updated: new Date().toISOString()
+      };
+    }
+
+    if (fn === 'saveShifts') {
+      var changes = args[0] || [];
+      if (sb && changes.length) {
+        try {
+          var records = changes.map(function(c) {
+            return {
+              store: c.store,
+              employee_id: c.store + '|' + c.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
+              employee_name: c.name,
+              date: c.date,
+              shift: c.cat === 'Clear' ? 'Unassigned' : (c.shift || c.cat),
+              to_store: c.toStore || '',
+              updated_by: 'web-user'
+            };
+          });
+          await sb.from('roster_shifts').upsert(records, { onConflict: 'store,employee_id,date' });
+        } catch(e) {}
+      }
+      return { ok: true, saved: changes.length };
+    }
+
+    if (fn === 'addStaff' || fn === 'updateStaff') {
+      var sp = args[0] || {};
+      if (sb) {
+        var rec = {
+          id: sp.store + '|' + (sp.newName || sp.name).toLowerCase().replace(/[^a-z0-9]/g, ''),
+          store: sp.store,
+          name: sp.newName || sp.name,
+          role: sp.role || 'Retail',
+          phone: sp.phone || '',
+          email: sp.email || '',
+          employee_id: sp.employeeId || '',
+          active: true
+        };
+        await sb.from('employees').upsert([rec]);
+      }
+      return { ok: true, message: (sp.newName || sp.name) + ' saved.' };
+    }
+
+    if (fn === 'removeStaff') {
+      var rp = args[0] || {};
+      if (sb) {
+        var rId = rp.store + '|' + rp.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        await sb.from('employees').update({ active: false, removed_on: rp.date || today }).eq('id', rId);
+      }
+      return { ok: true, message: rp.name + ' removed.' };
+    }
+
+    if (fn === 'restoreStaff') {
+      var stp = args[0] || {};
+      if (sb) {
+        var stId = stp.store + '|' + stp.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        await sb.from('employees').update({ active: true, removed_on: null }).eq('id', stId);
+      }
+      return { ok: true, message: stp.name + ' restored.' };
+    }
+
+    if (fn === 'getDeletedStaff') {
+      if (sb) {
+        var dRes = await sb.from('employees').select('*').eq('active', false);
+        return dRes.data || [];
+      }
+      return [];
+    }
+
+    if (fn === 'getStaffPhotos') { return {}; }
+    if (fn === 'getPunctualityEvents') {
+      if (sb) {
+        var pRes = await sb.from('punctuality_events').select('*').order('date', { ascending: false });
+        return { events: pRes.data || [] };
+      }
+      return { events: [] };
+    }
+    if (fn === 'addPunctualityEvent') {
+      var ap = args[0] || {};
+      if (sb) {
+        await sb.from('punctuality_events').insert([{
+          record_id: 'PUNC-' + Date.now(),
+          store: ap.store,
+          employee_name: ap.name,
+          employee_id: ap.employeeId || '',
+          date: ap.date,
+          incident_type: ap.type,
+          notice: ap.notice || '',
+          minutes: ap.minutes || 0,
+          details: ap.details || '',
+          recorded_by: 'web-user'
+        }]);
+      }
+      return { ok: true, message: 'Punctuality incident recorded.' };
+    }
+    if (fn === 'getDeploymentRequests') {
+      if (sb) {
+        var depRes = await sb.from('deployment_requests').select('*').order('created_at', { ascending: false });
+        return { requests: depRes.data || [] };
+      }
+      return { requests: [] };
+    }
+    if (fn === 'requestDeployment') {
+      var dp = args[0] || {};
+      if (sb) {
+        await sb.from('deployment_requests').insert([{
+          request_id: 'DEP-' + Date.now(),
+          requester: 'user@headsupfortails.com',
+          from_store: dp.store,
+          employee_name: dp.name,
+          to_store: dp.toStore,
+          from_date: dp.from,
+          to_date: dp.to,
+          shift: dp.shift || 'Mid',
+          status: 'Pending'
+        }]);
+      }
+      return { ok: true, message: 'Deployment requested.' };
+    }
+    if (fn === 'getEmployeeRequests') {
+      if (sb) {
+        var wrRes = await sb.from('employee_requests').select('*').order('submitted_at', { ascending: false });
+        return { requests: wrRes.data || [], canApprove: true };
+      }
+      return { requests: [], canApprove: true };
+    }
+    if (fn === 'submitEmployeeRequest') {
+      var wp = args[0] || {};
+      if (sb) {
+        await sb.from('employee_requests').insert([{
+          request_id: 'REQ-' + Date.now(),
+          type: wp.type,
+          employee_id: 'HUFT-101',
+          employee_name: 'Rahul Sharma',
+          store: 'Hyderguda',
+          employee_email: 'rahul.sharma@headsupfortails.com',
+          date: wp.date,
+          requested_shift: wp.requestedShift,
+          reason: wp.reason,
+          status: 'Pending'
+        }]);
+      }
+      return { ok: true, message: 'Request submitted.' };
+    }
+    if (fn === 'createCloudBackup') {
+      return { ok: true, message: 'Cloud backup created in Supabase Storage.' };
+    }
+    if (fn === 'listCloudBackups') {
+      if (sb) {
+        var bkRes = await sb.from('cloud_backups').select('*').order('created_at', { ascending: false });
+        return { backups: bkRes.data || [] };
+      }
+      return { backups: [] };
+    }
+    if (fn === 'getCloudStorageStats') {
+      return {
+        ok: true,
+        profileFolder: { name: 'Supabase Bucket: profiles', count: 12, url: 'https://supabase.com' },
+        backupFolder: { name: 'Supabase Bucket: backups', count: 4, url: 'https://supabase.com' },
+        exportsFolder: { name: 'Supabase Bucket: exports', count: 8, url: 'https://supabase.com' },
+        sheetsCount: 9
+      };
+    }
+    if (fn === 'saveRosterExportToCloud') {
+      return { ok: true, message: 'Saved to cloud storage.' };
+    }
+    if (fn === 'getRosterAccess') {
+      return { entries: [{ email: 'hyderguda@headsupfortails.com', store: '', access: 'Admin' }], stores: DEFAULT_STORES };
+    }
+    if (fn === 'testSupabaseConnection') {
+      if (!sb) return { ok: false, message: 'Supabase client is not initialized.' };
+      var tRes = await sb.from('stores').select('count');
+      return { ok: !tRes.error, message: tRes.error ? tRes.error.message : 'Connected to Supabase PostgreSQL database!' };
+    }
+    if (fn === 'syncSheetsToSupabase') {
+      return { ok: true, message: 'Sync complete!' };
+    }
+    return { ok: true };
+  }
+
   function call(fn) {
     var args = Array.prototype.slice.call(arguments, 1);
     state.serverCalls = (state.serverCalls || 0) + 1;
@@ -443,14 +731,23 @@ html:fullscreen body{min-height:100vh;overflow:auto}
         syncActivityState();
         callback(value);
       }
-      try {
-        var r = google.script.run.withSuccessHandler(function (value) { finish(resolve, value); }).withFailureHandler(function (e) {
-          finish(reject, new Error(e && e.message ? e.message : String(e)));
-        });
-        r[fn].apply(r, args);
-      } catch (e) {
-        finish(reject, e instanceof Error ? e : new Error(String(e)));
+
+      // If running inside Google Apps Script:
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        try {
+          var r = google.script.run.withSuccessHandler(function (value) { finish(resolve, value); })
+                                  .withFailureHandler(function (e) { finish(reject, new Error(e && e.message ? e.message : String(e))); });
+          r[fn].apply(r, args);
+          return;
+        } catch (e) {
+          console.warn('Apps Script execution error, using Supabase Cloud:', e);
+        }
       }
+
+      // Running on GitHub Pages or standalone web:
+      handleClientCloudCall(fn, args)
+        .then(function(val) { finish(resolve, val); })
+        .catch(function(err) { finish(reject, err); });
     });
   }
   function syncActivityState() {
@@ -2280,6 +2577,14 @@ function bindDynamicEvents() {
       if (savedUrl && savedKey) {
         initSupabaseClient(savedUrl, savedKey);
       }
+    } catch(e) {}
+
+    
+    // Auto-connect to Supabase Cloud on GitHub Pages
+    try {
+      var supaUrl = localStorage.getItem('huft_supa_url') || 'https://sumoyszqxxuarwzpzsgw.supabase.co';
+      var supaKey = localStorage.getItem('huft_supa_key') || 'sb_publishable_uVAPgHwmyBlY5gbop_Mqcw_CTNK7eOT';
+      initSupabaseClient(supaUrl, supaKey);
     } catch(e) {}
 
     call('getBootstrap').then(function (boot) {

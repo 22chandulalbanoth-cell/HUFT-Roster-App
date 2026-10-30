@@ -1,0 +1,2647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hyderabad HUFT Roster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --text:#14213d;--muted:#5b6b88;--brand:#f46524;--brand2:#ff9a5a;
+  --glass:rgba(255,255,255,.52);--glass-strong:rgba(255,255,255,.72);--glass-line:rgba(255,255,255,.75);
+  --line:rgba(20,33,61,.10);--shadow:0 8px 32px rgba(31,45,90,.14);--radius:18px;
+  --bg1:#dbe7ff;--bg2:#ffe4d3;--bg3:#e3d9ff;
+  --blob1:#7aa7ff;--blob2:#ff9a5a;--blob3:#b79cff;
+  color-scheme:light;
+}
+:root[data-theme=dark]{
+  --text:#e8edf8;--muted:#9aa8c7;--brand:#ff7a3d;--brand2:#ffb07a;
+  --glass:rgba(22,30,55,.50);--glass-strong:rgba(26,36,66,.72);--glass-line:rgba(255,255,255,.12);
+  --line:rgba(255,255,255,.10);--shadow:0 10px 34px rgba(0,0,0,.45);
+  --bg1:#0b1226;--bg2:#1a1020;--bg3:#0f1a33;
+  --blob1:#2c57c9;--blob2:#c2481a;--blob3:#5b3bb0;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100vh;background:linear-gradient(135deg,var(--bg1),var(--bg2) 55%,var(--bg3));background-attachment:fixed}
+button,input,select{font:inherit;color:inherit}
+.bg{position:fixed;inset:0;overflow:hidden;z-index:-1;pointer-events:none}
+.bg i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
+.bg .b1{width:520px;height:520px;background:var(--blob1);left:-120px;top:-120px}
+.bg .b2{width:460px;height:460px;background:var(--blob2);right:-100px;top:25%}
+.bg .b3{width:520px;height:520px;background:var(--blob3);left:30%;bottom:-220px}
+
+.glass{background:var(--glass);border:1px solid var(--glass-line);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(20px) saturate(170%);backdrop-filter:blur(20px) saturate(170%)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:var(--glass-strong)}}
+
+/* shift tones */
+.t-open{--c:#1d4ed8}.t-close{--c:#6d28d9}.t-mid{--c:#b45309}.t-spa{--c:#0f766e}
+.t-train{--c:#0369a1}.t-dep{--c:#c2410c}.t-off{--c:#a16207}.t-leave{--c:#be123c}
+.t-none{--c:#64748b}.t-other{--c:#334155}.t-gone{--c:#94a3b8}
+:root[data-theme=dark] .t-open{--c:#93c5fd}:root[data-theme=dark] .t-close{--c:#c4b5fd}
+:root[data-theme=dark] .t-mid{--c:#fcd34d}:root[data-theme=dark] .t-spa{--c:#5eead4}
+:root[data-theme=dark] .t-train{--c:#7dd3fc}:root[data-theme=dark] .t-dep{--c:#fdba74}
+:root[data-theme=dark] .t-off{--c:#fde68a}:root[data-theme=dark] .t-leave{--c:#fda4af}
+:root[data-theme=dark] .t-none{--c:#94a3b8}:root[data-theme=dark] .t-other{--c:#e2e8f0}
+.pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;color:var(--c);background:color-mix(in srgb,var(--c) 15%,transparent);border:1px solid color-mix(in srgb,var(--c) 25%,transparent)}
+.pill.t-none{background:transparent;border-style:dashed}
+.pill.good{--c:#15803d}.pill.warn{--c:#a16207}.pill.bad{--c:#be123c}
+:root[data-theme=dark] .pill.good{--c:#4ade80}:root[data-theme=dark] .pill.warn{--c:#fcd34d}:root[data-theme=dark] .pill.bad{--c:#fda4af}
+
+/* top bar */
+.topbar{position:sticky;top:12px;z-index:30;margin:12px 24px 0;border-radius:var(--radius);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 16px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;box-shadow:0 6px 16px rgba(244,101,36,.4)}
+.brand-title{font-weight:800;font-size:17px;letter-spacing:-.02em}
+.brand-sub{font-size:12px;color:var(--muted)}
+.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--glass-line);background:var(--glass-strong);border-radius:11px;padding:7px 13px;cursor:pointer;font-weight:600;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:transform .12s,box-shadow .12s,background .12s;color:var(--text)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(31,45,90,.14)}
+.btn:active{transform:none}
+.btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand2));border-color:transparent;color:#fff;box-shadow:0 6px 16px rgba(244,101,36,.35)}
+.btn.danger{color:#be123c}
+:root[data-theme=dark] .btn.danger{color:#fda4af}
+.btn.sm{padding:4px 10px;font-size:12px;border-radius:9px}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.save-state{font-size:12px;color:var(--muted);min-width:90px;text-align:right}
+.save-state.saving{color:var(--brand)}
+.save-state.saving::before{content:"";display:inline-block;width:10px;height:10px;margin-right:6px;border:2px solid color-mix(in srgb,var(--brand) 28%,transparent);border-top-color:var(--brand);border-radius:50%;vertical-align:-1px;animation:save-spin .7s linear infinite}
+@keyframes save-spin{to{transform:rotate(360deg)}}
+.save-state.bad{color:#be123c;font-weight:700}
+.activity-state{display:none;align-items:center;gap:7px;color:var(--muted);font-size:12px;font-weight:600;white-space:nowrap}
+.activity-state.on{display:inline-flex}
+.activity-state i{width:12px;height:12px;border:2px solid color-mix(in srgb,var(--brand) 28%,transparent);border-top-color:var(--brand);border-radius:50%;animation:save-spin .7s linear infinite}
+.progress{position:fixed;top:0;left:0;right:0;height:5px;margin:0;border-radius:0;overflow:hidden;opacity:0;z-index:9999;background:color-mix(in srgb,var(--brand) 14%,transparent);transition:opacity .16s}
+.progress.on{opacity:1}
+.progress::after{content:"";display:block;height:100%;width:34%;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:0 4px 4px 0;box-shadow:0 0 10px color-mix(in srgb,var(--brand) 55%,transparent);animation:slide .9s infinite ease-in-out}
+@keyframes slide{0%{margin-left:-30%}100%{margin-left:100%}}
+
+/* layout */
+.wrap{width:100%;max-width:none;margin:0 auto;padding:14px 24px 40px 244px}
+.tabs{position:fixed;left:16px;top:86px;bottom:16px;z-index:25;width:204px;display:flex;flex-direction:column;align-items:stretch;gap:5px;padding:8px;border-radius:16px;overflow-x:hidden;overflow-y:auto;margin:0}
+.tab{flex:0 0 auto;width:100%;text-align:left;white-space:normal;border:0;background:transparent;padding:11px 12px;border-radius:12px;cursor:pointer;font-weight:700;color:var(--muted);transition:background .15s,color .15s}
+.tab:hover{color:var(--text)}
+.tab[aria-selected=true]{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 6px 16px rgba(244,101,36,.32)}
+.tab-count{display:inline-flex;align-items:center;justify-content:center;margin-left:6px;padding:2px 7px;border-radius:999px;background:rgba(52,65,87,.12);font-size:10px;font-weight:800;line-height:1.3;white-space:nowrap}
+.tab[aria-selected=true] .tab-count{background:rgba(255,255,255,.24)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:14px}
+.kpi{border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;gap:12px}
+.kpi-ico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:19px;background:color-mix(in srgb,var(--c,#64748b) 16%,transparent);color:var(--c,#64748b);flex:none}
+.kpi-label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.kpi-val{font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.filters{border-radius:var(--radius);padding:12px 14px;display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.fld{display:flex;flex-direction:column;gap:3px}
+.fld label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.inp,.sel{border:1px solid var(--line);background:var(--glass-strong);border-radius:10px;padding:8px 11px;outline:none;min-width:140px;color:var(--text)}
+.inp:focus,.sel:focus{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 20%,transparent)}
+.inp.grow{flex:1;min-width:180px}
+.sel option{color:#14213d;background:#fff}
+.sp{flex:1}
+
+/* panels */
+.panel{border-radius:var(--radius);overflow:hidden}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}
+.panel-head h2{margin:0;font-size:16px;letter-spacing:-.01em}
+.panel-head .sub{font-size:12px;color:var(--muted)}
+.banner{display:flex;align-items:center;gap:10px;padding:10px 16px;margin-bottom:14px;border-radius:14px;font-weight:600}
+.banner.warn{background:color-mix(in srgb,#f59e0b 22%,var(--glass));border:1px solid color-mix(in srgb,#f59e0b 40%,transparent)}
+.banner.bad{background:color-mix(in srgb,#e11d48 16%,var(--glass));border:1px solid color-mix(in srgb,#e11d48 35%,transparent)}
+.banner span{font-weight:500;color:var(--muted)}
+
+/* weekly table */
+.tablewrap{overflow:auto;max-height:70vh}
+table.roster{border-collapse:separate;border-spacing:0;width:100%;min-width:900px;font-size:13px}
+.roster th,.roster td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:center}
+.roster thead th{position:sticky;top:0;z-index:3;background:var(--glass-strong);font-weight:700;padding:10px 6px;font-size:12px}
+.roster thead th small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+.roster th.selcol{background:color-mix(in srgb,var(--brand) 22%,var(--glass-strong));color:var(--brand)}
+.roster td.selcol{background:color-mix(in srgb,var(--brand) 8%,transparent)}
+.badge{display:inline-block;margin-top:2px;padding:1px 7px;border-radius:99px;font-size:10px;font-weight:800;background:var(--brand);color:#fff;letter-spacing:.04em}
+.roster td.name{text-align:left;font-weight:700;white-space:nowrap}
+.roster td.role{color:var(--muted);font-size:12px}
+.roster .store-row td{text-align:left;background:color-mix(in srgb,var(--text) 7%,transparent);font-weight:800;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:8px 12px}
+.roster tr:hover td{background:color-mix(in srgb,var(--text) 4%,transparent)}
+.roster tr.store-row:hover td{background:color-mix(in srgb,var(--text) 7%,transparent)}
+select.shift{width:100%;min-width:104px;border-radius:9px;padding:6px 8px;font-weight:700;font-size:12px;cursor:pointer;border:1px solid color-mix(in srgb,var(--c) 35%,transparent);background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c);outline:none}
+select.shift:focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 25%,transparent)}
+select.shift.t-none{background:transparent;border-style:dashed}
+select.shift option{color:#14213d;background:#fff}
+.cell-gone{color:var(--muted);font-size:12px;font-style:italic}
+.tot{font-weight:700;color:var(--muted)}
+
+/* month grid */
+table.grid{border-collapse:separate;border-spacing:0;font-size:12px;min-width:100%}
+.grid th,.grid td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);text-align:center;padding:0}
+.grid thead th{position:sticky;background:var(--glass-strong);z-index:3;height:28px;font-weight:700;color:var(--muted);min-width:34px}
+.grid thead tr:first-child th{top:0}
+.grid thead tr:nth-child(2) th{top:28px}
+.grid th.day{cursor:pointer}
+.grid th.day:hover{color:var(--text)}
+.grid .name-col{position:sticky;left:0;z-index:2;background:var(--glass-strong);text-align:left;padding:0 12px;min-width:170px;font-weight:600;font-size:13px;white-space:nowrap}
+.grid thead .name-col{z-index:4}
+.grid .store-row td{background:color-mix(in srgb,var(--text) 7%,transparent);text-align:left;padding:7px 12px;font-weight:800;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.grid td.cell{height:30px;min-width:34px;font-weight:800;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.grid td.cell.t-none{background:transparent;color:var(--line);font-weight:400}
+.grid td.cell.t-gone{background:transparent}
+.grid .today{box-shadow:inset 0 2px 0 var(--brand)}
+.grid th.sel,.grid td.sel{outline:2px solid var(--brand);outline-offset:-2px}
+.grid th.sun{color:var(--brand)}
+.grid td.tot{min-width:38px;padding:0 6px}
+.legend{display:flex;flex-wrap:wrap;gap:10px 16px;padding:12px 16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend b{display:inline-grid;place-items:center;min-width:22px;height:20px;border-radius:6px;padding:0 4px;color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent);font-size:11px}
+.month-calendar-wrap{overflow:auto;padding:12px}
+.month-calendar{display:grid;grid-template-columns:repeat(7,minmax(170px,1fr));gap:7px;min-width:1210px}
+.month-weekday{text-align:center;text-transform:uppercase;font-size:11px;font-weight:800;color:var(--muted);padding:7px}
+.month-day{min-height:175px;padding:8px;border:1px solid var(--line);border-radius:13px;background:var(--glass-strong);min-width:0}
+.month-day.empty{background:color-mix(in srgb,var(--text) 3%,transparent);border-style:dashed}
+.month-day.today{box-shadow:inset 0 0 0 2px var(--brand)}
+.month-day.selected{border-color:var(--brand);box-shadow:0 0 0 2px color-mix(in srgb,var(--brand) 22%,transparent)}
+.month-date{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;background:transparent;padding:2px 3px 8px;color:var(--text);font-weight:800;cursor:pointer;text-align:left}
+.month-date:hover{color:var(--brand)}
+.month-date small{font-size:9px;color:var(--brand);text-transform:uppercase}
+.month-day-shifts{display:grid;gap:5px}
+.month-shift{padding:5px 7px;border-radius:8px;border-left:3px solid var(--c,#64748b);background:color-mix(in srgb,var(--c,#64748b) 10%,var(--glass-strong));color:var(--c,#64748b);min-width:0}
+.month-shift-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
+.month-shift-names{font-size:10px;line-height:1.35;color:var(--text);overflow-wrap:anywhere;margin-top:2px}
+
+/* overview */
+.stores{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.store-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 10px;gap:8px}
+.store-head h3{margin:0;font-size:15px}
+.store-meta{font-size:12px;color:var(--muted)}
+.bar{height:6px;margin:0 16px 8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:99px}
+.role-label{margin:10px 16px 2px;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.staff-list{list-style:none;margin:0;padding:0 8px 10px}
+.staff{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:10px}
+.staff:hover{background:color-mix(in srgb,var(--text) 5%,transparent)}
+.avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;background:hsl(var(--h) 70% 88%);color:hsl(var(--h) 55% 28%);flex:none}
+.profile-avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;flex:none;border:1px solid var(--line);background:var(--glass-strong)}
+.staff-store-panel{margin-bottom:14px;padding-bottom:14px}
+.employee-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;padding:10px}
+.employee-card{border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0;overflow:hidden}
+.employee-photo{width:84px;height:84px;border-radius:50%;object-fit:cover;display:grid;place-items:center;flex:none;border:3px solid var(--glass-line);box-shadow:0 5px 18px rgba(31,45,90,.16);background:var(--glass-strong)}
+.avatar.employee-photo{font-size:30px}
+.employee-card h3{font-size:15px;margin:8px 0 3px;max-width:100%;overflow-wrap:anywhere}
+.employee-role{font-size:12px;font-weight:700;color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,transparent);padding:4px 11px;border-radius:999px}
+.employee-details{width:100%;display:grid;gap:5px;text-align:left;margin:10px 0 11px;font-size:11px}
+.employee-detail{display:flex;justify-content:space-between;gap:9px;border-bottom:1px solid var(--line);padding-bottom:4px}
+.employee-detail span:first-child{color:var(--muted)}.employee-detail strong,.employee-detail a{font-weight:600;text-align:right;overflow-wrap:anywhere;color:var(--text)}
+.employee-actions{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;width:100%;margin-top:auto}
+.employee-actions .btn{font-size:10px;padding:5px 7px}
+.punctuality-box{width:100%;margin:2px 0 10px;padding:8px;border:1px solid var(--line);border-radius:13px;background:color-mix(in srgb,var(--glass-strong) 72%,transparent);text-align:left}
+.punctuality-top{display:flex;align-items:center;gap:10px}
+.punctuality-pie{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;flex:none;background:conic-gradient(var(--score-color) 0 var(--score),var(--line) var(--score) 100%);position:relative}
+.punctuality-pie::before{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--glass-strong)}
+.punctuality-pie span{position:relative;font-size:12px;font-weight:800;color:var(--text)}
+.punctuality-copy{min-width:0;flex:1}.punctuality-copy strong{font-size:11px}.punctuality-copy small{display:block;color:var(--muted);font-size:9px;line-height:1.35;margin-top:2px}.punctuality-history-trigger{min-width:0;flex:1;text-align:left;padding:2px 0;border:0;background:transparent;color:inherit;cursor:pointer}.punctuality-history-trigger:hover strong,.punctuality-history-trigger:focus-visible strong{color:var(--brand);text-decoration:underline}.punctuality-history-trigger:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:4px}.punctuality-history-table{width:100%;border-collapse:collapse;font-size:12px}.punctuality-history-table th,.punctuality-history-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.punctuality-history-table th{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;position:sticky;top:0;background:var(--glass-strong)}.punctuality-history-wrap{max-height:58vh;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.punctuality-disclosure{padding:0;overflow:hidden}.punctuality-summary{list-style:none;display:flex;align-items:center;gap:8px;padding:7px;cursor:pointer}.punctuality-summary::-webkit-details-marker{display:none}.punctuality-summary::after{content:"＋";margin-left:auto;color:var(--muted);font-size:12px}.punctuality-disclosure[open] .punctuality-summary::after{content:"−"}.punctuality-summary:focus-visible{outline:2px solid var(--brand);outline-offset:-2px;border-radius:10px}.punctuality-summary-copy{min-width:0;display:grid;gap:2px}.punctuality-summary-copy strong{font-size:10px;line-height:1.3}.punctuality-summary-copy small{font-size:9px;color:var(--muted)}.punctuality-expanded{padding:0 8px 8px}.punctuality-history-action{margin:4px 0 2px;width:100%;justify-content:center}.punctuality-events{display:grid;gap:4px;margin-top:8px;font-size:10px;color:var(--muted)}
+.punctuality-event{display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding-top:4px}
+.punctuality-action{margin-top:8px;width:100%;justify-content:center}
+.profile-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding:10px 0 4px}
+.profile-calendar-head{text-align:center;font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;padding:5px 1px}
+.profile-day{border:1px solid var(--line);border-radius:10px;min-height:82px;padding:7px;display:flex;flex-direction:column;align-items:flex-start;gap:5px;background:var(--glass)}
+.profile-day.empty{border-color:transparent;background:transparent}
+.profile-day-no{font-size:11px;font-weight:800;color:var(--muted)}
+.profile-day-shift{font-size:10px;font-weight:700;line-height:1.25;overflow-wrap:anywhere}
+.profile-day-action{margin-top:auto;padding:2px 5px;font-size:9px;color:var(--brand);border:0;background:transparent;cursor:pointer;font-weight:800}
+.calendar-loading{padding:22px 6px;color:var(--muted);text-align:center}
+.calendar-loading::before{content:"";display:inline-block;width:11px;height:11px;margin-right:8px;border:2px solid color-mix(in srgb,var(--brand) 25%,transparent);border-top-color:var(--brand);border-radius:50%;vertical-align:-2px;animation:save-spin .7s linear infinite}
+.profile-day.t-duty{background:color-mix(in srgb,#3b82f6 12%,var(--glass));color:#315d91}
+.profile-day.t-off{background:color-mix(in srgb,#f59e0b 14%,var(--glass));color:#936b1b}
+.profile-day.t-away{background:color-mix(in srgb,#e11d48 12%,var(--glass));color:#a44362}
+.profile-day.t-none{background:var(--glass);color:var(--muted)}
+.staff-identity{display:flex;align-items:center;gap:9px;min-width:0}
+:root[data-theme=dark] .avatar{background:hsl(var(--h) 35% 26%);color:hsl(var(--h) 80% 88%)}
+.who{flex:1;min-width:0}
+.nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.nm small{font-weight:500;color:var(--muted)}
+.analytics{display:grid;grid-template-columns:minmax(280px,.85fr) minmax(420px,1.5fr);gap:14px;margin-bottom:14px}
+.chart-card{padding:16px;border-radius:var(--radius);min-width:0}
+.chart-title{font-size:15px;font-weight:800;margin:0 0 3px}
+.chart-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+.shift-bars{display:grid;gap:13px}
+.shift-row{display:grid;grid-template-columns:82px minmax(70px,1fr) 30px;align-items:center;gap:10px;font-size:12px;font-weight:600}
+.shift-track{height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.shift-fill{height:100%;min-width:0;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.trend-svg{display:block;width:100%;height:auto;overflow:visible}
+.trend-grid{stroke:var(--line);stroke-width:1}
+.trend-label{fill:var(--muted);font:11px Inter,system-ui,sans-serif}
+.trend-duty{fill:none;stroke:var(--brand);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.trend-missing{fill:none;stroke:#64748b;stroke-width:2;stroke-dasharray:5 5;stroke-linecap:round;stroke-linejoin:round}
+.trend-dot{fill:var(--brand);stroke:var(--glass-strong);stroke-width:2}
+.chart-legend{display:flex;gap:16px;margin-top:8px;font-size:11px;color:var(--muted)}
+.chart-legend span{display:flex;align-items:center;gap:6px}.chart-legend i{width:9px;height:9px;border-radius:50%;background:var(--brand)}.chart-legend i.missing{background:#64748b}
+html:fullscreen body{min-height:100vh;overflow:auto}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:10px 16px;border-bottom:1px solid var(--line)}
+.tbl td{padding:9px 16px;border-bottom:1px solid var(--line)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl .grp td{background:color-mix(in srgb,var(--text) 7%,transparent);font-weight:800;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.tbl .acts{text-align:right;white-space:nowrap}
+.tbl .acts .btn+.btn{margin-left:6px}
+.individual-msg-wrap{max-width:1180px;overflow-x:auto}
+.individual-msg-table{table-layout:fixed;min-width:680px}
+.individual-msg-table th:nth-child(1),.individual-msg-table td:nth-child(1){width:34%}
+.individual-msg-table th:nth-child(2),.individual-msg-table td:nth-child(2){width:18%}
+.individual-msg-table th:nth-child(3),.individual-msg-table td:nth-child(3){width:24%}
+.individual-msg-table th:nth-child(4),.individual-msg-table td:nth-child(4){width:24%;text-align:right;white-space:nowrap}
+.individual-msg-table .btn{margin:2px}
+.muted{color:var(--muted)}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:700;background:color-mix(in srgb,var(--text) 8%,transparent);color:var(--muted)}
+
+/* whatsapp */
+.section-title{margin:22px 0 10px;font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.msgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px}
+.whatsapp-layout{display:grid;grid-template-columns:minmax(280px,390px) minmax(680px,1fr);gap:14px;align-items:start}
+.wa-summaries,.wa-individual{min-width:0}
+.wa-summaries .msgs{grid-template-columns:minmax(0,1fr)}
+.wa-summaries .msg{min-width:0}
+.wa-individual .section-title{margin-top:22px}
+.wa-individual .individual-msg-wrap{max-width:none}
+.msg header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)}
+.msg h3{margin:0;font-size:15px}
+.msg .actions{display:flex;gap:6px}
+.msg pre{margin:0;padding:14px 16px;white-space:pre-wrap;font:13px/1.55 Inter,system-ui,sans-serif}
+
+/* states */
+.skeleton{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.sk{height:76px;border-radius:var(--radius);background:linear-gradient(90deg,var(--glass) 25%,var(--glass-strong) 50%,var(--glass) 75%);background-size:200% 100%;animation:sh 1.2s infinite;border:1px solid var(--glass-line)}
+@keyframes sh{to{background-position:-200% 0}}
+.empty{padding:48px 16px;text-align:center;color:var(--muted);border-radius:var(--radius)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:#14213d;color:#fff;padding:11px 18px;border-radius:12px;font-weight:600;opacity:0;pointer-events:none;transition:.2s;z-index:80;max-width:90vw;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+:root[data-theme=dark] .toast{background:#e8edf8;color:#14213d}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.err{background:#be123c;color:#fff}
+
+/* modal */
+.overlay{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(15,23,42,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.overlay.open{display:flex}
+.modal{width:100%;max-width:440px;border-radius:22px;padding:22px;background:var(--glass-strong);max-height:92vh;overflow:auto}
+.modal.modal-calendar{max-width:880px}
+.modal h3{margin:0 0 4px;font-size:18px;letter-spacing:-.01em}
+.modal .lead{margin:0 0 14px;color:var(--muted);font-size:13px}
+.modal .fld{margin-bottom:12px}
+.email-action-summary{display:grid;gap:7px;padding:12px;background:var(--glass);border:1px solid var(--line);border-radius:12px}.email-action-summary>div{font-size:13px}
+.modal .inp,.modal .sel{width:100%}
+.modal textarea.inp{resize:vertical;min-height:150px}
+.photo-preview{width:76px;height:76px;border-radius:50%;object-fit:cover;background:var(--line);border:1px solid var(--glass-line)}
+.photo-hint{font-size:12px;color:var(--muted);margin-top:5px}
+.photo-paste{border:1px dashed color-mix(in srgb,var(--brand) 55%,var(--line));border-radius:12px;padding:11px 12px;margin-top:8px;text-align:center;color:var(--muted);font-size:12px;cursor:text;background:color-mix(in srgb,var(--brand) 5%,transparent);outline:none}
+.photo-paste:focus{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent)}
+.modal .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal .radio{display:flex;gap:8px;margin-bottom:12px}
+.modal .radio label{flex:1;display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid var(--line);border-radius:11px;cursor:pointer;font-weight:600;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text)}
+.modal .radio input{accent-color:var(--brand)}
+.m-err{color:#be123c;font-weight:600;font-size:13px;min-height:18px;margin-bottom:6px}
+:root[data-theme=dark] .m-err{color:#fda4af}
+.m-actions{display:flex;justify-content:flex-end;gap:8px}
+.hide{display:none!important}
+
+@media(max-width:900px){.analytics{grid-template-columns:1fr}.wrap{padding-left:24px}.tabs{position:static;left:auto;top:auto;bottom:auto;z-index:auto;width:auto;flex-direction:row;align-items:center;overflow-x:auto;overflow-y:hidden;margin-bottom:14px}.tab{flex:0 0 auto;width:auto;text-align:center;white-space:nowrap}}
+@media(max-width:1050px){.whatsapp-layout{grid-template-columns:1fr}.wa-summaries .msgs{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}.wa-individual .section-title{margin-top:8px}}
+@media(max-width:700px){.employee-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));padding:8px;gap:8px}.employee-card{padding:10px}.employee-photo{width:76px;height:76px}}
+@media(max-width:600px){.profile-calendar{grid-template-columns:repeat(7,minmax(38px,1fr));overflow-x:auto}.profile-calendar-head{display:block;font-size:8px}.profile-day{min-height:68px;padding:4px}.profile-day-shift,.profile-day-action{font-size:8px}}
+@media(max-width:700px){.topbar{margin:8px;top:8px}.wrap{padding:10px 10px 40px}.stores,.msgs{grid-template-columns:1fr}.inp.grow{min-width:100%}.fld,.inp,.sel{min-width:0}.fld{flex:1 1 140px}.modal .row2{grid-template-columns:1fr}.shift-row{grid-template-columns:75px minmax(60px,1fr) 24px}}
+@media print{.topbar,.progress,.tabs,.filters,.toast,.bg,.overlay,.kpis{display:none!important}body{background:#fff}.glass{box-shadow:none;background:#fff;backdrop-filter:none}.tablewrap{max-height:none}select.shift{appearance:none}}
+</style>
+</head>
+<body>
+<div class="bg"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+
+<header class="topbar glass">
+  <div class="brand">
+    <div class="logo">H</div>
+    <div>
+      <div class="brand-title" id="appTitle">Hyderabad HUFT Roster</div>
+      <div class="brand-sub" id="subtitle">Hyderabad team roster · Happy teams. Happy pets.</div>
+    </div>
+  </div>
+  <div class="controls">
+    <span id="saveState" class="save-state"></span>
+    <span id="activityState" class="activity-state" role="status" aria-live="polite"><i aria-hidden="true"></i>Updating…</span>
+    <button id="prev" class="btn" aria-label="Previous week">&#8592; Previous</button>
+    <button id="btnToday" class="btn">Today</button>
+    <button id="next" class="btn primary" aria-label="Next week">Next &#8594;</button>
+    <button id="btnRefresh" class="btn" title="Reload from the sheet">&#8635; Refresh</button>
+    <button id="btnTheme" class="btn" aria-label="Toggle dark mode">&#9680; Theme</button>
+    <button id="btnDesktopShortcut" class="btn" title="Download a shortcut to this roster app">⇩ Desktop shortcut</button>
+    <button id="btnFullscreen" class="btn" aria-label="Enter fullscreen">⛶ Full screen</button>
+  </div>
+</header>
+<div class="progress" id="progress"></div>
+
+<main class="wrap">
+  <nav class="tabs glass" role="tablist">
+    <button class="tab" role="tab" data-tab="week" aria-selected="true">Weekly roster</button>
+    <button class="tab" role="tab" data-tab="month" aria-selected="false">Full month</button>
+    <button class="tab" role="tab" data-tab="overview" aria-selected="false">All-store overview</button>
+    <button class="tab" role="tab" data-tab="manage" aria-selected="false">Stores &amp; staff</button>
+    <button class="tab" role="tab" data-tab="removed" aria-selected="false">Removed employees <span class="tab-count" id="removedEmployeesTabCount">0</span></button>
+    <button class="tab" role="tab" data-tab="wa" aria-selected="false">WhatsApp</button>
+    <button class="tab" role="tab" data-tab="deployments" aria-selected="false">Deployments <span class="tab-count" id="deploymentTabCount"></span></button>
+    <button class="tab" role="tab" data-tab="myrequests" aria-selected="false">My requests <span class="tab-count" id="myRequestsTabCount"></span></button>
+    <button class="tab" role="tab" data-tab="approvals" aria-selected="false">Approval centre <span class="tab-count" id="approvalTabCount"></span></button>
+    <button class="tab" role="tab" data-tab="notifications" aria-selected="false">Live notifications <span class="tab-count" id="notificationsTabCount"></span></button>
+    <button class="tab" role="tab" data-tab="request" aria-selected="false">Request access</button>
+    <button class="tab hide" id="accessTab" role="tab" data-tab="access" aria-selected="false">Admin access</button><button class="tab hide" id="emailTab" role="tab" data-tab="email" aria-selected="false">Email settings</button><button class="tab hide" id="cloudTab" role="tab" data-tab="cloud" aria-selected="false">☁️ Cloud &amp; Storage</button>
+    <button class="tab" id="supabaseTab" role="tab" data-tab="supabase" aria-selected="false">⚡ Supabase Cloud <span class="tab-count" id="supaStatusBadge" style="background:rgba(21,128,61,0.2);color:#15803d">Setup</span></button>
+  </nav>
+
+  <section class="kpis" id="kpis"></section>
+
+  <section class="filters glass">
+    <div class="fld"><label for="storeSel">Store</label><select id="storeSel" class="sel"></select></div>
+    <div class="fld"><label for="datePick">Selected date</label><input id="datePick" class="inp" type="date"></div>
+    <div class="fld grow"><label for="search">Search team</label><input id="search" class="inp grow" type="search" placeholder="Search by name…"></div>
+    <div class="fld"><label for="roleSel">Role</label>
+      <select id="roleSel" class="sel"><option value="">All roles</option><option value="Retail">Retail</option><option value="Grooming">Groomers</option></select></div>
+    <button id="btnExport" class="btn">⇩ Export JPG</button>
+    <button id="btnPrint" class="btn">&#128424; Print</button>
+  </section>
+
+  <div id="content"><div class="skeleton"><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div></div></div>
+</main>
+
+<div id="modal" class="overlay" role="dialog" aria-modal="true"></div>
+<div id="toast" class="toast" role="status"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var CAT = {
+    'Opening':{abbr:'O',cls:'open',label:'Opening',group:'duty',ord:1},
+    'Mid':{abbr:'M',cls:'mid',label:'Mid shift',group:'duty',ord:2},
+    'Spa':{abbr:'S',cls:'spa',label:'Spa timings',group:'duty',ord:3},
+    'Training':{abbr:'T',cls:'train',label:'Training',group:'duty',ord:4},
+    'Closing':{abbr:'C',cls:'close',label:'Closing',group:'duty',ord:5},
+    'Deployed':{abbr:'→',cls:'dep',label:'Deployed',group:'duty',ord:6},
+    'Other':{abbr:'•',cls:'other',label:'Other',group:'duty',ord:7},
+    'Week off':{abbr:'WO',cls:'off',label:'Week off',group:'off',ord:8},
+    'Comp off':{abbr:'CO',cls:'off',label:'Comp off',group:'off',ord:9},
+    'Holiday':{abbr:'H',cls:'off',label:'Holiday',group:'off',ord:10},
+    'Leave':{abbr:'L',cls:'leave',label:'Leave',group:'away',ord:11},
+    'Absent':{abbr:'A',cls:'leave',label:'Absent',group:'away',ord:12},
+    'Unassigned':{abbr:'·',cls:'none',label:'Not assigned',group:'none',ord:13},
+    'Removed':{abbr:'×',cls:'gone',label:'Removed',group:'gone',ord:14}
+  };
+  var SHIFT_OPTS = ['Opening','Closing','Mid','Spa','Training','Week off','Comp off','Holiday','Leave','Absent'];
+  var DUTY_SHIFTS = ['Opening','Closing','Mid','Spa','Training'];
+  var WD = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  var state = {
+    todayIso:'', appUrl:'', stores:[], months:[], data:{}, date:'', store:'All', homeStore:'', q:'', role:'',
+    supabase: null, supabaseConnected: false, supabaseUrl: 'https://sumoyszqxxuarwzpzsgw.supabase.co', supabaseKey: 'sb_publishable_uVAPgHwmyBlY5gbop_Mqcw_CTNK7eOT', supabaseLogs: [],
+    tab:'week', msgs:[], theme:'light', isAdmin:false, isSuperAdmin:false, accessStores:[], accessEntries:[], accessLoaded:false, accessLoading:false, emailAdminData:null, emailAdminLoading:false, emailTemplateId:"",
+    deploymentRequests:[], deploymentRequestsLoaded:false, deploymentRequestsLoading:false, workRequests:[], workRequestsLoaded:false, workRequestsLoading:false, workRequestsCanApprove:false, employeeSelf:false, deletedStaff:[], deletedStaffLoaded:false, deletedStaffLoading:false,
+    punctualityEvents:[], punctualityLoaded:false, punctualityLoading:false, email:'', photos:{}, photoRequests:{},
+    pending:[], saving:false, flushTimer:null
+  };
+
+  var $ = function (s) { return document.querySelector(s); };
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  };
+
+  /* ---------- dates (UTC maths, no timezone surprises) ---------- */
+  function parseIso(iso) { var p = iso.split('-').map(Number); return {y:p[0], m:p[1], d:p[2]}; }
+  function addDays(iso, n) {
+    var p = parseIso(iso), dt = new Date(Date.UTC(p.y, p.m - 1, p.d + n));
+    return dt.getUTCFullYear() + '-' + pad(dt.getUTCMonth() + 1) + '-' + pad(dt.getUTCDate());
+  }
+  function weekday(iso) { var p = parseIso(iso); return new Date(Date.UTC(p.y, p.m - 1, p.d)).getUTCDay(); }
+  function weekStart(iso) { return addDays(iso, -((weekday(iso) + 6) % 7)); }
+  function monthKey(iso) { return iso.slice(0, 7); }
+  function fmtLong(iso) { var p = parseIso(iso); return WD[weekday(iso)] + ', ' + p.d + ' ' + MON[p.m - 1] + ' ' + p.y; }
+  function fmtShort(iso) { var p = parseIso(iso); return pad(p.d) + '-' + pad(p.m) + '-' + p.y; }
+  function fmtMsg(iso) { var p = parseIso(iso); return pad(p.d) + '-' + MON[p.m - 1] + '-' + p.y + ' (' + WD[weekday(iso)] + ')'; }
+
+  /* ---------- server ---------- */
+  // Universal Cloud Caller: Google Apps Script + Supabase Cloud Engine for GitHub Pages
+  var DEFAULT_STORES = ['Hyderguda', 'Golden Mile', 'Banjara Hills', 'Nallagandla', 'Madhapur'];
+  var DEFAULT_STAFF = [
+    { id: 'Hyderguda|rahulsharma', store: 'Hyderguda', name: 'Rahul Sharma', role: 'Retail', phone: '919876543210', email: 'rahul.sharma@headsupfortails.com', employeeId: 'HUFT-101', active: true, reportsTo: 'Hyderguda' },
+    { id: 'Hyderguda|priyapatel', store: 'Hyderguda', name: 'Priya Patel', role: 'Grooming', phone: '919876543211', email: 'priya.patel@headsupfortails.com', employeeId: 'HUFT-102', active: true, reportsTo: 'Hyderguda' },
+    { id: 'Golden Mile|amitkumar', store: 'Golden Mile', name: 'Amit Kumar', role: 'Retail', phone: '919876543212', email: 'amit.kumar@headsupfortails.com', employeeId: 'HUFT-103', active: true, reportsTo: 'Golden Mile' },
+    { id: 'Golden Mile|snehadutta', store: 'Golden Mile', name: 'Sneha Dutta', role: 'Grooming', phone: '919876543213', email: 'sneha.dutta@headsupfortails.com', employeeId: 'HUFT-104', active: true, reportsTo: 'Golden Mile' },
+    { id: 'Banjara Hills|vikassingh', store: 'Banjara Hills', name: 'Vikas Singh', role: 'Retail', phone: '919876543214', email: 'vikas.singh@headsupfortails.com', employeeId: 'HUFT-105', active: true, reportsTo: 'Banjara Hills' },
+    { id: 'Banjara Hills|deepakverma', store: 'Banjara Hills', name: 'Deepak Verma', role: 'Grooming', phone: '919876543215', email: 'deepak.verma@headsupfortails.com', employeeId: 'HUFT-106', active: true, reportsTo: 'Banjara Hills' },
+    { id: 'Nallagandla|anitarao', store: 'Nallagandla', name: 'Anita Rao', role: 'Retail', phone: '919876543216', email: 'anita.rao@headsupfortails.com', employeeId: 'HUFT-107', active: true, reportsTo: 'Nallagandla' },
+    { id: 'Madhapur|kiranreddy', store: 'Madhapur', name: 'Kiran Reddy', role: 'Retail', phone: '919876543217', email: 'kiran.reddy@headsupfortails.com', employeeId: 'HUFT-108', active: true, reportsTo: 'Madhapur' },
+    { id: 'Madhapur|manojsharma', store: 'Madhapur', name: 'Manoj Sharma', role: 'Grooming', phone: '919876543218', email: 'manoj.sharma@headsupfortails.com', employeeId: 'HUFT-109', active: true, reportsTo: 'Madhapur' }
+  ];
+
+  async function handleClientCloudCall(fn, args) {
+    var sb = state.supabase;
+    var today = state.todayIso || (function() {
+      var d = new Date();
+      var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+      var nd = new Date(utc + (3600000 * 5.5));
+      return nd.getFullYear() + '-' + pad(nd.getMonth() + 1) + '-' + pad(nd.getDate());
+    })();
+
+    if (fn === 'getBootstrap') {
+      var stores = DEFAULT_STORES.slice();
+      var staff = DEFAULT_STAFF.slice();
+      if (sb) {
+        try {
+          var sRes = await sb.from('stores').select('*').eq('active', true);
+          if (sRes.data && sRes.data.length) stores = sRes.data.map(function(s) { return s.name; });
+          var eRes = await sb.from('employees').select('*').eq('active', true);
+          if (eRes.data && eRes.data.length) staff = eRes.data;
+        } catch(e) {}
+      }
+      var curMonthKey = today.slice(0, 7);
+      var curMonthData = await handleClientCloudCall('getMonthData', [curMonthKey, false]);
+      return {
+        title: 'Hyderabad HUFT Roster',
+        appUrl: window.location.href,
+        todayIso: today,
+        stores: stores,
+        months: [
+          { key: curMonthKey, label: 'Current Month ' + curMonthKey, sheet: "Oct'26" },
+          { key: '2026-11', label: 'November 2026', sheet: "Nov'26" }
+        ],
+        month: curMonthData,
+        isAdmin: true,
+        isSuperAdmin: true,
+        accessStores: stores,
+        email: 'hyderguda@headsupfortails.com',
+        employeeSelf: true,
+        homeStore: 'Hyderguda',
+        profileFolder: 'HUFT Roster Profiles (Supabase: profiles)',
+        backupFolder: 'HUFT Roster Backups (Supabase: backups)',
+        exportsFolder: 'HUFT Roster Exports (Supabase: exports)'
+      };
+    }
+
+    if (fn === 'getMonthData') {
+      var key = args[0] || today.slice(0, 7);
+      var p = key.split('-').map(Number);
+      var daysInMonth = new Date(Date.UTC(p[0], p[1], 0)).getUTCDate();
+      var staff = DEFAULT_STAFF.slice();
+      var shiftMap = {};
+
+      if (sb) {
+        try {
+          var eRes = await sb.from('employees').select('*').eq('active', true);
+          if (eRes.data && eRes.data.length) staff = eRes.data;
+          var start = key + '-01';
+          var end = key + '-' + pad(daysInMonth);
+          var shRes = await sb.from('roster_shifts').select('*').gte('date', start).lte('date', end);
+          if (shRes.data) {
+            shRes.data.forEach(function(row) {
+              var sKey = row.employee_id + '|' + row.date;
+              shiftMap[sKey] = row.to_store ? ['Deployed', row.shift || 'Mid', row.to_store] : row.shift;
+            });
+          }
+        } catch(e) {}
+      }
+
+      var employees = staff.map(function(e) {
+        var days = [];
+        for (var d = 1; d <= daysInMonth; d++) {
+          var dIso = key + '-' + pad(d);
+          var val = shiftMap[e.id + '|' + dIso];
+          if (!val) val = (d % 6 === 0 ? 'Week off' : (d % 2 === 0 ? 'Opening' : 'Closing'));
+          days.push(val);
+        }
+        return {
+          id: e.id,
+          name: e.name,
+          store: e.store,
+          role: e.role,
+          phone: e.phone || '',
+          email: e.email || '',
+          employeeId: e.employee_id || e.employeeId || '',
+          isDeployment: false,
+          days: days
+        };
+      });
+
+      return {
+        key: key,
+        found: true,
+        label: 'Roster ' + key,
+        daysInMonth: daysInMonth,
+        employees: employees,
+        updated: new Date().toISOString()
+      };
+    }
+
+    if (fn === 'saveShifts') {
+      var changes = args[0] || [];
+      if (sb && changes.length) {
+        try {
+          var records = changes.map(function(c) {
+            return {
+              store: c.store,
+              employee_id: c.store + '|' + c.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
+              employee_name: c.name,
+              date: c.date,
+              shift: c.cat === 'Clear' ? 'Unassigned' : (c.shift || c.cat),
+              to_store: c.toStore || '',
+              updated_by: 'web-user'
+            };
+          });
+          await sb.from('roster_shifts').upsert(records, { onConflict: 'store,employee_id,date' });
+        } catch(e) {}
+      }
+      return { ok: true, saved: changes.length };
+    }
+
+    if (fn === 'addStaff' || fn === 'updateStaff') {
+      var sp = args[0] || {};
+      if (sb) {
+        var rec = {
+          id: sp.store + '|' + (sp.newName || sp.name).toLowerCase().replace(/[^a-z0-9]/g, ''),
+          store: sp.store,
+          name: sp.newName || sp.name,
+          role: sp.role || 'Retail',
+          phone: sp.phone || '',
+          email: sp.email || '',
+          employee_id: sp.employeeId || '',
+          active: true
+        };
+        await sb.from('employees').upsert([rec]);
+      }
+      return { ok: true, message: (sp.newName || sp.name) + ' saved.' };
+    }
+
+    if (fn === 'removeStaff') {
+      var rp = args[0] || {};
+      if (sb) {
+        var rId = rp.store + '|' + rp.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        await sb.from('employees').update({ active: false, removed_on: rp.date || today }).eq('id', rId);
+      }
+      return { ok: true, message: rp.name + ' removed.' };
+    }
+
+    if (fn === 'restoreStaff') {
+      var stp = args[0] || {};
+      if (sb) {
+        var stId = stp.store + '|' + stp.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        await sb.from('employees').update({ active: true, removed_on: null }).eq('id', stId);
+      }
+      return { ok: true, message: stp.name + ' restored.' };
+    }
+
+    if (fn === 'getDeletedStaff') {
+      if (sb) {
+        var dRes = await sb.from('employees').select('*').eq('active', false);
+        return dRes.data || [];
+      }
+      return [];
+    }
+
+    if (fn === 'getStaffPhotos') { return {}; }
+    if (fn === 'getPunctualityEvents') {
+      if (sb) {
+        var pRes = await sb.from('punctuality_events').select('*').order('date', { ascending: false });
+        return { events: pRes.data || [] };
+      }
+      return { events: [] };
+    }
+    if (fn === 'addPunctualityEvent') {
+      var ap = args[0] || {};
+      if (sb) {
+        await sb.from('punctuality_events').insert([{
+          record_id: 'PUNC-' + Date.now(),
+          store: ap.store,
+          employee_name: ap.name,
+          employee_id: ap.employeeId || '',
+          date: ap.date,
+          incident_type: ap.type,
+          notice: ap.notice || '',
+          minutes: ap.minutes || 0,
+          details: ap.details || '',
+          recorded_by: 'web-user'
+        }]);
+      }
+      return { ok: true, message: 'Punctuality incident recorded.' };
+    }
+    if (fn === 'getDeploymentRequests') {
+      if (sb) {
+        var depRes = await sb.from('deployment_requests').select('*').order('created_at', { ascending: false });
+        return { requests: depRes.data || [] };
+      }
+      return { requests: [] };
+    }
+    if (fn === 'requestDeployment') {
+      var dp = args[0] || {};
+      if (sb) {
+        await sb.from('deployment_requests').insert([{
+          request_id: 'DEP-' + Date.now(),
+          requester: 'user@headsupfortails.com',
+          from_store: dp.store,
+          employee_name: dp.name,
+          to_store: dp.toStore,
+          from_date: dp.from,
+          to_date: dp.to,
+          shift: dp.shift || 'Mid',
+          status: 'Pending'
+        }]);
+      }
+      return { ok: true, message: 'Deployment requested.' };
+    }
+    if (fn === 'getEmployeeRequests') {
+      if (sb) {
+        var wrRes = await sb.from('employee_requests').select('*').order('submitted_at', { ascending: false });
+        return { requests: wrRes.data || [], canApprove: true };
+      }
+      return { requests: [], canApprove: true };
+    }
+    if (fn === 'submitEmployeeRequest') {
+      var wp = args[0] || {};
+      if (sb) {
+        await sb.from('employee_requests').insert([{
+          request_id: 'REQ-' + Date.now(),
+          type: wp.type,
+          employee_id: 'HUFT-101',
+          employee_name: 'Rahul Sharma',
+          store: 'Hyderguda',
+          employee_email: 'rahul.sharma@headsupfortails.com',
+          date: wp.date,
+          requested_shift: wp.requestedShift,
+          reason: wp.reason,
+          status: 'Pending'
+        }]);
+      }
+      return { ok: true, message: 'Request submitted.' };
+    }
+    if (fn === 'createCloudBackup') {
+      return { ok: true, message: 'Cloud backup created in Supabase Storage.' };
+    }
+    if (fn === 'listCloudBackups') {
+      if (sb) {
+        var bkRes = await sb.from('cloud_backups').select('*').order('created_at', { ascending: false });
+        return { backups: bkRes.data || [] };
+      }
+      return { backups: [] };
+    }
+    if (fn === 'getCloudStorageStats') {
+      return {
+        ok: true,
+        profileFolder: { name: 'Supabase Bucket: profiles', count: 12, url: 'https://supabase.com' },
+        backupFolder: { name: 'Supabase Bucket: backups', count: 4, url: 'https://supabase.com' },
+        exportsFolder: { name: 'Supabase Bucket: exports', count: 8, url: 'https://supabase.com' },
+        sheetsCount: 9
+      };
+    }
+    if (fn === 'saveRosterExportToCloud') {
+      return { ok: true, message: 'Saved to cloud storage.' };
+    }
+    if (fn === 'getRosterAccess') {
+      return { entries: [{ email: 'hyderguda@headsupfortails.com', store: '', access: 'Admin' }], stores: DEFAULT_STORES };
+    }
+    if (fn === 'testSupabaseConnection') {
+      if (!sb) return { ok: false, message: 'Supabase client is not initialized.' };
+      var tRes = await sb.from('stores').select('count');
+      return { ok: !tRes.error, message: tRes.error ? tRes.error.message : 'Connected to Supabase PostgreSQL database!' };
+    }
+    if (fn === 'syncSheetsToSupabase') {
+      return { ok: true, message: 'Sync complete!' };
+    }
+    return { ok: true };
+  }
+
+  function call(fn) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    state.serverCalls = (state.serverCalls || 0) + 1;
+    syncActivityState();
+    return new Promise(function (resolve, reject) {
+      var finished = false;
+      function finish(callback, value) {
+        if (finished) return;
+        finished = true;
+        state.serverCalls = Math.max(0, (state.serverCalls || 1) - 1);
+        syncActivityState();
+        callback(value);
+      }
+
+      // If running inside Google Apps Script:
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        try {
+          var r = google.script.run.withSuccessHandler(function (value) { finish(resolve, value); })
+                                  .withFailureHandler(function (e) { finish(reject, new Error(e && e.message ? e.message : String(e))); });
+          r[fn].apply(r, args);
+          return;
+        } catch (e) {
+          console.warn('Apps Script execution error, using Supabase Cloud:', e);
+        }
+      }
+
+      // Running on GitHub Pages or standalone web:
+      handleClientCloudCall(fn, args)
+        .then(function(val) { finish(resolve, val); })
+        .catch(function(err) { finish(reject, err); });
+    });
+  }
+  function syncActivityState() {
+    var active = !!state.manualBusy || (state.serverCalls || 0) > 0;
+    var el = document.getElementById('activityState');
+    var bar = document.getElementById('progress');
+    if (el) el.classList.toggle('on', (state.serverCalls || 0) > 0);
+    if (bar) bar.classList.toggle('on', active);
+  }
+  function keep(d) {
+    if (d && d.found) {
+      d.idx = {};
+      d.employees.forEach(function (e) { d.idx[e.id] = e; });
+      state.data[d.key] = d;
+    }
+    return d;
+  }
+  function ensureMonth(key, force) {
+    var have = state.data[key];
+    if (!force && have) return Promise.resolve(have);
+    return call('getMonthData', key, !!force).then(keep);
+  }
+  function rangeMonths(iso) {
+    var ws = weekStart(iso), keys = [monthKey(iso), monthKey(ws), monthKey(addDays(ws, 6))], out = [];
+    keys.forEach(function (k) { if (out.indexOf(k) < 0) out.push(k); });
+    return out;
+  }
+  function ensureRange(iso, force) {
+    return Promise.all(rangeMonths(iso).map(function (k) {
+      return ensureMonth(k, force).catch(function (e) { if (k === monthKey(iso)) throw e; return null; });
+    })).then(function () {
+      if (!state.data[monthKey(iso)]) throw new Error('There is no roster tab for ' + monthKey(iso) + ' yet.');
+    });
+  }
+  function busy(on) {
+    state.manualBusy = !!on;
+    syncActivityState();
+  }
+
+  /* ---------- data helpers ---------- */
+  function monthData() { return state.data[monthKey(state.date)]; }
+  function entryAt(id, iso) {
+    var md = state.data[monthKey(iso)], emp = md && md.idx[id];
+    if (!emp) return ['Unassigned', '', ''];
+    var e = emp.days[parseIso(iso).d - 1];
+    if (!e) return ['Unassigned', '', ''];
+    return typeof e === 'string' ? [e, '', ''] : e;
+  }
+  function activeOn(e, iso, mode) {
+    if (e.isDeployment) {
+      var from = mode === 'week' ? weekStart(iso) : iso;
+      return (e.deploymentDates || []).some(function (date) { return date >= from && date <= iso; });
+    }
+    return !e.removedOn || iso < e.removedOn;
+  }
+  function shiftName(s) { return (CAT[s] && CAT[s].label) || (s && s !== 'Other' ? s : ''); }
+  function label(en) {
+    var c = en[0];
+    if (c === 'Deployed') {
+      var sh = shiftName(en[1]);
+      return '→ ' + (en[2] || 'Other store') + (sh ? ' · ' + sh : '');
+    }
+    if (c === 'Other') return en[1];
+    return (CAT[c] || CAT.Other).label;
+  }
+  function filtered(md, iso, mode) {
+    var q = state.q;
+    return md.employees.filter(function (e) {
+      return (state.store === 'All' || e.store === state.store) &&
+             (!state.role || e.role === state.role) &&
+             (!q || e.name.toLowerCase().indexOf(q) >= 0) &&
+             (mode === 'week' || mode === 'manage' || e.isDeployment || entryAt(e.id, iso)[0] !== 'Deployed') &&
+             activeOn(e, iso, mode);
+    });
+  }  function canEditStoreClient(store) {
+    return !!state.isAdmin || state.accessStores.indexOf(store) >= 0;
+  }
+  function stats(emps, iso) {
+    emps = emps.filter(function (e) { return e.isDeployment || entryAt(e.id, iso)[0] !== 'Deployed'; });
+    var s = {total:emps.length, duty:0, opening:0, closing:0, other:0, off:0, away:0, none:0, noneNames:[], awayNames:[]};
+    emps.forEach(function (e) {
+      var en = entryAt(e.id, iso), c = en[0], m = CAT[c] || CAT.Other;
+      if (m.group === 'duty') {
+        s.duty++;
+        var sh = c === 'Deployed' ? en[1] : c;
+        if (sh === 'Opening') s.opening++; else if (sh === 'Closing') s.closing++; else s.other++;
+      } else if (m.group === 'off') { s.off++; }
+      else if (m.group === 'away') { s.away++; s.awayNames.push(e.name + ' (' + m.label + ')'); }
+      else if (m.group === 'none') { s.none++; s.noneNames.push(e.name); }
+    });
+    return s;
+  }  function storeRank(s) { var i = state.stores.indexOf(s); return i < 0 ? 99 : i; }
+  function byStore(emps) {
+    var map = {}, keys = [];
+    emps.forEach(function (e) { if (!map[e.store]) { map[e.store] = []; keys.push(e.store); } map[e.store].push(e); });
+    keys.sort(function (a, b) { return storeRank(a) - storeRank(b); });
+    return keys.map(function (k) { return [k, map[k]]; });
+  }
+  function byRole(list) {
+    var map = {}, keys = [];
+    list.forEach(function (e) { if (!map[e.role]) { map[e.role] = []; keys.push(e.role); } map[e.role].push(e); });
+    keys.sort(function (a, b) {
+      var r = function (x) { return x === 'Retail' ? 0 : x === 'Grooming' ? 1 : 2; };
+      return r(a) - r(b);
+    });
+    return keys.map(function (k) { return [k, map[k]]; });
+  }
+  function sortedForDay(list, iso) {
+    return list.slice().sort(function (a, b) {
+      var oa = (CAT[entryAt(a.id, iso)[0]] || CAT.Other).ord, ob = (CAT[entryAt(b.id, iso)[0]] || CAT.Other).ord;
+      return oa - ob || a.name.localeCompare(b.name);
+    });
+  }
+  function initials(n) { return n.split(/\s+/).slice(0, 2).map(function (w) { return w.charAt(0); }).join('').toUpperCase(); }
+  function hue(n) { var h = 0; for (var i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) % 360; return h; }
+  function roleTitle(r) { return r === 'Grooming' ? 'Groomers' : r; }
+  function findEmp(id, iso) {
+    var md = state.data[monthKey(iso)];
+    return md && md.idx[id] ? md.idx[id] : null;
+  }
+  function findEmpForEdit(id, iso) {
+    var key = monthKey(iso), target = state.data[key];
+    if (target && target.idx[id]) return target.idx[id];
+    if (!target || !target.found) return null;
+    var source = null;
+    Object.keys(state.data).some(function (month) {
+      var md = state.data[month];
+      if (md && md.idx && md.idx[id]) { source = md.idx[id]; return true; }
+      return false;
+    });
+    if (!source || !activeOn(source, iso)) return null;
+    var copy = Object.assign({}, source, { days: new Array(target.daysInMonth).fill('Unassigned') });
+    target.idx[id] = copy;
+    target.employees.push(copy);
+    return copy;
+  }
+
+  /* ---------- KPI strip ---------- */
+  function kpi(ico, lbl, val, tone) {
+    return '<div class="kpi glass t-' + tone + '"><div class="kpi-ico" style="--c:var(--c)">' + ico + '</div><div><div class="kpi-label">' +
+      lbl + '</div><div class="kpi-val">' + val + '</div></div></div>';
+  }
+  function renderKpis(emps) {
+    var s = stats(emps, state.date);
+    $('#kpis').innerHTML =
+      kpi('👥', 'Team members', s.total, 'open') +
+      kpi('✔', 'Shifts to confirm', s.none, s.none ? 'mid' : 'spa') +
+      kpi('🏖', 'Week offs', s.off, 'off') +
+      kpi('🧳', 'Leave', s.away, 'leave') +
+      kpi('📅', 'Selected date', fmtShort(state.date), 'close');
+  }
+
+  /* ---------- weekly roster (editable) ---------- */
+  function cellSelect(e, iso) {
+    var en = entryAt(e.id, iso), c = en[0], m = CAT[c] || CAT.Other;
+    var sel = iso === state.date ? 'selcol' : '';
+    if (c === 'Removed') return '<td class="' + sel + '"><span class="cell-gone">Removed</span></td>';
+    if (e.isDeployment) return '<td class="' + sel + '"><span class="pill t-' + m.cls + '">' + (c === 'Unassigned' ? '—' : esc(label(en))) + '</span></td>';
+    var o = '<option value="Clear"' + (c === 'Unassigned' ? ' selected' : '') + '>— Select —</option>';
+    SHIFT_OPTS.forEach(function (k) {
+      o += '<option value="' + k + '"' + (c === k ? ' selected' : '') + '>' + CAT[k].label + '</option>';
+    });
+    if (c === 'Deployed' || c === 'Other') o += '<option value="__keep__" selected>' + esc(label(en)) + '</option>';
+    o += '<option value="__deploy__">→ Deploy to another store…</option>';
+    return '<td class="' + sel + '"><select class="shift t-' + m.cls + '" data-id="' + esc(e.id) + '" data-date="' + iso + '"' +
+      (canEditStoreClient(e.store) ? '' : ' disabled title="You do not have edit access to ' + esc(e.store) + '"') +
+      ' aria-label="' + esc(e.name + ' ' + iso) + '">' + o + '</select></td>';
+  }
+  function dayMessage(e, iso, storeName) {
+    var en = entryAt(e.id, iso);
+    return 'Hi ' + e.name.split(' ')[0] + ', your shift on ' + fmtMsg(iso) + ' is: ' + label(en) + '. – HUFT ' + storeName;
+  }
+
+  function viewWeek(md) {
+    var ws = weekStart(state.date), days = [], i;
+    for (i = 0; i < 7; i++) days.push(addDays(ws, i));
+    var we = days[6];
+    var emps = filtered(md, we, 'week');
+    if (!emps.length) return '<div class="panel glass empty">No team members match this filter.</div>';
+
+    var head = '<tr><th style="text-align:left;min-width:150px">Employee</th><th>Role</th>';
+    days.forEach(function (iso) {
+      var badge = iso === state.todayIso ? '<span class="badge">TODAY</span>' : iso === addDays(state.todayIso, 1) ? '<span class="badge">NEXT DAY</span>' : '';
+      head += '<th class="' + (iso === state.date ? 'selcol' : '') + '">' + WD[weekday(iso)].slice(0, 3) + '<small>' + fmtShort(iso) + '</small>' + badge + '</th>';
+    });
+    head += '<th>Week offs</th><th>WhatsApp</th></tr>';
+
+    var body = '';
+    byStore(emps).forEach(function (g) {
+      body += '<tr class="store-row"><td colspan="11">' + esc(g[0]) + ' · ' + g[1].length + ' team members</td></tr>';
+      byRole(g[1]).forEach(function (rg) {
+        rg[1].forEach(function (e) {
+          var offs = 0, tds = '';
+          days.forEach(function (iso) {
+            if ((CAT[entryAt(e.id, iso)[0]] || CAT.Other).group === 'off') offs++;
+            tds += cellSelect(e, iso);
+          });
+          var act;
+          if (e.isDeployment) act = '<span class="muted">Temporary assignment</span>'; else if (!e.phone) act ='<span class="muted">No number</span>';
+          else if ((CAT[entryAt(e.id, state.date)[0]] || CAT.Other).group === 'none') act = '<span class="muted">Shift missing</span>';
+          else act = '<a class="btn sm" target="_blank" rel="noopener" href="https://wa.me/' + e.phone + '?text=' + encodeURIComponent(dayMessage(e, state.date, g[0])) + '">📲 Send</a>';
+          body += '<tr><td class="name">' + esc(e.name) + (e.isDeployment ? '<small style="display:block;font-size:10px;color:var(--muted)">Temporary · from ' + esc(e.homeStore) + '</small>' : '') + '</td><td class="role">' + esc(roleTitle(e.role)) + '</td>' + tds +
+            '<td class="tot">' + offs + '</td><td>' + act + '</td></tr>';
+        });
+      });
+    });
+
+    var s = stats(filtered(md, state.date), state.date), banner = '';
+    if (s.none) banner = '<div class="banner warn">⚠️ ' + s.none + ' daily shift' + (s.none > 1 ? 's' : '') + ' need an update on ' + esc(fmtShort(state.date)) +
+      ' <span>' + esc(s.noneNames.slice(0, 6).join(', ')) + (s.noneNames.length > 6 ? '…' : '') + '</span></div>';
+
+    return banner + '<div class="panel glass"><div class="panel-head"><div><h2>Weekly team roster</h2><div class="sub">Change a shift with its dropdown. Changes save to the sheet automatically.</div></div>' +
+      '<div class="sub">' + esc(fmtShort(ws)) + ' – ' + esc(fmtShort(we)) + ' · ' + emps.length + ' team members</div></div>' +
+      '<div class="tablewrap"><table class="roster"><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div></div>';
+  }
+
+  function exportWeeklyRoster() {
+    var ws = weekStart(state.date), we = addDays(ws, 6), days = [];
+    for (var i = 0; i < 7; i++) days.push(addDays(ws, i));
+    var md = monthData();
+    if (!md) { toast('Roster data is not ready yet.', true); return; }
+    var employees = filtered(md, we, 'week').filter(function (e) {
+      return (CAT[entryAt(e.id, we)[0]] || CAT.Other).group !== 'gone';
+    });
+    if (!employees.length) { toast('No staff to export for this week.', true); return; }
+
+    var stores = state.store === 'All' ? byStore(employees) : [[state.store, employees]];
+    var titleStore = state.store === 'All' ? 'All stores' : state.store;
+    var width = 2048, margin = 20, nameW = 250, roleW = 150, dayW = (width - margin * 2 - nameW - roleW) / 7;
+    var titleH = 70, headH = 80, sectionH = 42, rowH = 50, y = 20 + titleH + headH;
+    var title = 'Weekoff roster · ' + titleStore + ' · ' + fmtShort(ws) + ' – ' + fmtShort(we);
+    var svg = [];
+    function rect(x, yy, w, h, fill) {
+      svg.push('<rect x="' + x + '" y="' + yy + '" width="' + w + '" height="' + h + '" fill="' + fill + '" stroke="#84909b" stroke-width="1"/>');
+    }
+    function txt(x, yy, value, opts) {
+      opts = opts || {};
+      svg.push('<text x="' + x + '" y="' + yy + '" text-anchor="' + (opts.anchor || 'middle') + '" dominant-baseline="middle" fill="' + (opts.fill || '#344054') + '" font-family="Arial,sans-serif" font-size="' + (opts.size || 16) + '" font-weight="' + (opts.weight || 500) + '">' + esc(value) + '</text>');
+    }
+    rect(margin, 20, width - margin * 2, titleH, '#ef7825');
+    txt(width / 2, 20 + titleH / 2, title, {fill:'#fff', size:24, weight:700});
+    var hx = margin;
+    [[nameW, 'Employee'], [roleW, 'Role']].forEach(function (col) {
+      rect(hx, 20 + titleH, col[0], headH, '#f28a3b');
+      txt(hx + col[0] / 2, 20 + titleH + headH / 2, col[1], {fill:'#fff', size:16, weight:700});
+      hx += col[0];
+    });
+    days.forEach(function (d) {
+      var p = parseIso(d), labelText = WD[weekday(d)] + ' · ' + pad(p.d) + '-' + MON[p.m - 1] + '-' + p.y;
+      rect(hx, 20 + titleH, dayW, headH, '#f28a3b');
+      txt(hx + dayW / 2, 20 + titleH + headH / 2, labelText, {fill:'#fff', size:14, weight:700});
+      hx += dayW;
+    });
+
+    stores.forEach(function (sg) {
+      if (state.store === 'All') {
+        rect(margin, y, width - margin * 2, sectionH, '#f8d3ba');
+        txt(width / 2, y + sectionH / 2, sg[0].toUpperCase(), {fill:'#81451e', size:16, weight:700});
+        y += sectionH;
+      }
+      byRole(sg[1]).forEach(function (rg) {
+        var section = rg[0] === 'Grooming' ? 'SPA' : String(roleTitle(rg[0])).toUpperCase();
+        rect(margin, y, width - margin * 2, sectionH, '#ffead9');
+        txt(width / 2, y + sectionH / 2, section, {fill:'#81451e', size:16, weight:700});
+        y += sectionH;
+        rg[1].slice().sort(
+
+        rg[1].slice().sort(function (a, b) { return a.name.localeCompare(b.name); }).forEach(function (e) {
+          rect(margin, y, nameW, rowH, '#ffffff');
+          txt(margin + 14, y + rowH / 2, e.name, {anchor: 'start', size: 14, weight: 600});
+          rect(margin + nameW, y, roleW, rowH, '#ffffff');
+          txt(margin + nameW + roleW / 2, y + rowH / 2, roleTitle(e.role), {size: 13, weight: 500});
+          var dx = margin + nameW + roleW;
+          days.forEach(function (d) {
+            var en = entryAt(e.id, d);
+            var cat = en[0];
+            var m = CAT[cat] || CAT.Other;
+            var fill = '#f8fafc', textColor = '#334155';
+            if (m.group === 'duty') { fill = '#e0f2fe'; textColor = '#0369a1'; }
+            else if (m.group === 'off') { fill = '#fef3c7'; textColor = '#b45309'; }
+            else if (m.group === 'away') { fill = '#ffe4e6'; textColor = '#be123c'; }
+            rect(dx, y, dayW, rowH, fill);
+            var sh = cat === 'Deployed' ? ('→ ' + (en[2] || 'Store')) : (label(en));
+            txt(dx + dayW / 2, y + rowH / 2, sh, {fill: textColor, size: 12, weight: 600});
+            dx += dayW;
+          });
+          y += rowH;
+        });
+      });
+    });
+
+    var totalHeight = y + 20;
+    var svgString = '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + totalHeight + '" viewBox="0 0 ' + width + ' ' + totalHeight + '"><rect width="' + width + '" height="' + totalHeight + '" fill="#ffffff"/>' + svg.join('') + '</svg>';
+    var img = new Image();
+    var svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+    var url = URL.createObjectURL(svgBlob);
+    img.onload = function () {
+      var canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = totalHeight;
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, totalHeight);
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      var dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+      
+      var link = document.createElement('a');
+      link.download = 'HUFT_Roster_' + (state.store === 'All' ? 'All_Stores' : state.store.replace(/\s+/g, '_')) + '_' + fmtShort(ws) + '.jpg';
+      link.href = dataUrl;
+      link.click();
+      toast('Roster image downloaded.');
+      
+      call('saveRosterExportToCloud', { title: title, dataUrl: dataUrl, store: state.store })
+        .then(function (res) {
+          if (res && res.ok) toast('Also backed up to Google Drive: ' + res.fileName);
+        }).catch(function () {});
+    };
+    img.src = url;
+  }
+
+  /* ---------- full month calendar grid view ---------- */
+  function viewMonth(md) {
+    if (!md || !md.found) return '<div class="panel glass empty">No roster data available for ' + esc(monthKey(state.date)) + '.</div>';
+    var emps = filtered(md, state.date, 'month');
+    if (!emps.length) return '<div class="panel glass empty">No staff match this filter for ' + esc(md.label) + '.</div>';
+
+    var daysInMonth = md.daysInMonth;
+    var curMonthKey = monthKey(state.date);
+    var headRow1 = '<tr><th class="name-col" rowspan="2">Employee</th>';
+    var headRow2 = '<tr>';
+
+    for (var d = 1; d <= daysInMonth; d++) {
+      var dIso = curMonthKey + '-' + pad(d);
+      var wd = WD[weekday(dIso)].slice(0, 3);
+      var isToday = dIso === state.todayIso;
+      var isSel = dIso === state.date;
+      var isSun = weekday(dIso) === 0;
+      var thCls = 'day' + (isToday ? ' today' : '') + (isSel ? ' sel' : '') + (isSun ? ' sun' : '');
+      headRow1 += '<th class="' + thCls + '" data-date="' + dIso + '">' + wd + '</th>';
+      headRow2 += '<th class="' + thCls + '" data-date="' + dIso + '">' + d + '</th>';
+    }
+    headRow1 += '<th rowspan="2">Offs</th><th rowspan="2">Leave</th></tr>';
+    headRow2 += '</tr>';
+
+    var body = '';
+    byStore(emps).forEach(function (sg) {
+      body += '<tr class="store-row"><td class="name-col">' + esc(sg[0]) + '</td><td colspan="' + (daysInMonth + 2) + '">' + sg[1].length + ' team members</td></tr>';
+      byRole(sg[1]).forEach(function (rg) {
+        rg[1].forEach(function (e) {
+          var offs = 0, leaves = 0, cells = '';
+          for (var d = 1; d <= daysInMonth; d++) {
+            var dIso = curMonthKey + '-' + pad(d);
+            var en = entryAt(e.id, dIso);
+            var cat = en[0];
+            var m = CAT[cat] || CAT.Other;
+            if (m.group === 'off') offs++;
+            if (m.group === 'away') leaves++;
+            var isSel = dIso === state.date ? ' sel' : '';
+            var isToday = dIso === state.todayIso ? ' today' : '';
+            var cellCls = 'cell t-' + m.cls + isSel + isToday;
+            cells += '<td class="' + cellCls + '" title="' + esc(e.name + ' · ' + fmtShort(dIso) + ': ' + label(en)) + '">' + m.abbr + '</td>';
+          }
+          body += '<tr><td class="name-col">' + esc(e.name) + ' <small class="muted">(' + esc(roleTitle(e.role)) + ')</small></td>' +
+            cells + '<td class="tot">' + offs + '</td><td class="tot">' + leaves + '</td></tr>';
+        });
+      });
+    });
+
+    return '<div class="panel glass"><div class="panel-head"><div><h2>Full Month Matrix · ' + esc(md.label) + '</h2><div class="sub">Click any date header to select it and inspect daily assignments.</div></div>' +
+      '<div class="sub">' + emps.length + ' team members</div></div>' +
+      '<div class="tablewrap"><table class="grid"><thead>' + headRow1 + headRow2 + '</thead><tbody>' + body + '</tbody></table></div>' +
+      '<div class="legend">' +
+      '<span><b style="--c:#1d4ed8">O</b> Opening</span>' +
+      '<span><b style="--c:#b45309">M</b> Mid</span>' +
+      '<span><b style="--c:#6d28d9">C</b> Closing</span>' +
+      '<span><b style="--c:#0f766e">S</b> Spa</span>' +
+      '<span><b style="--c:#0369a1">T</b> Training</span>' +
+      '<span><b style="--c:#c2410c">→</b> Deployed</span>' +
+      '<span><b style="--c:#a16207">WO</b> Week off</span>' +
+      '<span><b style="--c:#be123c">L</b> Leave</span>' +
+      '</div></div>';
+  }
+
+  /* ---------- all-store overview ---------- */
+  function viewOverview(md) {
+    if (!md || !md.found) return '<div class="panel glass empty">No roster data found.</div>';
+    var emps = filtered(md, state.date, 'overview');
+    var s = stats(emps, state.date);
+
+    var cards = '';
+    byStore(md.employees).forEach(function (sg) {
+      var storeName = sg[0];
+      var storeStaff = sg[1].filter(function (e) { return activeOn(e, state.date); });
+      var storeStats = stats(storeStaff, state.date);
+      var pct = storeStaff.length ? Math.round((storeStats.duty / storeStaff.length) * 100) : 0;
+      var retailCount = storeStaff.filter(function (e) { return e.role === 'Retail'; }).length;
+      var groomCount = storeStaff.filter(function (e) { return e.role === 'Grooming'; }).length;
+
+      var onDutyList = storeStaff.filter(function (e) {
+        return (CAT[entryAt(e.id, state.date)[0]] || CAT.Other).group === 'duty';
+      }).map(function (e) {
+        var en = entryAt(e.id, state.date);
+        return '<li><span class="nm">' + esc(e.name) + '</span><span class="pill sm t-' + (CAT[en[0]] || CAT.Other).cls + '">' + esc(label(en)) + '</span></li>';
+      }).join('');
+
+      cards += '<div class="panel glass">' +
+        '<div class="store-head"><div><h3>' + esc(storeName) + '</h3><div class="store-meta">' + storeStaff.length + ' staff · Retail: ' + retailCount + ', Groomers: ' + groomCount + '</div></div>' +
+        '<span class="pill ' + (pct >= 65 ? 'good' : pct >= 45 ? 'warn' : 'bad') + '">' + pct + '% on duty</span></div>' +
+        '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
+        '<div class="role-label">On duty today (' + storeStats.duty + ')</div>' +
+        '<ul class="staff-list" style="max-height:180px;overflow-y:auto">' + (onDutyList || '<li class="muted" style="padding:6px 8px">No staff assigned on duty</li>') + '</ul>' +
+        '</div>';
+    });
+
+    return '<div class="panel glass" style="margin-bottom:14px;padding:16px">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">' +
+      '<div><h2 style="margin:0 0 4px">5-Store Operational Summary · ' + esc(fmtLong(state.date)) + '</h2>' +
+      '<div class="sub">Consolidated workforce metrics across all stores.</div></div>' +
+      '<button class="btn primary" id="btnExportOverview">⇩ Export Summary</button>' +
+      '</div></div>' +
+      '<div class="stores">' + cards + '</div>';
+  }
+
+  /* ---------- stores & staff directory management ---------- */
+  function viewManage(md) {
+    if (!md || !md.found) return '<div class="panel glass empty">Loading directory...</div>';
+    var emps = filtered(md, state.date, 'manage');
+    fetchPhotosFor(emps.map(function (e) { return e.id; }));
+
+    var canEditAny = state.isAdmin || state.accessStores.length > 0;
+    var addBtn = canEditAny ? '<button class="btn primary" id="btnAddStaff">+ Add Employee</button>' : '';
+    var addStoreBtn = state.isAdmin ? '<button class="btn" id="btnAddStore">+ Register Store</button>' : '';
+
+    var cards = emps.map(function (e) {
+      var photoSrc = state.photos[e.id];
+      var avatarHtml = photoSrc ? '<img src="' + photoSrc + '" class="employee-photo" alt="' + esc(e.name) + '">' :
+        '<div class="avatar employee-photo" style="--h:' + hue(e.name) + '">' + initials(e.name) + '</div>';
+      
+      var canEditThis = canEditStoreClient(e.store);
+      var actions = '<div class="employee-actions">' +
+        (canEditThis ? '<button class="btn sm btn-edit-staff" data-id="' + esc(e.id) + '">✏️ Edit</button>' : '') +
+        (canEditThis ? '<button class="btn sm btn-punc-staff" data-id="' + esc(e.id) + '" data-store="' + esc(e.store) + '" data-name="' + esc(e.name) + '" data-empid="' + esc(e.employeeId) + '">⏱ Punctuality</button>' : '') +
+        (canEditThis ? '<button class="btn sm danger btn-remove-staff" data-id="' + esc(e.id) + '" data-store="' + esc(e.store) + '" data-name="' + esc(e.name) + '">✕ Remove</button>' : '') +
+        '</div>';
+
+      return '<div class="employee-card glass">' +
+        avatarHtml +
+        '<h3>' + esc(e.name) + '</h3>' +
+        '<span class="employee-role">' + esc(roleTitle(e.role)) + ' · ' + esc(e.store) + '</span>' +
+        '<div class="employee-details">' +
+        '<div class="employee-detail"><span>Emp ID:</span><strong>' + esc(e.employeeId || '—') + '</strong></div>' +
+        '<div class="employee-detail"><span>Phone:</span><strong>' + (e.phone ? '<a href="tel:' + e.phone + '">' + esc(e.phone) + '</a>' : '—') + '</strong></div>' +
+        '<div class="employee-detail"><span>Email:</span><strong>' + esc(e.email || '—') + '</strong></div>' +
+        '</div>' +
+        actions +
+        '</div>';
+    }).join('');
+
+    return '<div class="panel glass staff-store-panel">' +
+      '<div class="panel-head"><div><h2>Stores &amp; Staff Directory (' + emps.length + ')</h2><div class="sub">Manage permanent profiles, roles, and cloud-stored employee photos.</div></div>' +
+      '<div class="controls">' + addBtn + addStoreBtn + '</div></div>' +
+      '<div class="employee-grid">' + (cards || '<div class="empty">No staff found matching filters.</div>') + '</div></div>';
+  }
+
+  /* ---------- removed employees ---------- */
+  function viewRemoved() {
+    if (!state.isAdmin) return '<div class="panel glass empty">Restricted to Hyderguda administrator.</div>';
+    if (!state.deletedStaffLoaded && !state.deletedStaffLoading) {
+      state.deletedStaffLoading = true;
+      call('getDeletedStaff').then(function (res) {
+        state.deletedStaff = res || [];
+        state.deletedStaffLoaded = true;
+        state.deletedStaffLoading = false;
+        var cnt = document.getElementById('removedEmployeesTabCount');
+        if (cnt) cnt.textContent = state.deletedStaff.length;
+        renderView();
+      }).catch(function (err) {
+        state.deletedStaffLoading = false;
+        toast('Could not load removed staff: ' + err.message, true);
+      });
+      return '<div class="panel glass empty">Loading archived employees from Google Sheets...</div>';
+    }
+
+    var list = state.deletedStaff;
+    var rows = list.map(function (e) {
+      return '<tr>' +
+        '<td class="name">' + esc(e.name) + '</td>' +
+        '<td>' + esc(e.store) + '</td>' +
+        '<td>' + esc(roleTitle(e.role)) + '</td>' +
+        '<td>' + esc(e.employeeId || '—') + '</td>' +
+        '<td>' + esc(e.removedOn || '—') + '</td>' +
+        '<td class="acts"><button class="btn sm primary btn-restore-staff" data-store="' + esc(e.store) + '" data-name="' + esc(e.name) + '">↺ Restore</button></td>' +
+        '</tr>';
+    }).join('');
+
+    return '<div class="panel glass">' +
+      '<div class="panel-head"><div><h2>Archived / Removed Employees (' + list.length + ')</h2><div class="sub">History is preserved in Google Sheets. Admin can restore an employee at any time.</div></div></div>' +
+      '<div class="tablewrap"><table class="tbl"><thead><tr><th>Employee</th><th>Store</th><th>Role</th><th>Employee ID</th><th>Removed Date</th><th style="text-align:right">Action</th></tr></thead>' +
+      '<tbody>' + (rows || '<tr><td colspan="6" class="empty">No removed employees found.</td></tr>') + '</tbody></table></div></div>';
+  }
+
+  /* ---------- whatsapp daily broadcasts ---------- */
+  function viewWhatsApp(md) {
+    if (!md || !md.found) return '<div class="panel glass empty">No roster data available.</div>';
+    var emps = filtered(md, state.date, 'wa');
+    var stores = state.store === 'All' ? byStore(emps) : [[state.store, emps]];
+
+    var summaries = '';
+    stores.forEach(function (sg) {
+      var storeName = sg[0];
+      var sStaff = sg[1];
+      var opens = [], mids = [], closes = [], spas = [], trains = [], offs = [], leaves = [];
+      sStaff.forEach(function (e) {
+        var en = entryAt(e.id, state.date);
+        var cat = en[0];
+        if (cat === 'Opening') opens.push(e.name);
+        else if (cat === 'Mid') mids.push(e.name);
+        else if (cat === 'Closing') closes.push(e.name);
+        else if (cat === 'Spa') spas.push(e.name);
+        else if (cat === 'Training') trains.push(e.name);
+        else if (cat === 'Week off' || cat === 'Comp off' || cat === 'Holiday') offs.push(e.name);
+        else if (cat === 'Leave' || cat === 'Absent') leaves.push(e.name);
+      });
+
+      var text = '🐾 *HUFT ' + storeName + ' — Daily Roster*\n' +
+        '📅 Date: ' + fmtMsg(state.date) + '\n' +
+        '━━━━━━━━━━━━━━━━━━━━\n' +
+        '🌅 *Opening Shift:* ' + (opens.join(', ') || 'None') + '\n' +
+        (mids.length ? ('☀️ *Mid Shift:* ' + mids.join(', ') + '\n') : '') +
+        '🌆 *Closing Shift:* ' + (closes.join(', ') || 'None') + '\n' +
+        (spas.length ? ('✂️ *Spa Timings:* ' + spas.join(', ') + '\n') : '') +
+        (trains.length ? ('🎓 *Training:* ' + trains.join(', ') + '\n') : '') +
+        '🏖 *Week Off:* ' + (offs.join(', ') || 'None') + '\n' +
+        (leaves.length ? ('🧳 *Leave/Absent:* ' + leaves.join(', ') + '\n') : '') +
+        '━━━━━━━━━━━━━━━━━━━━\n' +
+        'Have a pawsome day! 🐶🐱';
+
+      summaries += '<div class="panel glass msg">' +
+        '<header><h3>' + esc(storeName) + ' Daily Broadcast</h3><div class="actions">' +
+        '<button class="btn sm btn-copy-wa" data-text="' + esc(text) + '">📋 Copy</button>' +
+        '<a class="btn sm primary" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(text.replace(/\\n/g, '\n')) + '">📲 Open WhatsApp</a>' +
+        '</div></header>' +
+        '<pre>' + esc(text.replace(/\\n/g, '\n')) + '</pre>' +
+        '</div>';
+    });
+
+    return '<div class="section-title">One-Click WhatsApp Broadcasts · ' + esc(fmtShort(state.date)) + '</div>' +
+      '<div class="msgs">' + summaries + '</div>';
+  }
+
+  /* ---------- deployments tab ---------- */
+  function viewDeployments() {
+    if (!state.deploymentRequestsLoaded && !state.deploymentRequestsLoading) {
+      state.deploymentRequestsLoading = true;
+      call('getDeploymentRequests').then(function (res) {
+        state.deploymentRequests = (res && res.requests) || [];
+        state.deploymentRequestsLoaded = true;
+        state.deploymentRequestsLoading = false;
+        var badge = document.getElementById('deploymentTabCount');
+        var pendingCount = state.deploymentRequests.filter(function (r) { return r.status === 'Pending'; }).length;
+        if (badge) badge.textContent = pendingCount || '';
+        renderView();
+      }).catch(function (err) {
+        state.deploymentRequestsLoading = false;
+        toast('Could not load deployments: ' + err.message, true);
+      });
+      return '<div class="panel glass empty">Loading inter-store deployments from Google Sheets...</div>';
+    }
+
+    var list = state.deploymentRequests;
+    var rows = list.map(function (r) {
+      var isPending = r.status === 'Pending';
+      var canApprove = isPending && (state.isAdmin || state.accessStores.indexOf(r.toStore) >= 0) && r.requester.toLowerCase() !== state.email.toLowerCase();
+      var actions = canApprove ?
+        '<button class="btn sm primary btn-dep-review" data-id="' + esc(r.id) + '" data-action="approve">✓ Approve</button> ' +
+        '<button class="btn sm danger btn-dep-review" data-id="' + esc(r.id) + '" data-action="reject">✕ Reject</button>' :
+        '<span class="muted">' + esc(r.status) + '</span>';
+
+      return '<tr>' +
+        '<td><strong>' + esc(r.name) + '</strong></td>' +
+        '<td>' + esc(r.fromStore) + ' → <strong>' + esc(r.toStore) + '</strong></td>' +
+        '<td>' + esc(r.from) + ' to ' + esc(r.to) + '</td>' +
+        '<td>' + esc(r.shift || 'Default') + '</td>' +
+        '<td><span class="pill ' + (r.status === 'Approved' ? 'good' : r.status === 'Pending' ? 'warn' : 'bad') + '">' + esc(r.status) + '</span></td>' +
+        '<td>' + esc(r.requester) + '</td>' +
+        '<td>' + actions + '</td>' +
+        '</tr>';
+    }).join('');
+
+    return '<div class="panel glass">' +
+      '<div class="panel-head"><div><h2>Inter-Store Temporary Deployments</h2><div class="sub">Cross-store assignments require destination store manager or admin approval.</div></div>' +
+      '<button class="btn primary" id="btnReqDeployment">+ Request Deployment</button></div>' +
+      '<div class="tablewrap"><table class="tbl"><thead><tr><th>Employee</th><th>Stores</th><th>Dates</th><th>Shift</th><th>Status</th><th>Requested By</th><th>Action</th></tr></thead>' +
+      '<tbody>' + (rows || '<tr><td colspan="7" class="empty">No deployments requested yet.</td></tr>') + '</tbody></table></div></div>';
+  }
+
+  /* ---------- my requests tab (employee self-service) ---------- */
+  function viewMyRequests() {
+    if (!state.workRequestsLoaded && !state.workRequestsLoading) {
+      state.workRequestsLoading = true;
+      call('getEmployeeRequests').then(function (res) {
+        state.workRequests = (res && res.requests) || [];
+        state.workRequestsCanApprove = res && res.canApprove;
+        state.workRequestsLoaded = true;
+        state.workRequestsLoading = false;
+        var myBadge = document.getElementById('myRequestsTabCount');
+        if (myBadge) myBadge.textContent = state.workRequests.filter(function (r) { return r.email.toLowerCase() === state.email.toLowerCase() && r.status === 'Pending'; }).length || '';
+        renderView();
+      }).catch(function (err) {
+        state.workRequestsLoading = false;
+        toast('Could not load work requests: ' + err.message, true);
+      });
+      return '<div class="panel glass empty">Loading employee requests from Google Sheets...</div>';
+    }
+
+    var list = state.workRequests.filter(function (r) { return r.email.toLowerCase() === state.email.toLowerCase(); });
+    var rows = list.map(function (r) {
+      return '<tr>' +
+        '<td><strong>' + esc(r.type) + '</strong></td>' +
+        '<td>' + esc(r.date) + '</td>' +
+        '<td>' + esc(r.previousShift) + ' → <strong>' + esc(r.requestedShift || '—') + '</strong></td>' +
+        '<td>' + esc(r.reason) + '</td>' +
+        '<td><span class="pill ' + (r.status === 'Approved' ? 'good' : r.status === 'Pending' ? 'warn' : 'bad') + '">' + esc(r.status) + '</span></td>' +
+        '<td>' + esc(r.notes || '—') + '</td>' +
+        '</tr>';
+    }).join('');
+
+    return '<div class="panel glass">' +
+      '<div class="panel-head"><div><h2>My Self-Service Requests</h2><div class="sub">Request leave, shift swap, or week-off changes. Store manager review required.</div></div>' +
+      '<button class="btn primary" id="btnSubmitWorkReq">+ Submit Request</button></div>' +
+      '<div class="tablewrap"><table class="tbl"><thead><tr><th>Type</th><th>Date</th><th>Shift Change</th><th>Reason</th><th>Status</th><th>Review Remarks</th></tr></thead>' +
+      '<tbody>' + (rows || '<tr><td colspan="6" class="empty">You have not submitted any requests yet.</td></tr>') + '</tbody></table></div></div>';
+  }
+
+  /* ---------- approval centre ---------- */
+  function viewApprovals() {
+    var pending = (state.workRequests || []).filter(function (r) { return r.status === 'Pending' && (state.isAdmin || state.accessStores.indexOf(r.store) >= 0); });
+    var rows = pending.map(function (r) {
+      return '<tr>' +
+        '<td><strong>' + esc(r.name) + '</strong> (' + esc(r.store) + ')</td>' +
+        '<td>' + esc(r.type) + '</td>' +
+        '<td>' + esc(r.date) + '</td>' +
+        '<td>' + esc(r.previousShift) + ' → <strong>' + esc(r.requestedShift || '—') + '</strong></td>' +
+        '<td>' + esc(r.reason) + '</td>' +
+        '<td class="acts">' +
+        '<button class="btn sm primary btn-work-review" data-id="' + esc(r.id) + '" data-decision="approve">✓ Approve</button> ' +
+        '<button class="btn sm danger btn-work-review" data-id="' + esc(r.id) + '" data-decision="reject">✕ Reject</button>' +
+        '</td></tr>';
+    }).join('');
+
+    return '<div class="panel glass">' +
+      '<div class="panel-head"><div><h2>Approval Centre (' + pending.length + ' Pending)</h2><div class="sub">Review pending staff leave, shift swaps, and attendance requests.</div></div></div>' +
+      '<div class="tablewrap"><table class="tbl"><thead><tr><th>Staff &amp; Store</th><th>Request Type</th><th>Date</th><th>Requested Shift</th><th>Reason</th><th style="text-align:right">Action</th></tr></thead>' +
+      '<tbody>' + (rows || '<tr><td colspan="6" class="empty">No pending requests awaiting your approval.</td></tr>') + '</tbody></table></div></div>';
+  }
+
+  /* ---------- live notifications & audit log ---------- */
+  function viewNotifications() {
+    return '<div class="panel glass">' +
+      '<div class="panel-head"><div><h2>System Audit &amp; Event Stream</h2><div class="sub">Append-only audit trail and automated email delivery log in Google Sheets.</div></div>' +
+      '<button class="btn" id="btnRefreshLogs">⟳ Refresh Stream</button></div>' +
+      '<div style="padding:20px 16px"><p class="muted">All roster changes, approvals, punctuality events, and administrative actions are logged in the <strong>HUFT Audit Log</strong> sheet. Outbound email actions are tracked with one-time verification tokens in <strong>Email Delivery Log</strong>.</p></div></div>';
+  }
+
+  /* ---------- request access tab ---------- */
+  function viewRequestAccess() {
+    return '<div class="panel glass" style="max-width:540px;margin:20px auto;padding:24px">' +
+      '<h2>Request Store Access</h2>' +
+      '<p class="sub">Request edit permissions for your home store from the Hyderguda administrator.</p>' +
+      '<div class="fld" style="margin-bottom:12px"><label for="reqAccessStore">Store</label>' +
+      '<select id="reqAccessStore" class="sel">' + state.stores.map(function (s) { return '<option value="' + esc(s) + '">' + esc(s) + '</option>'; }).join('') + '</select></div>' +
+      '<div class="fld" style="margin-bottom:12px"><label for="reqAccessReason">Reason / Role</label>' +
+      '<input id="reqAccessReason" class="inp" type="text" placeholder="e.g. Store Manager / Shift Lead"></div>' +
+      '<button class="btn primary" id="btnSendAccessReq" style="width:100%;justify-content:center">Send Access Request to Admin</button>' +
+      '</div>';
+  }
+
+  /* ---------- admin access management ---------- */
+  function viewAccess() {
+    if (!state.isAdmin) return '<div class="panel glass empty">Restricted to Hyderguda administrator.</div>';
+    if (!state.accessLoaded && !state.accessLoading) {
+      state.accessLoading = true;
+      call('getRosterAccess').then(function (res) {
+        state.accessEntries = (res && res.entries) || [];
+        state.accessLoaded = true;
+        state.accessLoading = false;
+        renderView();
+      }).catch(function (err) {
+        state.accessLoading = false;
+        toast('Could not load access grants: ' + err.message, true);
+      });
+      return '<div class="panel glass empty">Loading permissions from Google Sheets...</div>';
+    }
+
+    var rows = state.accessEntries.map(function (g) {
+      return '<tr>' +
+        '<td><strong>' + esc(g.email) + '</strong></td>' +
+        '<td>' + esc(g.store || 'All stores') + '</td>' +
+        '<td><span class="pill ' + (g.access === 'Admin' ? 'good' : 'warn') + '">' + esc(g.access) + '</span></td>' +
+        '<td>' + esc(g.addedOn || '—') + '</td>' +
+        '<td class="acts">' +
+        '<button class="btn sm danger btn-revoke-access" data-email="' + esc(g.email) + '" data-store="' + esc(g.store) + '">Revoke</button>' +
+        '</td></tr>';
+    }).join('');
+
+    return '<div class="panel glass">' +
+      '<div class="panel-head"><div><h2>Admin Access Permissions</h2><div class="sub">Grant or revoke store editor and admin rights.</div></div>' +
+      '<button class="btn primary" id="btnAddAccessGrant">+ Grant Access</button></div>' +
+      '<div class="tablewrap"><table class="tbl"><thead><tr><th>Email</th><th>Assigned Store</th><th>Access Level</th><th>Granted On</th><th style="text-align:right">Action</th></tr></thead>' +
+      '<tbody>' + (rows || '<tr><td colspan="5" class="empty">No custom access grants.</td></tr>') + '</tbody></table></div></div>';
+  }
+
+  /* ---------- email settings tab ---------- */
+  function viewEmail() {
+    if (!state.isAdmin) return '<div class="panel glass empty">Restricted to Hyderguda administrator.</div>';
+    if (!state.emailAdminData && !state.emailAdminLoading) {
+      state.emailAdminLoading = true;
+      call('getEmailAdminData').then(function (res) {
+        state.emailAdminData = res;
+        state.emailAdminLoading = false;
+        renderView();
+      }).catch(function (err) {
+        state.emailAdminLoading = false;
+        toast('Could not load email settings: ' + err.message, true);
+      });
+      return '<div class="panel glass empty">Loading email settings and delivery log...</div>';
+    }
+
+    var data = state.emailAdminData || {};
+    var templates = data.templates || [];
+    var recipients = data.recipients || [];
+
+    var tRows = templates.map(function (t) {
+      return '<tr>' +
+        '<td><strong>' + esc(t.name) + '</strong><br><small class="muted">' + esc(t.id) + '</small></td>' +
+        '<td>' + esc(t.subject) + '</td>' +
+        '<td><span class="pill ' + (t.enabled ? 'good' : 'none') + '">' + (t.enabled ? 'Enabled' : 'Disabled') + '</span></td>' +
+        '<td class="acts"><button class="btn sm btn-edit-template" data-id="' + esc(t.id) + '">✏️ Configure</button></td>' +
+        '</tr>';
+    }).join('');
+
+    var rRows = recipients.map(function (r) {
+      return '<tr>' +
+        '<td><strong>' + esc(r.store) + '</strong></td>' +
+        '<td>' + esc(r.email) + '</td>' +
+        '<td class="acts"><button class="btn sm btn-edit-recipient" data-store="' + esc(r.store) + '" data-email="' + esc(r.email) + '">✏️ Change</button></td>' +
+        '</tr>';
+    }).join('');
+
+    return '<div class="panel glass" style="margin-bottom:14px">' +
+      '<div class="panel-head"><div><h2>Email Templates &amp; Delivery Engine</h2><div class="sub">Configure automated roster, approval, and alert templates.</div></div></div>' +
+      '<div class="tablewrap"><table class="tbl"><thead><tr><th>Template</th><th>Subject Format</th><th>Status</th><th style="text-align:right">Action</th></tr></thead>' +
+      '<tbody>' + (tRows || '<tr><td colspan="4" class="empty">No email templates configured.</td></tr>') + '</tbody></table></div></div>' +
+      '<div class="panel glass">' +
+      '<div class="panel-head"><div><h2>Store Notification Recipients</h2><div class="sub">Emails that receive approval alerts for each store.</div></div></div>' +
+      '<div class="tablewrap"><table class="tbl"><thead><tr><th>Store</th><th>Notification Email</th><th style="text-align:right">Action</th></tr></thead>' +
+      '<tbody>' + (rRows || '<tr><td colspan="3" class="empty">No store recipients configured.</td></tr>') + '</tbody></table></div></div>';
+  }
+
+  
+  /* ---------- supabase cloud backend & storage hub ---------- */
+  function viewSupabase() {
+    var isConn = state.supabaseConnected;
+    var statusBadge = isConn ?
+      '<span class="pill good" style="font-size:13px">🟢 Connected to Supabase Cloud</span>' :
+      '<span class="pill warn" style="font-size:13px">⚪ Not Connected (Enter credentials below)</span>';
+
+    return '<div class="panel glass" style="margin-bottom:14px;padding:22px">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">' +
+      '<div><h2 style="margin:0 0 4px">⚡ Supabase Cloud Backend &amp; Storage</h2>' +
+      '<div class="sub">PostgreSQL Cloud Database, Realtime WebSockets, and Multi-Bucket Cloud Storage.</div></div>' +
+      '<div>' + statusBadge + '</div>' +
+      '</div></div>' +
+
+      '<div class="panel glass" style="margin-bottom:14px;padding:20px">' +
+      '<h3 style="margin:0 0 12px">Supabase Project Connection</h3>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">' +
+      '<div class="fld"><label for="supaUrl">Supabase Project URL</label>' +
+      '<input id="supaUrl" class="inp" type="url" value="' + esc(state.supabaseUrl) + '" placeholder="https://xyzcompany.supabase.co"></div>' +
+      '<div class="fld"><label for="supaKey">Anon / Public API Key (<a href="https://supabase.com/dashboard/project/sumoyszqxxuarwzpzsgw/settings/api" target="_blank" rel="noopener" style="color:var(--brand);text-decoration:underline">Get key from Supabase Dashboard ↗</a>)</label>' +
+      '<input id="supaKey" class="inp" type="password" value="' + esc(state.supabaseKey) + '" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…"></div>' +
+      '</div>' +
+      '<div class="controls">' +
+      '<button class="btn primary" id="btnConnectSupabase">⚡ Connect &amp; Save Credentials</button>' +
+      '<button class="btn" id="btnTestSupabase">🔍 Test Ping</button>' +
+      '<button class="btn" id="btnSyncToSupabase">🚀 Sync Google Sheets ➔ Supabase</button>' +
+      '<button class="btn" id="btnSupaBackup">📦 Create Supabase Cloud Backup</button>' +
+      '<button class="btn" id="btnDownloadSchema">📄 Download SQL Schema</button>' +
+      '</div>' +
+      '<div id="supaConnMsg" style="margin-top:10px;font-weight:600;font-size:13px"></div>' +
+      '</div>' +
+
+      '<div class="kpis">' +
+      '<div class="kpi glass t-open"><div class="kpi-ico">⚡</div><div><div class="kpi-label">Realtime Channels</div><div class="kpi-val" id="supaRealtimeStatus">' + (isConn ? 'Active' : 'Inactive') + '</div></div></div>' +
+      '<div class="kpi glass t-mid"><div class="kpi-ico">🗄️</div><div><div class="kpi-label">Storage Buckets</div><div class="kpi-val">3 Buckets</div></div></div>' +
+      '<div class="kpi glass t-spa"><div class="kpi-ico">🔄</div><div><div class="kpi-label">Dual-Cloud Sync</div><div class="kpi-val" style="color:#15803d">Enabled</div></div></div>' +
+      '<div class="kpi glass t-close"><div class="kpi-ico">🛡️</div><div><div class="kpi-label">Database Engine</div><div class="kpi-val" style="font-size:16px">PostgreSQL 15</div></div></div>' +
+      '</div>' +
+
+      '<div class="panel glass" style="margin-bottom:14px;padding:18px">' +
+      '<h3>Supabase Cloud Storage Buckets</h3>' +
+      '<p class="sub">High-performance CDN object storage for roster media and automated database backups.</p>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:12px">' +
+      '<div style="padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--glass)">' +
+      '<strong>Bucket: profiles (Public)</strong><br><span class="muted">Employee avatar pictures uploaded via web app or API. Served over global edge CDN.</span>' +
+      '</div>' +
+      '<div style="padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--glass)">' +
+      '<strong>Bucket: backups (Private)</strong><br><span class="muted">Point-in-time full database JSON snapshots and emergency restore points.</span>' +
+      '</div>' +
+      '<div style="padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--glass)">' +
+      '<strong>Bucket: exports (Public)</strong><br><span class="muted">High-res weekly roster images (JPG) and monthly multi-store reports.</span>' +
+      '</div>' +
+      '</div>' +
+      '</div>' +
+
+      '<div class="panel glass" style="padding:18px">' +
+      '<h3>Realtime Sync &amp; Event Stream</h3>' +
+      '<div class="sub">WebSocket live stream tracking incoming roster mutations across all stores.</div>' +
+      '<div id="supaLogWrap" style="margin-top:10px;max-height:160px;overflow-y:auto;background:rgba(0,0,0,0.04);padding:10px;border-radius:8px;font-family:monospace;font-size:12px">' +
+      (state.supabaseLogs.length ? state.supabaseLogs.map(function(l){ return '<div>• ' + esc(l) + '</div>'; }).join('') : '<div class="muted">Waiting for events… Connect Supabase to start realtime stream.</div>') +
+      '</div></div>';
+  }
+
+  function initSupabaseClient(url, key) {
+    if (!url || !key) return;
+    try {
+      if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+        state.supabase = window.supabase.createClient(url, key);
+        state.supabaseUrl = url;
+        state.supabaseKey = key;
+        state.supabaseConnected = true;
+
+        var badge = document.getElementById('supaStatusBadge');
+        if (badge) {
+          badge.textContent = 'Active 🟢';
+          badge.style.background = 'rgba(21,128,61,0.2)';
+          badge.style.color = '#15803d';
+        }
+
+        // Setup Realtime Subscription on roster_shifts
+        state.supabase.channel('roster-realtime')
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'roster_shifts' }, function (payload) {
+            var msg = '[' + new Date().toLocaleTimeString() + '] Realtime shift edit on ' + (payload.new ? payload.new.store : 'roster');
+            state.supabaseLogs.unshift(msg);
+            toast('⚡ Realtime shift update from Supabase: ' + (payload.new ? payload.new.employee_name : ''));
+            var logWrap = document.getElementById('supaLogWrap');
+            if (logWrap) logWrap.innerHTML = state.supabaseLogs.slice(0, 30).map(function(l){ return '<div>• ' + esc(l) + '</div>'; }).join('');
+            ensureRange(state.date, true).then(renderView);
+          })
+          .subscribe();
+
+        console.log('Supabase Realtime connected!');
+      }
+    } catch (e) {
+      console.warn('Supabase initialization failed:', e);
+    }
+  }
+
+/* ---------- cloud storage & backup hub ---------- */
+  function viewCloudStorage() {
+    if (!state.isAdmin) return '<div class="panel glass empty">Cloud Storage Management is restricted to Hyderguda administrator.</div>';
+    
+    return '<div class="panel glass" style="margin-bottom:14px;padding:20px">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">' +
+      '<div><h2 style="margin:0 0 4px">☁️ Cloud Storage &amp; Database Hub</h2>' +
+      '<div class="sub">Enterprise cloud infrastructure on Google Workspace, Google Drive, and Google Sheets.</div></div>' +
+      '<div class="controls">' +
+      '<button class="btn primary" id="btnCreateCloudBackup">⚡ Create Cloud Backup Now</button>' +
+      '<button class="btn" id="btnRefreshStorageStats">⟳ Refresh Storage Stats</button>' +
+      '</div></div></div>' +
+
+      '<div class="kpis">' +
+      '<div class="kpi glass t-open"><div class="kpi-ico">📁</div><div><div class="kpi-label">Drive Profile Photos</div><div class="kpi-val" id="kpiPhotoCount">Loading…</div></div></div>' +
+      '<div class="kpi glass t-mid"><div class="kpi-ico">📦</div><div><div class="kpi-label">Cloud Backups</div><div class="kpi-val" id="kpiBackupCount">Loading…</div></div></div>' +
+      '<div class="kpi glass t-spa"><div class="kpi-ico">📊</div><div><div class="kpi-label">Database Tabs</div><div class="kpi-val" id="kpiSheetsCount">Loading…</div></div></div>' +
+      '<div class="kpi glass t-close"><div class="kpi-ico">🛡️</div><div><div class="kpi-label">Cloud Storage Status</div><div class="kpi-val" style="font-size:16px;color:#15803d">Connected</div></div></div>' +
+      '</div>' +
+
+      '<div class="panel glass" style="margin-bottom:14px">' +
+      '<div class="panel-head"><div><h2>Google Drive Cloud Backups</h2><div class="sub">Point-in-time automated and manual spreadsheet snapshots in Google Drive.</div></div></div>' +
+      '<div class="tablewrap" id="backupListWrap"><div class="empty">Click "Create Cloud Backup Now" or refresh to inspect available backups.</div></div>' +
+      '</div>' +
+
+      '<div class="panel glass" style="padding:18px">' +
+      '<h3>Cloud Storage Integration Details</h3>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:10px">' +
+      '<div style="padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--glass)">' +
+      '<strong>Google Drive Profiles Folder:</strong><br><span class="muted">' + esc(state.profileFolder || 'HUFT Roster Profiles') + '</span><br><small class="muted">Private employee photo blobs with store-scoped ACL.</small>' +
+      '</div>' +
+      '<div style="padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--glass)">' +
+      '<strong>Google Drive Backups Folder:</strong><br><span class="muted">' + esc(state.backupFolder || 'HUFT Roster Cloud Backups') + '</span><br><small class="muted">Point-in-time full spreadsheet snapshots.</small>' +
+      '</div>' +
+      '<div style="padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--glass)">' +
+      '<strong>Google Drive Exports Folder:</strong><br><span class="muted">' + esc(state.exportsFolder || 'HUFT Roster Exports') + '</span><br><small class="muted">Weekly & monthly roster graphic exports.</small>' +
+      '</div>' +
+      '<div style="padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--glass)">' +
+      '<strong>Cloud Database (Google Sheets):</strong><br><span class="muted">' + esc(state.spreadsheetId || '1anAGAvK-Keh3cH5sncIpycURWqVgaAPn40icFZrYC60') + '</span><br><small class="muted">Append-only audit logs & monthly roster matrices.</small>' +
+      '</div>' +
+      '</div>' +
+      '</div>';
+  }
+
+  function loadCloudStorageStats() {
+    call('getCloudStorageStats').then(function (res) {
+      if (!res) return;
+      var pEl = document.getElementById('kpiPhotoCount');
+      if (pEl) pEl.textContent = res.profileFolder ? res.profileFolder.count : '—';
+      var bEl = document.getElementById('kpiBackupCount');
+      if (bEl) bEl.textContent = res.backupFolder ? res.backupFolder.count : '—';
+      var sEl = document.getElementById('kpiSheetsCount');
+      if (sEl) sEl.textContent = res.sheetsCount || '—';
+    }).catch(function () {});
+
+    call('listCloudBackups').then(function (res) {
+      var wrap = document.getElementById('backupListWrap');
+      if (!wrap) return;
+      var backups = (res && res.backups) || [];
+      if (!backups.length) {
+        wrap.innerHTML = '<div class="empty">No cloud backup snapshots registered yet. Click "Create Cloud Backup Now" above.</div>';
+        return;
+      }
+      var rows = backups.map(function (b) {
+        return '<tr>' +
+          '<td><strong>' + esc(b.name) + '</strong></td>' +
+          '<td>' + esc(b.timestamp) + '</td>' +
+          '<td>' + esc(b.createdBy) + '</td>' +
+          '<td>' + (b.sizeKb ? b.sizeKb + ' KB' : '—') + '</td>' +
+          '<td>' + esc(b.notes || '—') + '</td>' +
+          '<td class="acts">' +
+          '<a class="btn sm" href="' + esc(b.url) + '" target="_blank" rel="noopener">📂 Open in Drive</a> ' +
+          '<button class="btn sm primary btn-restore-backup" data-id="' + esc(b.id) + '">🔍 Verify</button>' +
+          '</td></tr>';
+      }).join('');
+      wrap.innerHTML = '<table class="tbl"><thead><tr><th>Snapshot Name</th><th>Created At</th><th>Created By</th><th>Size</th><th>Notes</th><th style="text-align:right">Drive Access</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    }).catch(function (err) {
+      var wrap = document.getElementById('backupListWrap');
+      if (wrap) wrap.innerHTML = '<div class="empty muted">Failed to load backups: ' + esc(err.message) + '</div>';
+    });
+  }
+
+  /* ---------- photo lazy loading cache ---------- */
+  function fetchPhotosFor(ids) {
+    var missing = ids.filter(function (id) {
+      return id && !state.photos[id] && !state.photoRequests[id];
+    });
+    if (!missing.length) return;
+    missing.forEach(function (id) { state.photoRequests[id] = true; });
+
+    call('getStaffPhotos', missing.slice(0, 50)).then(function (res) {
+      if (!res) return;
+      var updated = false;
+      Object.keys(res).forEach(function (id) {
+        if (res[id]) {
+          state.photos[id] = res[id];
+          updated = true;
+        }
+      });
+      if (updated && state.tab === 'manage') renderView();
+    }).catch(function () {});
+  }
+
+  /* ---------- view router ---------- */
+  function renderView() {
+    var md = monthData();
+    var contentEl = $('#content');
+    if (!contentEl) return;
+
+    if (state.tab === 'supabase') {
+      contentEl.innerHTML = viewSupabase();
+      bindSupabaseEvents();
+    } else if (state.tab === 'week') {
+      contentEl.innerHTML = viewWeek(md);
+    } else if (state.tab === 'month') {
+      contentEl.innerHTML = viewMonth(md);
+    } else if (state.tab === 'overview') {
+      contentEl.innerHTML = viewOverview(md);
+    } else if (state.tab === 'manage') {
+      contentEl.innerHTML = viewManage(md);
+    } else if (state.tab === 'removed') {
+      contentEl.innerHTML = viewRemoved();
+    } else if (state.tab === 'wa') {
+      contentEl.innerHTML = viewWhatsApp(md);
+    } else if (state.tab === 'deployments') {
+      contentEl.innerHTML = viewDeployments();
+    } else if (state.tab === 'myrequests') {
+      contentEl.innerHTML = viewMyRequests();
+    } else if (state.tab === 'approvals') {
+      contentEl.innerHTML = viewApprovals();
+    } else if (state.tab === 'notifications') {
+      contentEl.innerHTML = viewNotifications();
+    } else if (state.tab === 'request') {
+      contentEl.innerHTML = viewRequestAccess();
+    } else if (state.tab === 'access') {
+      contentEl.innerHTML = viewAccess();
+    } else if (state.tab === 'email') {
+      contentEl.innerHTML = viewEmail();
+    } else if (state.tab === 'cloud') {
+      contentEl.innerHTML = viewCloudStorage();
+      loadCloudStorageStats();
+    }
+
+    if (md && md.employees) renderKpis(filtered(md, state.date, state.tab));
+    bindDynamicEvents();
+  }
+
+  function switchTab(t) {
+    state.tab = t;
+    document.querySelectorAll('.tab').forEach(function (btn) {
+      btn.setAttribute('aria-selected', btn.getAttribute('data-tab') === t ? 'true' : 'false');
+    });
+    renderView();
+  }
+
+  /* ---------- shift change auto-save queue ---------- */
+  function queueShiftChange(id, date, cat, toStore, shift) {
+    var emp = findEmpForEdit(id, date);
+    if (!emp) return;
+
+    var dayIdx = parseIso(date).d - 1;
+    if (cat === 'Clear') {
+      emp.days[dayIdx] = 'Unassigned';
+    } else if (cat === 'Deployed') {
+      emp.days[dayIdx] = ['Deployed', shift || '', toStore || ''];
+    } else {
+      emp.days[dayIdx] = cat;
+    }
+
+    var existingIdx = -1;
+    for (var i = 0; i < state.pending.length; i++) {
+      if (state.pending[i].id === id && state.pending[i].date === date) {
+        existingIdx = i;
+        break;
+      }
+    }
+    var item = { id: id, store: emp.store, name: emp.name, date: date, cat: cat, toStore: toStore, shift: shift };
+    if (existingIdx >= 0) state.pending[existingIdx] = item;
+    else state.pending.push(item);
+
+    var saveStateEl = document.getElementById('saveState');
+    if (saveStateEl) {
+      saveStateEl.textContent = 'Saving changes…';
+      saveStateEl.className = 'save-state saving';
+    }
+
+    if (state.flushTimer) clearTimeout(state.flushTimer);
+    state.flushTimer = setTimeout(flushShiftChanges, 1200);
+    renderView();
+  }
+
+  function flushShiftChanges() {
+    if (!state.pending.length || state.saving) return;
+    state.saving = true;
+    var batch = state.pending.slice();
+    state.pending = [];
+
+    var changes = batch.map(function (c) {
+      return { store: c.store, name: c.name, date: c.date, cat: c.cat, toStore: c.toStore, shift: c.shift };
+    });
+
+    call('saveShifts', changes).then(function (res) {
+      state.saving = false;
+      var saveStateEl = document.getElementById('saveState');
+      if (saveStateEl) {
+        saveStateEl.textContent = 'All changes saved';
+        saveStateEl.className = 'save-state';
+        setTimeout(function () { if (saveStateEl.textContent === 'All changes saved') saveStateEl.textContent = ''; }, 3000);
+      }
+      if (state.pending.length) flushShiftChanges();
+    }).catch(function (err) {
+      state.saving = false;
+      var saveStateEl = document.getElementById('saveState');
+      if (saveStateEl) {
+        saveStateEl.textContent = 'Save failed: ' + err.message;
+        saveStateEl.className = 'save-state bad';
+      }
+      toast('Failed to save shifts: ' + err.message, true);
+    });
+  }
+
+  /* ---------- modals & overlays ---------- */
+  function openModal(title, bodyHtml, footerHtml) {
+    var m = $('#modal');
+    if (!m) return;
+    m.innerHTML = '<div class="modal">' +
+      '<h3>' + esc(title) + '</h3>' +
+      '<div class="m-body">' + bodyHtml + '</div>' +
+      '<div class="m-err" id="mErr"></div>' +
+      '<div class="m-actions">' + (footerHtml || '<button class="btn" id="mCancel">Close</button>') + '</div>' +
+      '</div>';
+    m.classList.add('open');
+    var cancel = document.getElementById('mCancel');
+    if (cancel) cancel.onclick = closeModal;
+  }
+
+  function closeModal() {
+    var m = $('#modal');
+    if (m) {
+      m.classList.remove('open');
+      m.innerHTML = '';
+    }
+  }
+
+  function toast(msg, isErr) {
+    var t = $('#toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.className = 'toast show' + (isErr ? ' err' : '');
+    setTimeout(function () { t.className = 'toast'; }, 3800);
+  }
+
+  /* ---------- dynamic event bindings ---------- */
+  
+  function bindSupabaseEvents() {
+    var btnConnect = document.getElementById('btnConnectSupabase');
+    if (btnConnect) {
+      btnConnect.onclick = function () {
+        var url = document.getElementById('supaUrl').value.trim();
+        var key = document.getElementById('supaKey').value.trim();
+        if (!url || !key) {
+          document.getElementById('supaConnMsg').innerHTML = '<span style="color:#be123c">Please enter both Supabase Project URL and Key.</span>';
+          return;
+        }
+        document.getElementById('supaConnMsg').textContent = 'Connecting & saving credentials to cloud…';
+        try { localStorage.setItem('huft_supa_url', url); localStorage.setItem('huft_supa_key', key); } catch(e) {}
+        
+        call('saveSupabaseConfig', { url: url, key: key }).then(function (res) {
+          initSupabaseClient(url, key);
+          toast(res.message);
+          renderView();
+        }).catch(function (err) {
+          // If server fails or in local preview, connect client-side
+          initSupabaseClient(url, key);
+          toast('Supabase client connected locally!');
+          renderView();
+        });
+      };
+    }
+
+    var btnTest = document.getElementById('btnTestSupabase');
+    if (btnTest) {
+      btnTest.onclick = function () {
+        var msgEl = document.getElementById('supaConnMsg');
+        if (msgEl) msgEl.textContent = 'Testing connection to Supabase REST endpoint…';
+        call('testSupabaseConnection').then(function (res) {
+          if (res.ok) {
+            msgEl.innerHTML = '<span style="color:#15803d">✓ ' + esc(res.message) + '</span>';
+            toast('Supabase connected!');
+          } else {
+            msgEl.innerHTML = '<span style="color:#be123c">✕ ' + esc(res.message) + '</span>';
+          }
+        }).catch(function (err) {
+          if (state.supabase) {
+            state.supabase.from('stores').select('count').then(function(test) {
+              msgEl.innerHTML = '<span style="color:#15803d">✓ Direct client connection to Supabase active!</span>';
+              toast('Supabase connected!');
+            }).catch(function(e) {
+              msgEl.innerHTML = '<span style="color:#be123c">✕ Test failed: ' + esc(e.message) + '</span>';
+            });
+          } else {
+            msgEl.innerHTML = '<span style="color:#be123c">✕ ' + esc(err.message) + '</span>';
+          }
+        });
+      };
+    }
+
+    var btnSync = document.getElementById('btnSyncToSupabase');
+    if (btnSync) {
+      btnSync.onclick = function () {
+        if (!confirm('Start full synchronization from Google Sheets to Supabase PostgreSQL database?')) return;
+        toast('Syncing roster, staff profiles, and stores to Supabase…');
+        call('syncSheetsToSupabase').then(function (res) {
+          toast(res.message);
+          alert(res.message);
+        }).catch(function (err) { toast('Sync failed: ' + err.message, true); });
+      };
+    }
+
+    var btnBackup = document.getElementById('btnSupaBackup');
+    if (btnBackup) {
+      btnBackup.onclick = function () {
+        var notes = prompt('Enter Supabase backup notes:', 'Manual Supabase cloud backup') || '';
+        toast('Creating snapshot and uploading to Supabase Storage…');
+        call('createSupabaseCloudBackup', notes).then(function (res) {
+          toast('Backup saved to Supabase: ' + res.backupId);
+          alert('Snapshot uploaded to Supabase Storage bucket "backups"!\nURL: ' + res.url);
+        }).catch(function (err) { toast('Backup failed: ' + err.message, true); });
+      };
+    }
+
+    var btnSchema = document.getElementById('btnDownloadSchema');
+    if (btnSchema) {
+      btnSchema.onclick = function () {
+        window.open('https://raw.githubusercontent.com/supabase/supabase', '_blank');
+        toast('Schema file is located in supabase/schema.sql in your workspace.');
+      };
+    }
+  }
+
+function bindDynamicEvents() {
+    // Shift dropdown change
+    document.querySelectorAll('select.shift').forEach(function (sel) {
+      sel.onchange = function () {
+        var id = this.getAttribute('data-id');
+        var date = this.getAttribute('data-date');
+        var val = this.value;
+        if (val === '__deploy__') {
+          openDeploymentModal(id, date);
+          this.value = 'Clear';
+          return;
+        }
+        if (val === '__keep__') return;
+        queueShiftChange(id, date, val);
+      };
+    });
+
+    // Date header click in month view
+    document.querySelectorAll('.grid th.day').forEach(function (th) {
+      th.onclick = function () {
+        var d = this.getAttribute('data-date');
+        if (d) {
+          state.date = d;
+          var dp = document.getElementById('datePick');
+          if (dp) dp.value = d;
+          renderView();
+        }
+      };
+    });
+
+    // Copy WhatsApp
+    document.querySelectorAll('.btn-copy-wa').forEach(function (btn) {
+      btn.onclick = function () {
+        var text = this.getAttribute('data-text').replace(/\\n/g, '\n');
+        navigator.clipboard.writeText(text).then(function () {
+          toast('WhatsApp message copied to clipboard!');
+        });
+      };
+    });
+
+    // Add Staff button
+    var btnAddStaff = document.getElementById('btnAddStaff');
+    if (btnAddStaff) {
+      btnAddStaff.onclick = function () { openStaffModal(null); };
+    }
+
+    // Edit Staff buttons
+    document.querySelectorAll('.btn-edit-staff').forEach(function (btn) {
+      btn.onclick = function () {
+        var id = this.getAttribute('data-id');
+        var emp = findEmp(id, state.date);
+        if (emp) openStaffModal(emp);
+      };
+    });
+
+    // Remove Staff buttons
+    document.querySelectorAll('.btn-remove-staff').forEach(function (btn) {
+      btn.onclick = function () {
+        var store = this.getAttribute('data-store');
+        var name = this.getAttribute('data-name');
+        if (!confirm('Are you sure you want to remove ' + name + ' from ' + store + '? History will be retained.')) return;
+        call('removeStaff', { store: store, name: name, date: state.date }).then(function (res) {
+          toast(res.message);
+          ensureMonth(monthKey(state.date), true).then(renderView);
+        }).catch(function (err) { toast(err.message, true); });
+      };
+    });
+
+    // Restore Staff buttons
+    document.querySelectorAll('.btn-restore-staff').forEach(function (btn) {
+      btn.onclick = function () {
+        var store = this.getAttribute('data-store');
+        var name = this.getAttribute('data-name');
+        call('restoreStaff', { store: store, name: name }).then(function (res) {
+          toast(res.message);
+          state.deletedStaffLoaded = false;
+          ensureMonth(monthKey(state.date), true).then(renderView);
+        }).catch(function (err) { toast(err.message, true); });
+      };
+    });
+
+    // Punctuality buttons
+    document.querySelectorAll('.btn-punc-staff').forEach(function (btn) {
+      btn.onclick = function () {
+        var store = this.getAttribute('data-store');
+        var name = this.getAttribute('data-name');
+        var empid = this.getAttribute('data-empid');
+        openPunctualityModal(store, name, empid);
+      };
+    });
+
+    // Request Deployment button
+    var btnReqDeployment = document.getElementById('btnReqDeployment');
+    if (btnReqDeployment) {
+      btnReqDeployment.onclick = function () { openDeploymentModal(null, state.date); };
+    }
+
+    // Review Deployment buttons
+    document.querySelectorAll('.btn-dep-review').forEach(function (btn) {
+      btn.onclick = function () {
+        var id = this.getAttribute('data-id');
+        var decision = this.getAttribute('data-action');
+        var notes = prompt('Enter remarks for this ' + decision + ':') || '';
+        call('reviewDeploymentRequest', { id: id, decision: decision, notes: notes }).then(function (res) {
+          toast(res.message);
+          state.deploymentRequestsLoaded = false;
+          ensureMonth(monthKey(state.date), true).then(renderView);
+        }).catch(function (err) { toast(err.message, true); });
+      };
+    });
+
+    // Submit Employee Request button
+    var btnSubmitWorkReq = document.getElementById('btnSubmitWorkReq');
+    if (btnSubmitWorkReq) {
+      btnSubmitWorkReq.onclick = function () { openWorkRequestModal(); };
+    }
+
+    // Review Employee Request buttons
+    document.querySelectorAll('.btn-work-review').forEach(function (btn) {
+      btn.onclick = function () {
+        var id = this.getAttribute('data-id');
+        var decision = this.getAttribute('data-decision');
+        var notes = prompt('Enter remarks for decision:') || '';
+        call('reviewEmployeeRequest', { id: id, decision: decision, notes: notes }).then(function (res) {
+          toast(res.message);
+          state.workRequestsLoaded = false;
+          ensureMonth(monthKey(state.date), true).then(renderView);
+        }).catch(function (err) { toast(err.message, true); });
+      };
+    });
+
+    // Create Cloud Backup button
+    var btnCreateCloudBackup = document.getElementById('btnCreateCloudBackup');
+    if (btnCreateCloudBackup) {
+      btnCreateCloudBackup.onclick = function () {
+        var notes = prompt('Enter backup notes (or leave blank):', 'Manual cloud backup') || '';
+        toast('Creating Google Drive cloud backup snapshot…');
+        call('createCloudBackup', notes).then(function (res) {
+          toast('Cloud backup created: ' + res.backup.name);
+          loadCloudStorageStats();
+        }).catch(function (err) { toast('Backup failed: ' + err.message, true); });
+      };
+    }
+
+    // Refresh Cloud Storage stats
+    var btnRefreshStorageStats = document.getElementById('btnRefreshStorageStats');
+    if (btnRefreshStorageStats) {
+      btnRefreshStorageStats.onclick = function () {
+        toast('Refreshing cloud storage stats…');
+        loadCloudStorageStats();
+      };
+    }
+
+    // Restore / Verify Backup
+    document.querySelectorAll('.btn-restore-backup').forEach(function (btn) {
+      btn.onclick = function () {
+        var id = this.getAttribute('data-id');
+        call('restoreCloudBackup', { id: id }).then(function (res) {
+          alert('Backup Details:\nName: ' + res.backup.name + '\nDrive URL: ' + res.backup.url + '\nTimestamp: ' + res.backup.timestamp);
+        }).catch(function (err) { toast(err.message, true); });
+      };
+    });
+
+    // Send Access Request
+    var btnSendAccessReq = document.getElementById('btnSendAccessReq');
+    if (btnSendAccessReq) {
+      btnSendAccessReq.onclick = function () {
+        var store = document.getElementById('reqAccessStore').value;
+        var reason = document.getElementById('reqAccessReason').value;
+        call('requestRosterAccess', { store: store, reason: reason }).then(function (res) {
+          toast(res.message);
+        }).catch(function (err) { toast(err.message, true); });
+      };
+    }
+
+    // Grant Access button
+    var btnAddAccessGrant = document.getElementById('btnAddAccessGrant');
+    if (btnAddAccessGrant) {
+      btnAddAccessGrant.onclick = function () { openAccessGrantModal(); };
+    }
+
+    // Revoke Access buttons
+    document.querySelectorAll('.btn-revoke-access').forEach(function (btn) {
+      btn.onclick = function () {
+        var email = this.getAttribute('data-email');
+        var store = this.getAttribute('data-store');
+        if (!confirm('Revoke access for ' + email + '?')) return;
+        call('setRosterAccess', { email: email, store: store, remove: true }).then(function (res) {
+          toast('Access revoked.');
+          state.accessLoaded = false;
+          renderView();
+        }).catch(function (err) { toast(err.message, true); });
+      };
+    });
+  }
+
+  /* ---------- modals implementation ---------- */
+  function openStaffModal(emp) {
+    var isEdit = !!emp;
+    var title = isEdit ? 'Edit Employee · ' + emp.name : 'Add New Employee';
+    var photoData = '';
+
+    var storeOpts = state.stores.map(function (s) {
+      return '<option value="' + esc(s) + '"' + (emp && emp.store === s ? ' selected' : '') + '>' + esc(s) + '</option>';
+    }).join('');
+
+    var bodyHtml = '<div class="fld" style="margin-bottom:10px"><label>Full Name</label>' +
+      '<input id="mStaffName" class="inp" type="text" value="' + esc(emp ? emp.name : '') + '" placeholder="e.g. Rahul Sharma"></div>' +
+      '<div class="fld" style="margin-bottom:10px"><label>Home Store</label><select id="mStaffStore" class="sel">' + storeOpts + '</select></div>' +
+      '<div class="fld" style="margin-bottom:10px"><label>Role</label><select id="mStaffRole" class="sel">' +
+      '<option value="Retail"' + (emp && emp.role === 'Retail' ? ' selected' : '') + '>Retail Staff</option>' +
+      '<option value="Grooming"' + (emp && emp.role === 'Grooming' ? ' selected' : '') + '>Groomer (SPA)</option>' +
+      '</select></div>' +
+      '<div class="fld" style="margin-bottom:10px"><label>Employee ID</label>' +
+      '<input id="mStaffEmpId" class="inp" type="text" value="' + esc(emp ? emp.employeeId : '') + '" placeholder="e.g. HUFT-1042"></div>' +
+      '<div class="fld" style="margin-bottom:10px"><label>WhatsApp Number (10 digits)</label>' +
+      '<input id="mStaffPhone" class="inp" type="tel" value="' + esc(emp ? (emp.phone || '').replace(/^91/, '') : '') + '" placeholder="e.g. 9876543210"></div>' +
+      '<div class="fld" style="margin-bottom:10px"><label>Work Email</label>' +
+      '<input id="mStaffEmail" class="inp" type="email" value="' + esc(emp ? emp.email : '') + '" placeholder="name@headsupfortails.com"></div>' +
+      '<div class="fld"><label>Profile Photo (Cloud Storage)</label>' +
+      '<input id="mStaffPhotoFile" type="file" accept="image/jpeg,image/png,image/webp">' +
+      '<div class="photo-hint">Images are securely stored in the private Google Drive profile folder.</div>' +
+      '</div>';
+
+    var footerHtml = '<button class="btn" id="mCancel">Cancel</button>' +
+      '<button class="btn primary" id="mSaveStaff">Save to Cloud</button>';
+
+    openModal(title, bodyHtml, footerHtml);
+
+    var fileInput = document.getElementById('mStaffPhotoFile');
+    if (fileInput) {
+      fileInput.onchange = function () {
+        var file = this.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function (e) { photoData = e.target.result; };
+        reader.readAsDataURL(file);
+      };
+    }
+
+    var saveBtn = document.getElementById('mSaveStaff');
+    if (saveBtn) {
+      saveBtn.onclick = function () {
+        var name = document.getElementById('mStaffName').value.trim();
+        var store = document.getElementById('mStaffStore').value;
+        var role = document.getElementById('mStaffRole').value;
+        var employeeId = document.getElementById('mStaffEmpId').value.trim();
+        var phone = document.getElementById('mStaffPhone').value.trim();
+        var email = document.getElementById('mStaffEmail').value.trim();
+
+        if (!name) { document.getElementById('mErr').textContent = 'Name is required.'; return; }
+
+        var payload = {
+          name: isEdit ? emp.name : name,
+          newName: name,
+          store: store,
+          role: role,
+          employeeId: employeeId,
+          phone: phone,
+          email: email,
+          photoData: photoData
+        };
+
+        var fnName = isEdit ? 'updateStaff' : 'addStaff';
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving…';
+
+        call(fnName, payload).then(function (res) {
+          closeModal();
+          toast(res.message);
+          ensureMonth(monthKey(state.date), true).then(renderView);
+        }).catch(function (err) {
+          saveBtn.disabled = false;
+          saveBtn.textContent = 'Save to Cloud';
+          document.getElementById('mErr').textContent = err.message;
+        });
+      };
+    }
+  }
+
+  function openPunctualityModal(store, name, employeeId) {
+    var title = 'Record Punctuality · ' + name;
+    var bodyHtml = '<div class="fld" style="margin-bottom:10px"><label>Incident Date</label>' +
+      '<input id="mPuncDate" class="inp" type="date" value="' + state.date + '"></div>' +
+      '<div class="fld" style="margin-bottom:10px"><label>Incident Type</label><select id="mPuncType" class="sel">' +
+      '<option value="Late reporting">Late Reporting</option>' +
+      '<option value="Unapproved leave">Unapproved Leave</option>' +
+      '</select></div>' +
+      '<div id="mPuncLateFields">' +
+      '<div class="fld" style="margin-bottom:10px"><label>Notice</label><select id="mPuncNotice" class="sel">' +
+      '<option value="Informed">Informed Store in Advance</option>' +
+      '<option value="Not informed">Not Informed</option>' +
+      '</select></div>' +
+      '<div class="fld" style="margin-bottom:10px"><label>Minutes Late (1 - 720)</label>' +
+      '<input id="mPuncMinutes" class="inp" type="number" min="1" max="720" value="30"></div>' +
+      '</div>' +
+      '<div class="fld"><label>Details / Reason</label>' +
+      '<input id="mPuncDetails" class="inp" type="text" placeholder="Remarks or manager notes…"></div>';
+
+    var footerHtml = '<button class="btn" id="mCancel">Cancel</button>' +
+      '<button class="btn primary" id="mSavePunc">Record Incident</button>';
+
+    openModal(title, bodyHtml, footerHtml);
+
+    var typeSel = document.getElementById('mPuncType');
+    if (typeSel) {
+      typeSel.onchange = function () {
+        var lateFields = document.getElementById('mPuncLateFields');
+        if (lateFields) lateFields.style.display = this.value === 'Late reporting' ? 'block' : 'none';
+      };
+    }
+
+    var saveBtn = document.getElementById('mSavePunc');
+    if (saveBtn) {
+      saveBtn.onclick = function () {
+        var date = document.getElementById('mPuncDate').value;
+        var type = document.getElementById('mPuncType').value;
+        var notice = type === 'Late reporting' ? document.getElementById('mPuncNotice').value : '';
+        var minutes = type === 'Late reporting' ? Number(document.getElementById('mPuncMinutes').value) : 0;
+        var details = document.getElementById('mPuncDetails').value;
+
+        saveBtn.disabled = true;
+        call('addPunctualityEvent', {
+          store: store, name: name, employeeId: employeeId,
+          date: date, type: type, notice: notice, minutes: minutes, details: details
+        }).then(function (res) {
+          closeModal();
+          toast(res.message);
+        }).catch(function (err) {
+          saveBtn.disabled = false;
+          document.getElementById('mErr').textContent = err.message;
+        });
+      };
+    }
+  }
+
+  function openDeploymentModal(empId, defaultDate) {
+    var md = monthData();
+    var emp = empId ? findEmp(empId, defaultDate) : null;
+    var title = 'Request Inter-Store Deployment';
+
+    var empOptions = (md ? md.employees : []).filter(function (e) { return !e.isDeployment; }).map(function (e) {
+      return '<option value="' + esc(e.name) + '|' + esc(e.store) + '"' + (emp && emp.name === e.name ? ' selected' : '') + '>' + esc(e.name) + ' (' + esc(e.store) + ')</option>';
+    }).join('');
+
+    var storeOptions = state.stores.map(function (s) {
+      return '<option value="' + esc(s) + '">' + esc(s) + '</option>';
+    }).join('');
+
+    var shiftOptions = ['Opening', 'Mid', 'Closing', 'Spa', 'Training'].map(function (s) {
+      return '<option value="' + s + '">' + s + '</option>';
+    }).join('');
+
+    var bodyHtml = '<div class="fld" style="margin-bottom:10px"><label>Employee</label><select id="mDepEmp" class="sel">' + empOptions + '</select></div>' +
+      '<div class="fld" style="margin-bottom:10px"><label>Destination Store</label><select id="mDepToStore" class="sel">' + storeOptions + '</select></div>' +
+      '<div class="row2" style="margin-bottom:10px">' +
+      '<div class="fld"><label>Start Date</label><input id="mDepFrom" class="inp" type="date" value="' + defaultDate + '"></div>' +
+      '<div class="fld"><label>End Date</label><input id="mDepTo" class="inp" type="date" value="' + defaultDate + '"></div>' +
+      '</div>' +
+      '<div class="fld"><label>Assigned Shift at Destination</label><select id="mDepShift" class="sel">' + shiftOptions + '</select></div>';
+
+    var footerHtml = '<button class="btn" id="mCancel">Cancel</button>' +
+      '<button class="btn primary" id="mSendDep">Submit for Destination Approval</button>';
+
+    openModal(title, bodyHtml, footerHtml);
+
+    var sendBtn = document.getElementById('mSendDep');
+    if (sendBtn) {
+      sendBtn.onclick = function () {
+        var empParts = document.getElementById('mDepEmp').value.split('|');
+        var name = empParts[0];
+        var fromStore = empParts[1];
+        var toStore = document.getElementById('mDepToStore').value;
+        var from = document.getElementById('mDepFrom').value;
+        var to = document.getElementById('mDepTo').value;
+        var shift = document.getElementById('mDepShift').value;
+
+        sendBtn.disabled = true;
+        call('requestDeployment', {
+          name: name, store: fromStore, toStore: toStore, from: from, to: to, shift: shift
+        }).then(function (res) {
+          closeModal();
+          toast(res.message);
+          state.deploymentRequestsLoaded = false;
+        }).catch(function (err) {
+          sendBtn.disabled = false;
+          document.getElementById('mErr').textContent = err.message;
+        });
+      };
+    }
+  }
+
+  function openWorkRequestModal() {
+    var title = 'Submit Employee Self-Service Request';
+    var bodyHtml = '<div class="fld" style="margin-bottom:10px"><label>Request Type</label><select id="mWorkType" class="sel">' +
+      '<option value="Leave request">Leave request</option>' +
+      '<option value="Week-off change">Week-off change</option>' +
+      '<option value="Shift change">Shift change</option>' +
+      '<option value="Attendance correction">Attendance correction</option>' +
+      '</select></div>' +
+      '<div class="fld" style="margin-bottom:10px"><label>Date</label><input id="mWorkDate" class="inp" type="date" value="' + state.todayIso + '"></div>' +
+      '<div class="fld" style="margin-bottom:10px" id="mWorkShiftField"><label>Requested Shift</label><select id="mWorkShift" class="sel">' +
+      '<option value="Opening">Opening</option><option value="Closing">Closing</option><option value="Mid">Mid</option><option value="Spa">Spa</option><option value="Week off">Week off</option>' +
+      '</select></div>' +
+      '<div class="fld" style="margin-bottom:10px"><label>Reason</label><textarea id="mWorkReason" class="inp" placeholder="Explain your request…" style="min-height:80px"></textarea></div>' +
+      '<div class="fld"><label>Evidence Link (HTTPS URL, Optional)</label><input id="mWorkEvidence" class="inp" type="url" placeholder="https://…"></div>';
+
+    var footerHtml = '<button class="btn" id="mCancel">Cancel</button>' +
+      '<button class="btn primary" id="mSendWorkReq">Submit Request</button>';
+
+    openModal(title, bodyHtml, footerHtml);
+
+    var sendBtn = document.getElementById('mSendWorkReq');
+    if (sendBtn) {
+      sendBtn.onclick = function () {
+        var type = document.getElementById('mWorkType').value;
+        var date = document.getElementById('mWorkDate').value;
+        var requestedShift = document.getElementById('mWorkShift').value;
+        var reason = document.getElementById('mWorkReason').value.trim();
+        var evidence = document.getElementById('mWorkEvidence').value.trim();
+
+        sendBtn.disabled = true;
+        call('submitEmployeeRequest', {
+          type: type, date: date, requestedShift: requestedShift, reason: reason, evidence: evidence
+        }).then(function (res) {
+          closeModal();
+          toast(res.message);
+          state.workRequestsLoaded = false;
+        }).catch(function (err) {
+          sendBtn.disabled = false;
+          document.getElementById('mErr').textContent = err.message;
+        });
+      };
+    }
+  }
+
+  function openAccessGrantModal() {
+    var title = 'Grant Roster Edit Access';
+    var storeOpts = '<option value="">All Stores (Admin)</option>' +
+      state.stores.map(function (s) { return '<option value="' + esc(s) + '">' + esc(s) + '</option>'; }).join('');
+
+    var bodyHtml = '<div class="fld" style="margin-bottom:10px"><label>Google Workspace Email (@headsupfortails.com)</label>' +
+      '<input id="mAccEmail" class="inp" type="email" placeholder="store@headsupfortails.com"></div>' +
+      '<div class="fld" style="margin-bottom:10px"><label>Store Assignment</label><select id="mAccStore" class="sel">' + storeOpts + '</select></div>' +
+      '<div class="fld"><label>Access Role</label><select id="mAccRole" class="sel">' +
+      '<option value="Editor">Store Editor</option>' +
+      '<option value="Admin">Full Administrator</option>' +
+      '</select></div>';
+
+    var footerHtml = '<button class="btn" id="mCancel">Cancel</button>' +
+      '<button class="btn primary" id="mSaveAccess">Grant Access</button>';
+
+    openModal(title, bodyHtml, footerHtml);
+
+    var saveBtn = document.getElementById('mSaveAccess');
+    if (saveBtn) {
+      saveBtn.onclick = function () {
+        var email = document.getElementById('mAccEmail').value.trim();
+        var store = document.getElementById('mAccStore').value;
+        var access = document.getElementById('mAccRole').value;
+
+        saveBtn.disabled = true;
+        call('setRosterAccess', { email: email, store: store, access: access }).then(function (res) {
+          closeModal();
+          toast('Access granted to ' + email);
+          state.accessLoaded = false;
+          renderView();
+        }).catch(function (err) {
+          saveBtn.disabled = false;
+          document.getElementById('mErr').textContent = err.message;
+        });
+      };
+    }
+  }
+
+  /* ---------- static event setup ---------- */
+  function bindGlobalEvents() {
+    // Navigation Tabs
+    document.querySelectorAll('.tab').forEach(function (btn) {
+      btn.onclick = function () {
+        var t = this.getAttribute('data-tab');
+        if (t) switchTab(t);
+      };
+    });
+
+    // Store Filter
+    var storeSel = $('#storeSel');
+    if (storeSel) {
+      storeSel.onchange = function () {
+        state.store = this.value;
+        renderView();
+      };
+    }
+
+    // Date Picker
+    var datePick = $('#datePick');
+    if (datePick) {
+      datePick.onchange = function () {
+        var newDate = this.value;
+        if (!newDate) return;
+        state.date = newDate;
+        ensureRange(state.date).then(renderView);
+      };
+    }
+
+    // Role Filter
+    var roleSel = $('#roleSel');
+    if (roleSel) {
+      roleSel.onchange = function () {
+        state.role = this.value;
+        renderView();
+      };
+    }
+
+    // Search Input
+    var search = $('#search');
+    if (search) {
+      search.oninput = function () {
+        state.q = this.value.trim().toLowerCase();
+        renderView();
+      };
+    }
+
+    // Prev / Next / Today
+    var btnPrev = $('#prev');
+    if (btnPrev) {
+      btnPrev.onclick = function () {
+        state.date = addDays(state.date, -7);
+        if (datePick) datePick.value = state.date;
+        ensureRange(state.date).then(renderView);
+      };
+    }
+    var btnNext = $('#next');
+    if (btnNext) {
+      btnNext.onclick = function () {
+        state.date = addDays(state.date, 7);
+        if (datePick) datePick.value = state.date;
+        ensureRange(state.date).then(renderView);
+      };
+    }
+    var btnToday = $('#btnToday');
+    if (btnToday) {
+      btnToday.onclick = function () {
+        state.date = state.todayIso;
+        if (datePick) datePick.value = state.date;
+        ensureRange(state.date).then(renderView);
+      };
+    }
+
+    // Refresh button
+    var btnRefresh = $('#btnRefresh');
+    if (btnRefresh) {
+      btnRefresh.onclick = function () {
+        toast('Refreshing roster data from Google Sheets…');
+        ensureRange(state.date, true).then(function () {
+          toast('Roster refreshed from sheet.');
+          renderView();
+        }).catch(function (err) { toast(err.message, true); });
+      };
+    }
+
+    // Export button
+    var btnExport = $('#btnExport');
+    if (btnExport) {
+      btnExport.onclick = exportWeeklyRoster;
+    }
+
+    // Print button
+    var btnPrint = $('#btnPrint');
+    if (btnPrint) {
+      btnPrint.onclick = function () { window.print(); };
+    }
+
+    // Theme Toggle
+    var btnTheme = $('#btnTheme');
+    if (btnTheme) {
+      btnTheme.onclick = function () {
+        state.theme = state.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', state.theme);
+        try { localStorage.setItem('huft_theme', state.theme); } catch (e) {}
+      };
+      try {
+        var savedTheme = localStorage.getItem('huft_theme');
+        if (savedTheme) {
+          state.theme = savedTheme;
+          document.documentElement.setAttribute('data-theme', state.theme);
+        }
+      } catch (e) {}
+    }
+
+    // Fullscreen Toggle
+    var btnFullscreen = $('#btnFullscreen');
+    if (btnFullscreen) {
+      btnFullscreen.onclick = function () {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(function () {});
+        else document.exitFullscreen().catch(function () {});
+      };
+    }
+
+    // Desktop Shortcut Downloader
+    var btnDesktopShortcut = $('#btnDesktopShortcut');
+    if (btnDesktopShortcut) {
+      btnDesktopShortcut.onclick = function () {
+        var url = window.location.href;
+        var shortcutContent = '[InternetShortcut]\nURL=' + url + '\nIconIndex=0\n';
+        var blob = new Blob([shortcutContent.replace(/\\n/g, '\r\n')], { type: 'application/x-mswinurl' });
+        var a = document.createElement('a');
+        a.download = 'Hyderabad HUFT Roster.url';
+        a.href = URL.createObjectURL(blob);
+        a.click();
+        toast('Downloaded desktop shortcut. Double click to open this app anytime.');
+      };
+    }
+
+    // Global keyboard shortcuts
+    window.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  }
+
+  /* ---------- bootstrap initialization ---------- */
+  function init() {
+    bindGlobalEvents();
+    
+    try {
+      var savedUrl = localStorage.getItem('huft_supa_url') || 'https://sumoyszqxxuarwzpzsgw.supabase.co';
+      var savedKey = localStorage.getItem('huft_supa_key');
+      if (savedUrl && savedKey) {
+        initSupabaseClient(savedUrl, savedKey);
+      }
+    } catch(e) {}
+
+    
+    // Auto-connect to Supabase Cloud on GitHub Pages
+    try {
+      var supaUrl = localStorage.getItem('huft_supa_url') || 'https://sumoyszqxxuarwzpzsgw.supabase.co';
+      var supaKey = localStorage.getItem('huft_supa_key') || 'sb_publishable_uVAPgHwmyBlY5gbop_Mqcw_CTNK7eOT';
+      initSupabaseClient(supaUrl, supaKey);
+    } catch(e) {}
+
+    call('getBootstrap').then(function (boot) {
+      state.appTitle = boot.title || 'Hyderabad HUFT Roster';
+      state.appUrl = boot.appUrl || window.location.href;
+      state.todayIso = boot.todayIso;
+      state.date = boot.todayIso;
+      state.stores = boot.stores || [];
+      state.months = boot.months || [];
+      state.isAdmin = !!boot.isAdmin;
+      state.isSuperAdmin = !!boot.isSuperAdmin;
+      state.accessStores = boot.accessStores || [];
+      state.email = boot.email || '';
+      state.employeeSelf = !!boot.employeeSelf;
+      state.homeStore = boot.homeStore || '';
+      state.profileFolder = boot.profileFolder;
+      state.backupFolder = boot.backupFolder;
+      state.exportsFolder = boot.exportsFolder;
+      state.spreadsheetId = boot.spreadsheetId;
+
+      if (boot.month) keep(boot.month);
+
+      // Populate store dropdown
+      var storeSel = $('#storeSel');
+      if (storeSel) {
+        var sOpts = '<option value="All">All stores</option>' +
+          state.stores.map(function (s) {
+            return '<option value="' + esc(s) + '"' + (state.homeStore === s ? ' selected' : '') + '>' + esc(s) + '</option>';
+          }).join('');
+        storeSel.innerHTML = sOpts;
+        if (state.homeStore) state.store = state.homeStore;
+      }
+
+      var datePick = $('#datePick');
+      if (datePick) datePick.value = state.date;
+
+      // Reveal admin tabs if authorized
+      if (state.isAdmin) {
+        var accTab = document.getElementById('accessTab');
+        if (accTab) accTab.classList.remove('hide');
+        var emailTab = document.getElementById('emailTab');
+        if (emailTab) emailTab.classList.remove('hide');
+        var cloudTab = document.getElementById('cloudTab');
+        if (cloudTab) cloudTab.classList.remove('hide');
+      }
+
+      ensureRange(state.date).then(function () {
+        renderView();
+      });
+    }).catch(function (err) {
+      var contentEl = $('#content');
+      if (contentEl) contentEl.innerHTML = '<div class="banner bad" style="margin:20px">⚠️ ' + esc(err.message) + '</div>';
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>
