@@ -704,6 +704,23 @@ html:fullscreen body{min-height:100vh;overflow:auto}
     if (fn === 'saveRosterExportToCloud') {
       return { ok: true, message: 'Saved to cloud storage.' };
     }
+    if (fn === 'getEmailAdminData') {
+      return {
+        templates: [
+          { id: 'weekly_roster_published', name: 'Weekly Roster Published', subject: 'HUFT Weekly Roster - {{store}}', enabled: true },
+          { id: 'shift_change_notification', name: 'Shift Swap / Change Notice', subject: 'HUFT Shift Update - {{employee}}', enabled: true },
+          { id: 'deployment_approved', name: 'Inter-Store Deployment Confirmed', subject: 'HUFT Deployment Confirmation', enabled: true },
+          { id: 'cloud_backup_status', name: 'Automated Cloud Backup Report', subject: 'HUFT System Backup Snapshot', enabled: true }
+        ],
+        recipients: [
+          { store: 'Hyderguda', email: 'hyderguda@headsupfortails.com' },
+          { store: 'Banjara Hills', email: 'banjarahills@headsupfortails.com' },
+          { store: 'Jubilee Hills', email: 'jubileehills@headsupfortails.com' },
+          { store: 'Kondapur', email: 'kondapur@headsupfortails.com' },
+          { store: 'Kompally', email: 'kompally@headsupfortails.com' }
+        ]
+      };
+    }
     if (fn === 'getRosterAccess') {
       return { entries: [{ email: 'hyderguda@headsupfortails.com', store: '', access: 'Admin' }], stores: DEFAULT_STORES };
     }
@@ -1013,8 +1030,6 @@ html:fullscreen body{min-height:100vh;overflow:auto}
         rect(margin, y, width - margin * 2, sectionH, '#ffead9');
         txt(width / 2, y + sectionH / 2, section, {fill:'#81451e', size:16, weight:700});
         y += sectionH;
-        rg[1].slice().sort(
-
         rg[1].slice().sort(function (a, b) { return a.name.localeCompare(b.name); }).forEach(function (e) {
           rect(margin, y, nameW, rowH, '#ffffff');
           txt(margin + 14, y + rowH / 2, e.name, {anchor: 'start', size: 14, weight: 600});
@@ -1716,42 +1731,49 @@ html:fullscreen body{min-height:100vh;overflow:auto}
     var contentEl = $('#content');
     if (!contentEl) return;
 
-    if (state.tab === 'supabase') {
-      contentEl.innerHTML = viewSupabase();
-      bindSupabaseEvents();
-    } else if (state.tab === 'week') {
-      contentEl.innerHTML = viewWeek(md);
-    } else if (state.tab === 'month') {
-      contentEl.innerHTML = viewMonth(md);
-    } else if (state.tab === 'overview') {
-      contentEl.innerHTML = viewOverview(md);
-    } else if (state.tab === 'manage') {
-      contentEl.innerHTML = viewManage(md);
-    } else if (state.tab === 'removed') {
-      contentEl.innerHTML = viewRemoved();
-    } else if (state.tab === 'wa') {
-      contentEl.innerHTML = viewWhatsApp(md);
-    } else if (state.tab === 'deployments') {
-      contentEl.innerHTML = viewDeployments();
-    } else if (state.tab === 'myrequests') {
-      contentEl.innerHTML = viewMyRequests();
-    } else if (state.tab === 'approvals') {
-      contentEl.innerHTML = viewApprovals();
-    } else if (state.tab === 'notifications') {
-      contentEl.innerHTML = viewNotifications();
-    } else if (state.tab === 'request') {
-      contentEl.innerHTML = viewRequestAccess();
-    } else if (state.tab === 'access') {
-      contentEl.innerHTML = viewAccess();
-    } else if (state.tab === 'email') {
-      contentEl.innerHTML = viewEmail();
-    } else if (state.tab === 'cloud') {
-      contentEl.innerHTML = viewCloudStorage();
-      loadCloudStorageStats();
+    try {
+      if (state.tab === 'supabase') {
+        contentEl.innerHTML = viewSupabase();
+        bindSupabaseEvents();
+      } else if (state.tab === 'week') {
+        contentEl.innerHTML = viewWeek(md);
+      } else if (state.tab === 'month') {
+        contentEl.innerHTML = viewMonth(md);
+      } else if (state.tab === 'overview') {
+        contentEl.innerHTML = viewOverview(md);
+      } else if (state.tab === 'manage') {
+        contentEl.innerHTML = viewManage(md);
+      } else if (state.tab === 'removed') {
+        contentEl.innerHTML = viewRemoved();
+      } else if (state.tab === 'wa') {
+        contentEl.innerHTML = viewWhatsApp(md);
+      } else if (state.tab === 'deployments') {
+        contentEl.innerHTML = viewDeployments();
+      } else if (state.tab === 'myrequests') {
+        contentEl.innerHTML = viewMyRequests();
+      } else if (state.tab === 'approvals') {
+        contentEl.innerHTML = viewApprovals();
+      } else if (state.tab === 'notifications') {
+        contentEl.innerHTML = viewNotifications();
+      } else if (state.tab === 'request') {
+        contentEl.innerHTML = viewRequestAccess();
+      } else if (state.tab === 'access') {
+        contentEl.innerHTML = viewAccess();
+      } else if (state.tab === 'email') {
+        contentEl.innerHTML = viewEmail();
+      } else if (state.tab === 'cloud') {
+        contentEl.innerHTML = viewCloudStorage();
+        loadCloudStorageStats();
+      }
+    } catch (err) {
+      console.error('Error rendering tab ' + state.tab, err);
+      contentEl.innerHTML = '<div class="banner bad" style="margin:20px">⚠️ Unable to render ' + esc(state.tab) + ' tab: ' + esc(err.message) + '</div>';
     }
 
-    if (md && md.employees) renderKpis(filtered(md, state.date, state.tab));
-    bindDynamicEvents();
+    if (md && md.employees) {
+      try { renderKpis(filtered(md, state.date, state.tab)); } catch(e) {}
+    }
+    try { bindDynamicEvents(); } catch(e) { console.error('bindDynamicEvents error:', e); }
   }
 
   function switchTab(t) {
@@ -1761,6 +1783,7 @@ html:fullscreen body{min-height:100vh;overflow:auto}
     });
     renderView();
   }
+  window.switchTab = switchTab;
 
   /* ---------- shift change auto-save queue ---------- */
   function queueShiftChange(id, date, cat, toStore, shift) {
@@ -2424,12 +2447,24 @@ function bindDynamicEvents() {
 
   /* ---------- static event setup ---------- */
   function bindGlobalEvents() {
-    // Navigation Tabs
+    // Navigation Tabs: direct listeners and global delegation
     document.querySelectorAll('.tab').forEach(function (btn) {
-      btn.onclick = function () {
+      btn.onclick = function (e) {
+        if (e && e.preventDefault) e.preventDefault();
         var t = this.getAttribute('data-tab');
         if (t) switchTab(t);
       };
+    });
+
+    document.addEventListener('click', function (e) {
+      var tabBtn = e.target && e.target.closest && e.target.closest('.tab');
+      if (tabBtn) {
+        var t = tabBtn.getAttribute('data-tab');
+        if (t && t !== state.tab) {
+          if (e.preventDefault) e.preventDefault();
+          switchTab(t);
+        }
+      }
     });
 
     // Store Filter
