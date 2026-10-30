@@ -1,6 +1,6 @@
-# 🐾 Hyderabad HUFT Roster — Supabase Cloud & Google Workspace
+# 🐾 HUFT-Roster-App — Supabase Cloud & Google Workspace
 
-Enterprise workforce roster, inter-store deployment management, punctuality tracking, and automated reporting system built for **Heads Up For Tails (HUFT)** Hyderabad stores.
+HUFT Multi-Store Roster Management System. Enterprise workforce roster, inter-store deployment management, punctuality tracking, and automated reporting system built for **Heads Up For Tails (HUFT)** Hyderabad stores.
 
 Powered by a dual-cloud architecture: **Supabase** (PostgreSQL Database, Realtime WebSockets, and Cloud Storage) paired with **Google Workspace** (Google Apps Script, Google Sheets, and Google Drive).
 
@@ -25,7 +25,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## 🚀 Supabase Cloud Database & Storage Setup
 
 ### Step 1: Create a Project in Supabase
-1. Go to [https://supabase.com](https://supabase.com) and create or open your project.
+1. Go to [https://supabase.com](https://supabase.com) and create or open your project (`https://sumoyszqxxuarwzpzsgw.supabase.co`).
 2. In the left navigation, open **SQL Editor** -> **New Query**.
 3. Open `supabase/schema.sql` from this folder, copy its full contents, paste into Supabase SQL Editor, and click **Run**.
 4. This instantly creates:
@@ -38,7 +38,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Step 2: Connect the App to Supabase
 1. In your Supabase Dashboard, go to **Project Settings** -> **API**.
-2. Copy your **Project URL** (`https://xyzcompany.supabase.co`) and **anon public key**.
+2. Copy your **Project URL** (`https://sumoyszqxxuarwzpzsgw.supabase.co`) and **anon public key**.
 3. In the HUFT Roster app, click the **⚡ Supabase Cloud** tab in the sidebar.
 4. Paste your URL and Key, then click **⚡ Connect & Save Credentials**.
 5. Click **🚀 Sync Google Sheets ➔ Supabase** to transfer all store records, staff directory profiles, and daily shifts into Supabase PostgreSQL!
@@ -56,11 +56,14 @@ huft-roster/
 ├── package.json            # Node.js configuration & scripts
 ├── .env.example            # Environment variables template
 ├── supabase/
-│   └── schema.sql          # Complete PostgreSQL schema, RLS policies & storage setup
+│   ├── schema.sql          # Complete PostgreSQL schema, RLS policies & storage setup
+│   └── migrations/         # Individual SQL migrations
+├── public/                 # Public client bundles
 ├── data/
 │   └── roster-data.json    # Local database for offline preview and testing
 └── scripts/
-    └── dev-server.js       # Local cloud emulator & preview server
+    ├── dev-server.js       # Local cloud emulator & preview server
+    └── import-workbook.mjs # Legacy workbook migration tool
 ```
 
 ---

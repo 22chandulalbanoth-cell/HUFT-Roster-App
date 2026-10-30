@@ -1,0 +1,55 @@
+name: HUFT Roster validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do
+            echo "Checking $file"
+            node --check "$file"
+          done < <(find public/js scripts -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
+
+      - name: Validate required frontend files and configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s public/index.html
+          test -s public/login.html
+          test -s public/js/huft-config.js
+          test -s public/js/huft-supabase.js
+          test -s public/js/huft-api.js
+          ! grep -Eq 'YOUR_PROJECT_REF|YOUR_PUBLISHABLE_OR_ANON_KEY' public/js/huft-config.js
+          if grep -R -n 'service_role' public; then
+            echo "A service-role reference must never be shipped in public assets."
+            exit 1
+          fi
+
+      - name: Validate database migrations
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s supabase/migrations/001_initial_schema.sql
+          test -s supabase/migrations/002_huft_integration.sql
+          test -s supabase/migrations/003_authenticated_privileges.sql
