@@ -1,0 +1,11 @@
+{
+  "name": "huft-roster-supabase-integrated",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "import": "node scripts/import-workbook.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.0.0"
+  }
+}

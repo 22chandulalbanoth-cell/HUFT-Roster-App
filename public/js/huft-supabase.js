@@ -1,0 +1,1 @@
+(function(){'use strict';var c=window.HUFT_SUPABASE||{};if(!c.url||!c.anonKey||c.url.indexOf('YOUR_PROJECT')>=0) {window.huftDb=null;return;}window.huftDb=window.supabase.createClient(c.url,c.anonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});})();

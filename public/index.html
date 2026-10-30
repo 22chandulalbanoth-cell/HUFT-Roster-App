@@ -1,0 +1,2068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hyderabad HUFT Roster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --text:#14213d;--muted:#5b6b88;--brand:#f46524;--brand2:#ff9a5a;
+  --glass:rgba(255,255,255,.52);--glass-strong:rgba(255,255,255,.72);--glass-line:rgba(255,255,255,.75);
+  --line:rgba(20,33,61,.10);--shadow:0 8px 32px rgba(31,45,90,.14);--radius:18px;
+  --bg1:#dbe7ff;--bg2:#ffe4d3;--bg3:#e3d9ff;
+  --blob1:#7aa7ff;--blob2:#ff9a5a;--blob3:#b79cff;
+  color-scheme:light;
+}
+:root[data-theme=dark]{
+  --text:#e8edf8;--muted:#9aa8c7;--brand:#ff7a3d;--brand2:#ffb07a;
+  --glass:rgba(22,30,55,.50);--glass-strong:rgba(26,36,66,.72);--glass-line:rgba(255,255,255,.12);
+  --line:rgba(255,255,255,.10);--shadow:0 10px 34px rgba(0,0,0,.45);
+  --bg1:#0b1226;--bg2:#1a1020;--bg3:#0f1a33;
+  --blob1:#2c57c9;--blob2:#c2481a;--blob3:#5b3bb0;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100vh;background:linear-gradient(135deg,var(--bg1),var(--bg2) 55%,var(--bg3));background-attachment:fixed}
+button,input,select{font:inherit;color:inherit}
+.bg{position:fixed;inset:0;overflow:hidden;z-index:-1;pointer-events:none}
+.bg i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
+.bg .b1{width:520px;height:520px;background:var(--blob1);left:-120px;top:-120px}
+.bg .b2{width:460px;height:460px;background:var(--blob2);right:-100px;top:25%}
+.bg .b3{width:520px;height:520px;background:var(--blob3);left:30%;bottom:-220px}
+
+.glass{background:var(--glass);border:1px solid var(--glass-line);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(20px) saturate(170%);backdrop-filter:blur(20px) saturate(170%)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:var(--glass-strong)}}
+
+/* shift tones */
+.t-open{--c:#1d4ed8}.t-close{--c:#6d28d9}.t-mid{--c:#b45309}.t-spa{--c:#0f766e}
+.t-train{--c:#0369a1}.t-dep{--c:#c2410c}.t-off{--c:#a16207}.t-leave{--c:#be123c}
+.t-none{--c:#64748b}.t-other{--c:#334155}.t-gone{--c:#94a3b8}
+:root[data-theme=dark] .t-open{--c:#93c5fd}:root[data-theme=dark] .t-close{--c:#c4b5fd}
+:root[data-theme=dark] .t-mid{--c:#fcd34d}:root[data-theme=dark] .t-spa{--c:#5eead4}
+:root[data-theme=dark] .t-train{--c:#7dd3fc}:root[data-theme=dark] .t-dep{--c:#fdba74}
+:root[data-theme=dark] .t-off{--c:#fde68a}:root[data-theme=dark] .t-leave{--c:#fda4af}
+:root[data-theme=dark] .t-none{--c:#94a3b8}:root[data-theme=dark] .t-other{--c:#e2e8f0}
+.pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;color:var(--c);background:color-mix(in srgb,var(--c) 15%,transparent);border:1px solid color-mix(in srgb,var(--c) 25%,transparent)}
+.pill.t-none{background:transparent;border-style:dashed}
+.pill.good{--c:#15803d}.pill.warn{--c:#a16207}.pill.bad{--c:#be123c}
+:root[data-theme=dark] .pill.good{--c:#4ade80}:root[data-theme=dark] .pill.warn{--c:#fcd34d}:root[data-theme=dark] .pill.bad{--c:#fda4af}
+
+/* top bar */
+.topbar{position:sticky;top:12px;z-index:30;margin:12px 24px 0;border-radius:var(--radius);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 16px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;box-shadow:0 6px 16px rgba(244,101,36,.4)}
+.brand-title{font-weight:800;font-size:17px;letter-spacing:-.02em}
+.brand-sub{font-size:12px;color:var(--muted)}
+.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--glass-line);background:var(--glass-strong);border-radius:11px;padding:7px 13px;cursor:pointer;font-weight:600;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:transform .12s,box-shadow .12s,background .12s;color:var(--text)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(31,45,90,.14)}
+.btn:active{transform:none}
+.btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand2));border-color:transparent;color:#fff;box-shadow:0 6px 16px rgba(244,101,36,.35)}
+.btn.danger{color:#be123c}
+:root[data-theme=dark] .btn.danger{color:#fda4af}
+.btn.sm{padding:4px 10px;font-size:12px;border-radius:9px}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.save-state{font-size:12px;color:var(--muted);min-width:90px;text-align:right}
+.save-state.saving{color:var(--brand)}
+.save-state.saving::before{content:"";display:inline-block;width:10px;height:10px;margin-right:6px;border:2px solid color-mix(in srgb,var(--brand) 28%,transparent);border-top-color:var(--brand);border-radius:50%;vertical-align:-1px;animation:save-spin .7s linear infinite}
+@keyframes save-spin{to{transform:rotate(360deg)}}
+.save-state.bad{color:#be123c;font-weight:700}
+.activity-state{display:none;align-items:center;gap:7px;color:var(--muted);font-size:12px;font-weight:600;white-space:nowrap}
+.activity-state.on{display:inline-flex}
+.activity-state i{width:12px;height:12px;border:2px solid color-mix(in srgb,var(--brand) 28%,transparent);border-top-color:var(--brand);border-radius:50%;animation:save-spin .7s linear infinite}
+.progress{position:fixed;top:0;left:0;right:0;height:5px;margin:0;border-radius:0;overflow:hidden;opacity:0;z-index:9999;background:color-mix(in srgb,var(--brand) 14%,transparent);transition:opacity .16s}
+.progress.on{opacity:1}
+.progress::after{content:"";display:block;height:100%;width:34%;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:0 4px 4px 0;box-shadow:0 0 10px color-mix(in srgb,var(--brand) 55%,transparent);animation:slide .9s infinite ease-in-out}
+@keyframes slide{0%{margin-left:-30%}100%{margin-left:100%}}
+
+/* layout */
+.wrap{width:100%;max-width:none;margin:0 auto;padding:14px 24px 40px 244px}
+.tabs{position:fixed;left:16px;top:86px;bottom:16px;z-index:25;width:204px;display:flex;flex-direction:column;align-items:stretch;gap:5px;padding:8px;border-radius:16px;overflow-x:hidden;overflow-y:auto;margin:0}
+.tab{flex:0 0 auto;width:100%;text-align:left;white-space:normal;border:0;background:transparent;padding:11px 12px;border-radius:12px;cursor:pointer;font-weight:700;color:var(--muted);transition:background .15s,color .15s}
+.tab:hover{color:var(--text)}
+.tab[aria-selected=true]{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 6px 16px rgba(244,101,36,.32)}
+.tab-count{display:inline-flex;align-items:center;justify-content:center;margin-left:6px;padding:2px 7px;border-radius:999px;background:rgba(52,65,87,.12);font-size:10px;font-weight:800;line-height:1.3;white-space:nowrap}
+.tab[aria-selected=true] .tab-count{background:rgba(255,255,255,.24)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:14px}
+.kpi{border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;gap:12px}
+.kpi-ico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:19px;background:color-mix(in srgb,var(--c,#64748b) 16%,transparent);color:var(--c,#64748b);flex:none}
+.kpi-label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.kpi-val{font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.filters{border-radius:var(--radius);padding:12px 14px;display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.fld{display:flex;flex-direction:column;gap:3px}
+.fld label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.inp,.sel{border:1px solid var(--line);background:var(--glass-strong);border-radius:10px;padding:8px 11px;outline:none;min-width:140px;color:var(--text)}
+.inp:focus,.sel:focus{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 20%,transparent)}
+.inp.grow{flex:1;min-width:180px}
+.sel option{color:#14213d;background:#fff}
+.sp{flex:1}
+
+/* panels */
+.panel{border-radius:var(--radius);overflow:hidden}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}
+.panel-head h2{margin:0;font-size:16px;letter-spacing:-.01em}
+.panel-head .sub{font-size:12px;color:var(--muted)}
+.banner{display:flex;align-items:center;gap:10px;padding:10px 16px;margin-bottom:14px;border-radius:14px;font-weight:600}
+.banner.warn{background:color-mix(in srgb,#f59e0b 22%,var(--glass));border:1px solid color-mix(in srgb,#f59e0b 40%,transparent)}
+.banner.bad{background:color-mix(in srgb,#e11d48 16%,var(--glass));border:1px solid color-mix(in srgb,#e11d48 35%,transparent)}
+.banner span{font-weight:500;color:var(--muted)}
+
+/* weekly table */
+.tablewrap{overflow:auto;max-height:70vh}
+table.roster{border-collapse:separate;border-spacing:0;width:100%;min-width:900px;font-size:13px}
+.roster th,.roster td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:center}
+.roster thead th{position:sticky;top:0;z-index:3;background:var(--glass-strong);font-weight:700;padding:10px 6px;font-size:12px}
+.roster thead th small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+.roster th.selcol{background:color-mix(in srgb,var(--brand) 22%,var(--glass-strong));color:var(--brand)}
+.roster td.selcol{background:color-mix(in srgb,var(--brand) 8%,transparent)}
+.badge{display:inline-block;margin-top:2px;padding:1px 7px;border-radius:99px;font-size:10px;font-weight:800;background:var(--brand);color:#fff;letter-spacing:.04em}
+.roster td.name{text-align:left;font-weight:700;white-space:nowrap}
+.roster td.role{color:var(--muted);font-size:12px}
+.roster .store-row td{text-align:left;background:color-mix(in srgb,var(--text) 7%,transparent);font-weight:800;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:8px 12px}
+.roster tr:hover td{background:color-mix(in srgb,var(--text) 4%,transparent)}
+.roster tr.store-row:hover td{background:color-mix(in srgb,var(--text) 7%,transparent)}
+select.shift{width:100%;min-width:104px;border-radius:9px;padding:6px 8px;font-weight:700;font-size:12px;cursor:pointer;border:1px solid color-mix(in srgb,var(--c) 35%,transparent);background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c);outline:none}
+select.shift:focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 25%,transparent)}
+select.shift.t-none{background:transparent;border-style:dashed}
+select.shift option{color:#14213d;background:#fff}
+.cell-gone{color:var(--muted);font-size:12px;font-style:italic}
+.tot{font-weight:700;color:var(--muted)}
+
+/* month grid */
+table.grid{border-collapse:separate;border-spacing:0;font-size:12px;min-width:100%}
+.grid th,.grid td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);text-align:center;padding:0}
+.grid thead th{position:sticky;background:var(--glass-strong);z-index:3;height:28px;font-weight:700;color:var(--muted);min-width:34px}
+.grid thead tr:first-child th{top:0}
+.grid thead tr:nth-child(2) th{top:28px}
+.grid th.day{cursor:pointer}
+.grid th.day:hover{color:var(--text)}
+.grid .name-col{position:sticky;left:0;z-index:2;background:var(--glass-strong);text-align:left;padding:0 12px;min-width:170px;font-weight:600;font-size:13px;white-space:nowrap}
+.grid thead .name-col{z-index:4}
+.grid .store-row td{background:color-mix(in srgb,var(--text) 7%,transparent);text-align:left;padding:7px 12px;font-weight:800;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.grid td.cell{height:30px;min-width:34px;font-weight:800;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.grid td.cell.t-none{background:transparent;color:var(--line);font-weight:400}
+.grid td.cell.t-gone{background:transparent}
+.grid .today{box-shadow:inset 0 2px 0 var(--brand)}
+.grid th.sel,.grid td.sel{outline:2px solid var(--brand);outline-offset:-2px}
+.grid th.sun{color:var(--brand)}
+.grid td.tot{min-width:38px;padding:0 6px}
+.legend{display:flex;flex-wrap:wrap;gap:10px 16px;padding:12px 16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend b{display:inline-grid;place-items:center;min-width:22px;height:20px;border-radius:6px;padding:0 4px;color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent);font-size:11px}
+.month-calendar-wrap{overflow:auto;padding:12px}
+.month-calendar{display:grid;grid-template-columns:repeat(7,minmax(170px,1fr));gap:7px;min-width:1210px}
+.month-weekday{text-align:center;text-transform:uppercase;font-size:11px;font-weight:800;color:var(--muted);padding:7px}
+.month-day{min-height:175px;padding:8px;border:1px solid var(--line);border-radius:13px;background:var(--glass-strong);min-width:0}
+.month-day.empty{background:color-mix(in srgb,var(--text) 3%,transparent);border-style:dashed}
+.month-day.today{box-shadow:inset 0 0 0 2px var(--brand)}
+.month-day.selected{border-color:var(--brand);box-shadow:0 0 0 2px color-mix(in srgb,var(--brand) 22%,transparent)}
+.month-date{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;background:transparent;padding:2px 3px 8px;color:var(--text);font-weight:800;cursor:pointer;text-align:left}
+.month-date:hover{color:var(--brand)}
+.month-date small{font-size:9px;color:var(--brand);text-transform:uppercase}
+.month-day-shifts{display:grid;gap:5px}
+.month-shift{padding:5px 7px;border-radius:8px;border-left:3px solid var(--c,#64748b);background:color-mix(in srgb,var(--c,#64748b) 10%,var(--glass-strong));color:var(--c,#64748b);min-width:0}
+.month-shift-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
+.month-shift-names{font-size:10px;line-height:1.35;color:var(--text);overflow-wrap:anywhere;margin-top:2px}
+
+/* overview */
+.stores{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.store-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 10px;gap:8px}
+.store-head h3{margin:0;font-size:15px}
+.store-meta{font-size:12px;color:var(--muted)}
+.bar{height:6px;margin:0 16px 8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:99px}
+.role-label{margin:10px 16px 2px;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.staff-list{list-style:none;margin:0;padding:0 8px 10px}
+.staff{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:10px}
+.staff:hover{background:color-mix(in srgb,var(--text) 5%,transparent)}
+.avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;background:hsl(var(--h) 70% 88%);color:hsl(var(--h) 55% 28%);flex:none}
+.profile-avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;flex:none;border:1px solid var(--line);background:var(--glass-strong)}
+.staff-store-panel{margin-bottom:14px;padding-bottom:14px}
+.employee-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;padding:10px}
+.employee-card{border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0;overflow:hidden}
+.employee-photo{width:84px;height:84px;border-radius:50%;object-fit:cover;display:grid;place-items:center;flex:none;border:3px solid var(--glass-line);box-shadow:0 5px 18px rgba(31,45,90,.16);background:var(--glass-strong)}
+.avatar.employee-photo{font-size:30px}
+.employee-card h3{font-size:15px;margin:8px 0 3px;max-width:100%;overflow-wrap:anywhere}
+.employee-role{font-size:12px;font-weight:700;color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,transparent);padding:4px 11px;border-radius:999px}
+.employee-details{width:100%;display:grid;gap:5px;text-align:left;margin:10px 0 11px;font-size:11px}
+.employee-detail{display:flex;justify-content:space-between;gap:9px;border-bottom:1px solid var(--line);padding-bottom:4px}
+.employee-detail span:first-child{color:var(--muted)}.employee-detail strong,.employee-detail a{font-weight:600;text-align:right;overflow-wrap:anywhere;color:var(--text)}
+.employee-actions{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;width:100%;margin-top:auto}
+.employee-actions .btn{font-size:10px;padding:5px 7px}
+.punctuality-box{width:100%;margin:2px 0 10px;padding:8px;border:1px solid var(--line);border-radius:13px;background:color-mix(in srgb,var(--glass-strong) 72%,transparent);text-align:left}
+.punctuality-top{display:flex;align-items:center;gap:10px}
+.punctuality-pie{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;flex:none;background:conic-gradient(var(--score-color) 0 var(--score),var(--line) var(--score) 100%);position:relative}
+.punctuality-pie::before{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--glass-strong)}
+.punctuality-pie span{position:relative;font-size:12px;font-weight:800;color:var(--text)}
+.punctuality-copy{min-width:0;flex:1}.punctuality-copy strong{font-size:11px}.punctuality-copy small{display:block;color:var(--muted);font-size:9px;line-height:1.35;margin-top:2px}.punctuality-history-trigger{min-width:0;flex:1;text-align:left;padding:2px 0;border:0;background:transparent;color:inherit;cursor:pointer}.punctuality-history-trigger:hover strong,.punctuality-history-trigger:focus-visible strong{color:var(--brand);text-decoration:underline}.punctuality-history-trigger:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:4px}.punctuality-history-table{width:100%;border-collapse:collapse;font-size:12px}.punctuality-history-table th,.punctuality-history-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.punctuality-history-table th{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;position:sticky;top:0;background:var(--glass-strong)}.punctuality-history-wrap{max-height:58vh;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.punctuality-disclosure{padding:0;overflow:hidden}.punctuality-summary{list-style:none;display:flex;align-items:center;gap:8px;padding:7px;cursor:pointer}.punctuality-summary::-webkit-details-marker{display:none}.punctuality-summary::after{content:"＋";margin-left:auto;color:var(--muted);font-size:12px}.punctuality-disclosure[open] .punctuality-summary::after{content:"−"}.punctuality-summary:focus-visible{outline:2px solid var(--brand);outline-offset:-2px;border-radius:10px}.punctuality-summary-copy{min-width:0;display:grid;gap:2px}.punctuality-summary-copy strong{font-size:10px;line-height:1.3}.punctuality-summary-copy small{font-size:9px;color:var(--muted)}.punctuality-expanded{padding:0 8px 8px}.punctuality-history-action{margin:4px 0 2px;width:100%;justify-content:center}.punctuality-events{display:grid;gap:4px;margin-top:8px;font-size:10px;color:var(--muted)}
+.punctuality-event{display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding-top:4px}
+.punctuality-action{margin-top:8px;width:100%;justify-content:center}
+.profile-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding:10px 0 4px}
+.profile-calendar-head{text-align:center;font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;padding:5px 1px}
+.profile-day{border:1px solid var(--line);border-radius:10px;min-height:82px;padding:7px;display:flex;flex-direction:column;align-items:flex-start;gap:5px;background:var(--glass)}
+.profile-day.empty{border-color:transparent;background:transparent}
+.profile-day-no{font-size:11px;font-weight:800;color:var(--muted)}
+.profile-day-shift{font-size:10px;font-weight:700;line-height:1.25;overflow-wrap:anywhere}
+.profile-day-action{margin-top:auto;padding:2px 5px;font-size:9px;color:var(--brand);border:0;background:transparent;cursor:pointer;font-weight:800}
+.calendar-loading{padding:22px 6px;color:var(--muted);text-align:center}
+.calendar-loading::before{content:"";display:inline-block;width:11px;height:11px;margin-right:8px;border:2px solid color-mix(in srgb,var(--brand) 25%,transparent);border-top-color:var(--brand);border-radius:50%;vertical-align:-2px;animation:save-spin .7s linear infinite}
+.profile-day.t-duty{background:color-mix(in srgb,#3b82f6 12%,var(--glass));color:#315d91}
+.profile-day.t-off{background:color-mix(in srgb,#f59e0b 14%,var(--glass));color:#936b1b}
+.profile-day.t-away{background:color-mix(in srgb,#e11d48 12%,var(--glass));color:#a44362}
+.profile-day.t-none{background:var(--glass);color:var(--muted)}
+.staff-identity{display:flex;align-items:center;gap:9px;min-width:0}
+:root[data-theme=dark] .avatar{background:hsl(var(--h) 35% 26%);color:hsl(var(--h) 80% 88%)}
+.who{flex:1;min-width:0}
+.nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.nm small{font-weight:500;color:var(--muted)}
+.analytics{display:grid;grid-template-columns:minmax(280px,.85fr) minmax(420px,1.5fr);gap:14px;margin-bottom:14px}
+.chart-card{padding:16px;border-radius:var(--radius);min-width:0}
+.chart-title{font-size:15px;font-weight:800;margin:0 0 3px}
+.chart-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+.shift-bars{display:grid;gap:13px}
+.shift-row{display:grid;grid-template-columns:82px minmax(70px,1fr) 30px;align-items:center;gap:10px;font-size:12px;font-weight:600}
+.shift-track{height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.shift-fill{height:100%;min-width:0;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.trend-svg{display:block;width:100%;height:auto;overflow:visible}
+.trend-grid{stroke:var(--line);stroke-width:1}
+.trend-label{fill:var(--muted);font:11px Inter,system-ui,sans-serif}
+.trend-duty{fill:none;stroke:var(--brand);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.trend-missing{fill:none;stroke:#64748b;stroke-width:2;stroke-dasharray:5 5;stroke-linecap:round;stroke-linejoin:round}
+.trend-dot{fill:var(--brand);stroke:var(--glass-strong);stroke-width:2}
+.chart-legend{display:flex;gap:16px;margin-top:8px;font-size:11px;color:var(--muted)}
+.chart-legend span{display:flex;align-items:center;gap:6px}.chart-legend i{width:9px;height:9px;border-radius:50%;background:var(--brand)}.chart-legend i.missing{background:#64748b}
+html:fullscreen body{min-height:100vh;overflow:auto}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:10px 16px;border-bottom:1px solid var(--line)}
+.tbl td{padding:9px 16px;border-bottom:1px solid var(--line)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl .grp td{background:color-mix(in srgb,var(--text) 7%,transparent);font-weight:800;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.tbl .acts{text-align:right;white-space:nowrap}
+.tbl .acts .btn+.btn{margin-left:6px}
+.individual-msg-wrap{max-width:1180px;overflow-x:auto}
+.individual-msg-table{table-layout:fixed;min-width:680px}
+.individual-msg-table th:nth-child(1),.individual-msg-table td:nth-child(1){width:34%}
+.individual-msg-table th:nth-child(2),.individual-msg-table td:nth-child(2){width:18%}
+.individual-msg-table th:nth-child(3),.individual-msg-table td:nth-child(3){width:24%}
+.individual-msg-table th:nth-child(4),.individual-msg-table td:nth-child(4){width:24%;text-align:right;white-space:nowrap}
+.individual-msg-table .btn{margin:2px}
+.muted{color:var(--muted)}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:700;background:color-mix(in srgb,var(--text) 8%,transparent);color:var(--muted)}
+
+/* whatsapp */
+.section-title{margin:22px 0 10px;font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.msgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px}
+.whatsapp-layout{display:grid;grid-template-columns:minmax(280px,390px) minmax(680px,1fr);gap:14px;align-items:start}
+.wa-summaries,.wa-individual{min-width:0}
+.wa-summaries .msgs{grid-template-columns:minmax(0,1fr)}
+.wa-summaries .msg{min-width:0}
+.wa-individual .section-title{margin-top:22px}
+.wa-individual .individual-msg-wrap{max-width:none}
+.msg header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)}
+.msg h3{margin:0;font-size:15px}
+.msg .actions{display:flex;gap:6px}
+.msg pre{margin:0;padding:14px 16px;white-space:pre-wrap;font:13px/1.55 Inter,system-ui,sans-serif}
+
+/* states */
+.skeleton{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.sk{height:76px;border-radius:var(--radius);background:linear-gradient(90deg,var(--glass) 25%,var(--glass-strong) 50%,var(--glass) 75%);background-size:200% 100%;animation:sh 1.2s infinite;border:1px solid var(--glass-line)}
+@keyframes sh{to{background-position:-200% 0}}
+.empty{padding:48px 16px;text-align:center;color:var(--muted);border-radius:var(--radius)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:#14213d;color:#fff;padding:11px 18px;border-radius:12px;font-weight:600;opacity:0;pointer-events:none;transition:.2s;z-index:80;max-width:90vw;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+:root[data-theme=dark] .toast{background:#e8edf8;color:#14213d}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.err{background:#be123c;color:#fff}
+
+/* modal */
+.overlay{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(15,23,42,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.overlay.open{display:flex}
+.modal{width:100%;max-width:440px;border-radius:22px;padding:22px;background:var(--glass-strong);max-height:92vh;overflow:auto}
+.modal.modal-calendar{max-width:880px}
+.modal h3{margin:0 0 4px;font-size:18px;letter-spacing:-.01em}
+.modal .lead{margin:0 0 14px;color:var(--muted);font-size:13px}
+.modal .fld{margin-bottom:12px}
+.email-action-summary{display:grid;gap:7px;padding:12px;background:var(--glass);border:1px solid var(--line);border-radius:12px}.email-action-summary>div{font-size:13px}
+.modal .inp,.modal .sel{width:100%}
+.modal textarea.inp{resize:vertical;min-height:150px}
+.photo-preview{width:76px;height:76px;border-radius:50%;object-fit:cover;background:var(--line);border:1px solid var(--glass-line)}
+.photo-hint{font-size:12px;color:var(--muted);margin-top:5px}
+.photo-paste{border:1px dashed color-mix(in srgb,var(--brand) 55%,var(--line));border-radius:12px;padding:11px 12px;margin-top:8px;text-align:center;color:var(--muted);font-size:12px;cursor:text;background:color-mix(in srgb,var(--brand) 5%,transparent);outline:none}
+.photo-paste:focus{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent)}
+.modal .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal .radio{display:flex;gap:8px;margin-bottom:12px}
+.modal .radio label{flex:1;display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid var(--line);border-radius:11px;cursor:pointer;font-weight:600;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text)}
+.modal .radio input{accent-color:var(--brand)}
+.m-err{color:#be123c;font-weight:600;font-size:13px;min-height:18px;margin-bottom:6px}
+:root[data-theme=dark] .m-err{color:#fda4af}
+.m-actions{display:flex;justify-content:flex-end;gap:8px}
+.hide{display:none!important}
+
+@media(max-width:900px){.analytics{grid-template-columns:1fr}.wrap{padding-left:24px}.tabs{position:static;left:auto;top:auto;bottom:auto;z-index:auto;width:auto;flex-direction:row;align-items:center;overflow-x:auto;overflow-y:hidden;margin-bottom:14px}.tab{flex:0 0 auto;width:auto;text-align:center;white-space:nowrap}}
+@media(max-width:1050px){.whatsapp-layout{grid-template-columns:1fr}.wa-summaries .msgs{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}.wa-individual .section-title{margin-top:8px}}
+@media(max-width:700px){.employee-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));padding:8px;gap:8px}.employee-card{padding:10px}.employee-photo{width:76px;height:76px}}
+@media(max-width:600px){.profile-calendar{grid-template-columns:repeat(7,minmax(38px,1fr));overflow-x:auto}.profile-calendar-head{display:block;font-size:8px}.profile-day{min-height:68px;padding:4px}.profile-day-shift,.profile-day-action{font-size:8px}}
+@media(max-width:700px){.topbar{margin:8px;top:8px}.wrap{padding:10px 10px 40px}.stores,.msgs{grid-template-columns:1fr}.inp.grow{min-width:100%}.fld,.inp,.sel{min-width:0}.fld{flex:1 1 140px}.modal .row2{grid-template-columns:1fr}.shift-row{grid-template-columns:75px minmax(60px,1fr) 24px}}
+@media print{.topbar,.progress,.tabs,.filters,.toast,.bg,.overlay,.kpis{display:none!important}body{background:#fff}.glass{box-shadow:none;background:#fff;backdrop-filter:none}.tablewrap{max-height:none}select.shift{appearance:none}}
+</style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./js/huft-config.js"></script>
+<script src="./js/huft-supabase.js"></script>
+<script src="./js/huft-api.js"></script>
+<div class="bg"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+
+<header class="topbar glass">
+  <div class="brand">
+    <div class="logo">H</div>
+    <div>
+      <div class="brand-title" id="appTitle">Hyderabad HUFT Roster</div>
+      <div class="brand-sub" id="subtitle">Hyderabad team roster · Happy teams. Happy pets.</div>
+    </div>
+  </div>
+  <div class="controls">
+    <span id="saveState" class="save-state"></span>
+    <span id="activityState" class="activity-state" role="status" aria-live="polite"><i aria-hidden="true"></i>Updating…</span>
+    <button id="prev" class="btn" aria-label="Previous week">&#8592; Previous</button>
+    <button id="btnToday" class="btn">Today</button>
+    <button id="next" class="btn primary" aria-label="Next week">Next &#8594;</button>
+    <button id="btnRefresh" class="btn" title="Reload from the sheet">&#8635; Refresh</button>
+    <button id="btnTheme" class="btn" aria-label="Toggle dark mode">&#9680; Theme</button>
+    <button id="btnDesktopShortcut" class="btn" title="Download a shortcut to this roster app">⇩ Desktop shortcut</button>
+    <button id="btnFullscreen" class="btn" aria-label="Enter fullscreen">⛶ Full screen</button>
+  </div>
+</header>
+<div class="progress" id="progress"></div>
+
+<main class="wrap">
+  <nav class="tabs glass" role="tablist">
+    <button class="tab" role="tab" data-tab="week" aria-selected="true">Weekly roster</button>
+    <button class="tab" role="tab" data-tab="month" aria-selected="false">Full month</button>
+    <button class="tab" role="tab" data-tab="overview" aria-selected="false">All-store overview</button>
+    <button class="tab" role="tab" data-tab="manage" aria-selected="false">Stores &amp; staff</button>
+    <button class="tab" role="tab" data-tab="removed" aria-selected="false">Removed employees <span class="tab-count" id="removedEmployeesTabCount">0</span></button>
+    <button class="tab" role="tab" data-tab="wa" aria-selected="false">WhatsApp</button>
+    <button class="tab" role="tab" data-tab="deployments" aria-selected="false">Deployments <span class="tab-count" id="deploymentTabCount"></span></button>
+    <button class="tab" role="tab" data-tab="myrequests" aria-selected="false">My requests <span class="tab-count" id="myRequestsTabCount"></span></button>
+    <button class="tab" role="tab" data-tab="approvals" aria-selected="false">Approval centre <span class="tab-count" id="approvalTabCount"></span></button>
+    <button class="tab" role="tab" data-tab="notifications" aria-selected="false">Live notifications <span class="tab-count" id="notificationsTabCount"></span></button>
+    <button class="tab" role="tab" data-tab="request" aria-selected="false">Request access</button>
+    <button class="tab hide" id="accessTab" role="tab" data-tab="access" aria-selected="false">Admin access</button><button class="tab hide" id="emailTab" role="tab" data-tab="email" aria-selected="false">Email settings</button>
+  </nav>
+
+  <section class="kpis" id="kpis"></section>
+
+  <section class="filters glass">
+    <div class="fld"><label for="storeSel">Store</label><select id="storeSel" class="sel"></select></div>
+    <div class="fld"><label for="datePick">Selected date</label><input id="datePick" class="inp" type="date"></div>
+    <div class="fld grow"><label for="search">Search team</label><input id="search" class="inp grow" type="search" placeholder="Search by name…"></div>
+    <div class="fld"><label for="roleSel">Role</label>
+      <select id="roleSel" class="sel"><option value="">All roles</option><option value="Retail">Retail</option><option value="Grooming">Groomers</option></select></div>
+    <button id="btnExport" class="btn">⇩ Export JPG</button>
+    <button id="btnPrint" class="btn">&#128424; Print</button>
+  </section>
+
+  <div id="content"><div class="skeleton"><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div></div></div>
+</main>
+
+<div id="modal" class="overlay" role="dialog" aria-modal="true"></div>
+<div id="toast" class="toast" role="status"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var CAT = {
+    'Opening':{abbr:'O',cls:'open',label:'Opening',group:'duty',ord:1},
+    'Mid':{abbr:'M',cls:'mid',label:'Mid shift',group:'duty',ord:2},
+    'Spa':{abbr:'S',cls:'spa',label:'Spa timings',group:'duty',ord:3},
+    'Training':{abbr:'T',cls:'train',label:'Training',group:'duty',ord:4},
+    'Closing':{abbr:'C',cls:'close',label:'Closing',group:'duty',ord:5},
+    'Deployed':{abbr:'→',cls:'dep',label:'Deployed',group:'duty',ord:6},
+    'Other':{abbr:'•',cls:'other',label:'Other',group:'duty',ord:7},
+    'Week off':{abbr:'WO',cls:'off',label:'Week off',group:'off',ord:8},
+    'Comp off':{abbr:'CO',cls:'off',label:'Comp off',group:'off',ord:9},
+    'Holiday':{abbr:'H',cls:'off',label:'Holiday',group:'off',ord:10},
+    'Leave':{abbr:'L',cls:'leave',label:'Leave',group:'away',ord:11},
+    'Absent':{abbr:'A',cls:'leave',label:'Absent',group:'away',ord:12},
+    'Unassigned':{abbr:'·',cls:'none',label:'Not assigned',group:'none',ord:13},
+    'Removed':{abbr:'×',cls:'gone',label:'Removed',group:'gone',ord:14}
+  };
+  var SHIFT_OPTS = ['Opening','Closing','Mid','Spa','Training','Week off','Comp off','Holiday','Leave','Absent'];
+  var DUTY_SHIFTS = ['Opening','Closing','Mid','Spa','Training'];
+  var WD = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  var state = {
+    todayIso:'', appUrl:'', stores:[], months:[], data:{}, date:'', store:'All', homeStore:'', q:'', role:'',
+    tab:'week', msgs:[], theme:'light', isAdmin:false, isSuperAdmin:false, accessStores:[], accessEntries:[], accessLoaded:false, accessLoading:false, emailAdminData:null, emailAdminLoading:false, emailTemplateId:"",
+    deploymentRequests:[], deploymentRequestsLoaded:false, deploymentRequestsLoading:false, workRequests:[], workRequestsLoaded:false, workRequestsLoading:false, workRequestsCanApprove:false, employeeSelf:false, deletedStaff:[], deletedStaffLoaded:false, deletedStaffLoading:false,
+    punctualityEvents:[], punctualityLoaded:false, punctualityLoading:false, email:'', photos:{}, photoRequests:{},
+    pending:[], saving:false, flushTimer:null
+  };
+
+  var $ = function (s) { return document.querySelector(s); };
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  };
+
+  /* ---------- dates (UTC maths, no timezone surprises) ---------- */
+  function parseIso(iso) { var p = iso.split('-').map(Number); return {y:p[0], m:p[1], d:p[2]}; }
+  function addDays(iso, n) {
+    var p = parseIso(iso), dt = new Date(Date.UTC(p.y, p.m - 1, p.d + n));
+    return dt.getUTCFullYear() + '-' + pad(dt.getUTCMonth() + 1) + '-' + pad(dt.getUTCDate());
+  }
+  function weekday(iso) { var p = parseIso(iso); return new Date(Date.UTC(p.y, p.m - 1, p.d)).getUTCDay(); }
+  function weekStart(iso) { return addDays(iso, -((weekday(iso) + 6) % 7)); }
+  function monthKey(iso) { return iso.slice(0, 7); }
+  function fmtLong(iso) { var p = parseIso(iso); return WD[weekday(iso)] + ', ' + p.d + ' ' + MON[p.m - 1] + ' ' + p.y; }
+  function fmtShort(iso) { var p = parseIso(iso); return pad(p.d) + '-' + pad(p.m) + '-' + p.y; }
+  function fmtMsg(iso) { var p = parseIso(iso); return pad(p.d) + '-' + MON[p.m - 1] + '-' + p.y + ' (' + WD[weekday(iso)] + ')'; }
+
+  /* ---------- server ---------- */
+  function call(fn) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    state.serverCalls = (state.serverCalls || 0) + 1;
+    syncActivityState();
+    return new Promise(function (resolve, reject) {
+      var finished = false;
+      function finish(callback, value) {
+        if (finished) return;
+        finished = true;
+        state.serverCalls = Math.max(0, (state.serverCalls || 1) - 1);
+        syncActivityState(); callback(value);
+      }
+      try {
+        window.HUFTApi.call(fn, ...args).then(function(value){finish(resolve,value);})
+          .catch(function(e){finish(reject,new Error(e && e.message ? e.message : String(e)));});
+      } catch (e) { finish(reject, e instanceof Error ? e : new Error(String(e))); }
+    });
+  }
+  function syncActivityState() {
+    var active = !!state.manualBusy || (state.serverCalls || 0) > 0;
+    var el = document.getElementById('activityState');
+    var bar = document.getElementById('progress');
+    if (el) el.classList.toggle('on', (state.serverCalls || 0) > 0);
+    if (bar) bar.classList.toggle('on', active);
+  }
+  function keep(d) {
+    if (d && d.found) {
+      d.idx = {};
+      d.employees.forEach(function (e) { d.idx[e.id] = e; });
+      state.data[d.key] = d;
+    }
+    return d;
+  }
+  function ensureMonth(key, force) {
+    var have = state.data[key];
+    if (!force && have) return Promise.resolve(have);
+    return call('getMonthData', key, !!force).then(keep);
+  }
+  function rangeMonths(iso) {
+    var ws = weekStart(iso), keys = [monthKey(iso), monthKey(ws), monthKey(addDays(ws, 6))], out = [];
+    keys.forEach(function (k) { if (out.indexOf(k) < 0) out.push(k); });
+    return out;
+  }
+  function ensureRange(iso, force) {
+    return Promise.all(rangeMonths(iso).map(function (k) {
+      return ensureMonth(k, force).catch(function (e) { if (k === monthKey(iso)) throw e; return null; });
+    })).then(function () {
+      if (!state.data[monthKey(iso)]) throw new Error('There is no roster tab for ' + monthKey(iso) + ' yet.');
+    });
+  }
+  function busy(on) {
+    state.manualBusy = !!on;
+    syncActivityState();
+  }
+
+  /* ---------- data helpers ---------- */
+  function monthData() { return state.data[monthKey(state.date)]; }
+  function entryAt(id, iso) {
+    var md = state.data[monthKey(iso)], emp = md && md.idx[id];
+    if (!emp) return ['Unassigned', '', ''];
+    var e = emp.days[parseIso(iso).d - 1];
+    if (!e) return ['Unassigned', '', ''];
+    return typeof e === 'string' ? [e, '', ''] : e;
+  }
+  function activeOn(e, iso, mode) {
+    if (e.isDeployment) {
+      var from = mode === 'week' ? weekStart(iso) : iso;
+      return (e.deploymentDates || []).some(function (date) { return date >= from && date <= iso; });
+    }
+    return !e.removedOn || iso < e.removedOn;
+  }
+  function shiftName(s) { return (CAT[s] && CAT[s].label) || (s && s !== 'Other' ? s : ''); }
+  function label(en) {
+    var c = en[0];
+    if (c === 'Deployed') {
+      var sh = shiftName(en[1]);
+      return '→ ' + (en[2] || 'Other store') + (sh ? ' · ' + sh : '');
+    }
+    if (c === 'Other') return en[1];
+    return (CAT[c] || CAT.Other).label;
+  }
+  function filtered(md, iso, mode) {
+    var q = state.q;
+    return md.employees.filter(function (e) {
+      return (state.store === 'All' || e.store === state.store) &&
+             (!state.role || e.role === state.role) &&
+             (!q || e.name.toLowerCase().indexOf(q) >= 0) &&
+             (mode === 'week' || mode === 'manage' || e.isDeployment || entryAt(e.id, iso)[0] !== 'Deployed') &&
+             activeOn(e, iso, mode);
+    });
+  }  function canEditStoreClient(store) {
+    return !!state.isAdmin || state.accessStores.indexOf(store) >= 0;
+  }
+  function stats(emps, iso) {
+    emps = emps.filter(function (e) { return e.isDeployment || entryAt(e.id, iso)[0] !== 'Deployed'; });
+    var s = {total:emps.length, duty:0, opening:0, closing:0, other:0, off:0, away:0, none:0, noneNames:[], awayNames:[]};
+    emps.forEach(function (e) {
+      var en = entryAt(e.id, iso), c = en[0], m = CAT[c] || CAT.Other;
+      if (m.group === 'duty') {
+        s.duty++;
+        var sh = c === 'Deployed' ? en[1] : c;
+        if (sh === 'Opening') s.opening++; else if (sh === 'Closing') s.closing++; else s.other++;
+      } else if (m.group === 'off') { s.off++; }
+      else if (m.group === 'away') { s.away++; s.awayNames.push(e.name + ' (' + m.label + ')'); }
+      else if (m.group === 'none') { s.none++; s.noneNames.push(e.name); }
+    });
+    return s;
+  }  function storeRank(s) { var i = state.stores.indexOf(s); return i < 0 ? 99 : i; }
+  function byStore(emps) {
+    var map = {}, keys = [];
+    emps.forEach(function (e) { if (!map[e.store]) { map[e.store] = []; keys.push(e.store); } map[e.store].push(e); });
+    keys.sort(function (a, b) { return storeRank(a) - storeRank(b); });
+    return keys.map(function (k) { return [k, map[k]]; });
+  }
+  function byRole(list) {
+    var map = {}, keys = [];
+    list.forEach(function (e) { if (!map[e.role]) { map[e.role] = []; keys.push(e.role); } map[e.role].push(e); });
+    keys.sort(function (a, b) {
+      var r = function (x) { return x === 'Retail' ? 0 : x === 'Grooming' ? 1 : 2; };
+      return r(a) - r(b);
+    });
+    return keys.map(function (k) { return [k, map[k]]; });
+  }
+  function sortedForDay(list, iso) {
+    return list.slice().sort(function (a, b) {
+      var oa = (CAT[entryAt(a.id, iso)[0]] || CAT.Other).ord, ob = (CAT[entryAt(b.id, iso)[0]] || CAT.Other).ord;
+      return oa - ob || a.name.localeCompare(b.name);
+    });
+  }
+  function initials(n) { return n.split(/\s+/).slice(0, 2).map(function (w) { return w.charAt(0); }).join('').toUpperCase(); }
+  function hue(n) { var h = 0; for (var i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) % 360; return h; }
+  function roleTitle(r) { return r === 'Grooming' ? 'Groomers' : r; }
+  function findEmp(id, iso) {
+    var md = state.data[monthKey(iso)];
+    return md && md.idx[id] ? md.idx[id] : null;
+  }
+  function findEmpForEdit(id, iso) {
+    var key = monthKey(iso), target = state.data[key];
+    if (target && target.idx[id]) return target.idx[id];
+    if (!target || !target.found) return null;
+    var source = null;
+    Object.keys(state.data).some(function (month) {
+      var md = state.data[month];
+      if (md && md.idx && md.idx[id]) { source = md.idx[id]; return true; }
+      return false;
+    });
+    if (!source || !activeOn(source, iso)) return null;
+    var copy = Object.assign({}, source, { days: new Array(target.daysInMonth).fill('Unassigned') });
+    target.idx[id] = copy;
+    target.employees.push(copy);
+    return copy;
+  }
+
+  /* ---------- KPI strip ---------- */
+  function kpi(ico, lbl, val, tone) {
+    return '<div class="kpi glass t-' + tone + '"><div class="kpi-ico" style="--c:var(--c)">' + ico + '</div><div><div class="kpi-label">' +
+      lbl + '</div><div class="kpi-val">' + val + '</div></div></div>';
+  }
+  function renderKpis(emps) {
+    var s = stats(emps, state.date);
+    $('#kpis').innerHTML =
+      kpi('👥', 'Team members', s.total, 'open') +
+      kpi('✔', 'Shifts to confirm', s.none, s.none ? 'mid' : 'spa') +
+      kpi('🏖', 'Week offs', s.off, 'off') +
+      kpi('🧳', 'Leave', s.away, 'leave') +
+      kpi('📅', 'Selected date', fmtShort(state.date), 'close');
+  }
+
+  /* ---------- weekly roster (editable) ---------- */
+  function cellSelect(e, iso) {
+    var en = entryAt(e.id, iso), c = en[0], m = CAT[c] || CAT.Other;
+    var sel = iso === state.date ? 'selcol' : '';
+    if (c === 'Removed') return '<td class="' + sel + '"><span class="cell-gone">Removed</span></td>';
+    if (e.isDeployment) return '<td class="' + sel + '"><span class="pill t-' + m.cls + '">' + (c === 'Unassigned' ? '—' : esc(label(en))) + '</span></td>';
+    var o = '<option value="Clear"' + (c === 'Unassigned' ? ' selected' : '') + '>— Select —</option>';
+    SHIFT_OPTS.forEach(function (k) {
+      o += '<option value="' + k + '"' + (c === k ? ' selected' : '') + '>' + CAT[k].label + '</option>';
+    });
+    if (c === 'Deployed' || c === 'Other') o += '<option value="__keep__" selected>' + esc(label(en)) + '</option>';
+    o += '<option value="__deploy__">→ Deploy to another store…</option>';
+    return '<td class="' + sel + '"><select class="shift t-' + m.cls + '" data-id="' + esc(e.id) + '" data-date="' + iso + '"' +
+      (canEditStoreClient(e.store) ? '' : ' disabled title="You do not have edit access to ' + esc(e.store) + '"') +
+      ' aria-label="' + esc(e.name + ' ' + iso) + '">' + o + '</select></td>';
+  }
+  function dayMessage(e, iso, storeName) {
+    var en = entryAt(e.id, iso);
+    return 'Hi ' + e.name.split(' ')[0] + ', your shift on ' + fmtMsg(iso) + ' is: ' + label(en) + '. – HUFT ' + storeName;
+  }
+
+  function viewWeek(md) {
+    var ws = weekStart(state.date), days = [], i;
+    for (i = 0; i < 7; i++) days.push(addDays(ws, i));
+    var we = days[6];
+    var emps = filtered(md, we, 'week');
+    if (!emps.length) return '<div class="panel glass empty">No team members match this filter.</div>';
+
+    var head = '<tr><th style="text-align:left;min-width:150px">Employee</th><th>Role</th>';
+    days.forEach(function (iso) {
+      var badge = iso === state.todayIso ? '<span class="badge">TODAY</span>' : iso === addDays(state.todayIso, 1) ? '<span class="badge">NEXT DAY</span>' : '';
+      head += '<th class="' + (iso === state.date ? 'selcol' : '') + '">' + WD[weekday(iso)].slice(0, 3) + '<small>' + fmtShort(iso) + '</small>' + badge + '</th>';
+    });
+    head += '<th>Week offs</th><th>WhatsApp</th></tr>';
+
+    var body = '';
+    byStore(emps).forEach(function (g) {
+      body += '<tr class="store-row"><td colspan="11">' + esc(g[0]) + ' · ' + g[1].length + ' team members</td></tr>';
+      byRole(g[1]).forEach(function (rg) {
+        rg[1].forEach(function (e) {
+          var offs = 0, tds = '';
+          days.forEach(function (iso) {
+            if ((CAT[entryAt(e.id, iso)[0]] || CAT.Other).group === 'off') offs++;
+            tds += cellSelect(e, iso);
+          });
+          var act;
+          if (e.isDeployment) act = '<span class="muted">Temporary assignment</span>'; else if (!e.phone) act ='<span class="muted">No number</span>';
+          else if ((CAT[entryAt(e.id, state.date)[0]] || CAT.Other).group === 'none') act = '<span class="muted">Shift missing</span>';
+          else act = '<a class="btn sm" target="_blank" rel="noopener" href="https://wa.me/' + e.phone + '?text=' + encodeURIComponent(dayMessage(e, state.date, g[0])) + '">📲 Send</a>';
+          body += '<tr><td class="name">' + esc(e.name) + (e.isDeployment ? '<small style="display:block;font-size:10px;color:var(--muted)">Temporary · from ' + esc(e.homeStore) + '</small>' : '') + '</td><td class="role">' + esc(roleTitle(e.role)) + '</td>' + tds +
+            '<td class="tot">' + offs + '</td><td>' + act + '</td></tr>';
+        });
+      });
+    });
+
+    var s = stats(filtered(md, state.date), state.date), banner = '';
+    if (s.none) banner = '<div class="banner warn">⚠️ ' + s.none + ' daily shift' + (s.none > 1 ? 's' : '') + ' need an update on ' + esc(fmtShort(state.date)) +
+      ' <span>' + esc(s.noneNames.slice(0, 6).join(', ')) + (s.noneNames.length > 6 ? '…' : '') + '</span></div>';
+
+    return banner + '<div class="panel glass"><div class="panel-head"><div><h2>Weekly team roster</h2><div class="sub">Change a shift with its dropdown. Changes save to the sheet automatically.</div></div>' +
+      '<div class="sub">' + esc(fmtShort(ws)) + ' – ' + esc(fmtShort(we)) + ' · ' + emps.length + ' team members</div></div>' +
+      '<div class="tablewrap"><table class="roster"><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div></div>';
+  }
+
+  function exportWeeklyRoster() {
+    var ws = weekStart(state.date), we = addDays(ws, 6), days = [];
+    for (var i = 0; i < 7; i++) days.push(addDays(ws, i));
+    var md = monthData();
+    if (!md) { toast('Roster data is not ready yet.', true); return; }
+    var employees = filtered(md, we, 'week').filter(function (e) {
+      return (CAT[entryAt(e.id, we)[0]] || CAT.Other).group !== 'gone';
+    });
+    if (!employees.length) { toast('No staff to export for this week.', true); return; }
+
+    var stores = state.store === 'All' ? byStore(employees) : [[state.store, employees]];
+    var titleStore = state.store === 'All' ? 'All stores' : state.store;
+    var width = 2048, margin = 20, nameW = 250, roleW = 150, dayW = (width - margin * 2 - nameW - roleW) / 7;
+    var titleH = 70, headH = 80, sectionH = 42, rowH = 50, y = 20 + titleH + headH;
+    var title = 'Weekoff roster · ' + titleStore + ' · ' + fmtShort(ws) + ' – ' + fmtShort(we);
+    var svg = [];
+    function rect(x, yy, w, h, fill) {
+      svg.push('<rect x="' + x + '" y="' + yy + '" width="' + w + '" height="' + h + '" fill="' + fill + '" stroke="#84909b" stroke-width="1"/>');
+    }
+    function txt(x, yy, value, opts) {
+      opts = opts || {};
+      svg.push('<text x="' + x + '" y="' + yy + '" text-anchor="' + (opts.anchor || 'middle') + '" dominant-baseline="middle" fill="' + (opts.fill || '#344054') + '" font-family="Arial,sans-serif" font-size="' + (opts.size || 16) + '" font-weight="' + (opts.weight || 500) + '">' + esc(value) + '</text>');
+    }
+    rect(margin, 20, width - margin * 2, titleH, '#ef7825');
+    txt(width / 2, 20 + titleH / 2, title, {fill:'#fff', size:24, weight:700});
+    var hx = margin;
+    [[nameW, 'Employee'], [roleW, 'Role']].forEach(function (col) {
+      rect(hx, 20 + titleH, col[0], headH, '#f28a3b');
+      txt(hx + col[0] / 2, 20 + titleH + headH / 2, col[1], {fill:'#fff', size:16, weight:700});
+      hx += col[0];
+    });
+    days.forEach(function (d) {
+      var p = parseIso(d), labelText = WD[weekday(d)] + ' · ' + pad(p.d) + '-' + MON[p.m - 1] + '-' + p.y;
+      rect(hx, 20 + titleH, dayW, headH, '#f28a3b');
+      txt(hx + dayW / 2, 20 + titleH + headH / 2, labelText, {fill:'#fff', size:14, weight:700});
+      hx += dayW;
+    });
+
+    stores.forEach(function (sg) {
+      if (state.store === 'All') {
+        rect(margin, y, width - margin * 2, sectionH, '#f8d3ba');
+        txt(width / 2, y + sectionH / 2, sg[0].toUpperCase(), {fill:'#81451e', size:16, weight:700});
+        y += sectionH;
+      }
+      byRole(sg[1]).forEach(function (rg) {
+        var section = rg[0] === 'Grooming' ? 'SPA' : String(roleTitle(rg[0])).toUpperCase();
+        rect(margin, y, width - margin * 2, sectionH, '#ffead9');
+        txt(width / 2, y + sectionH / 2, section, {fill:'#81451e', size:16, weight:700});
+        y += sectionH;
+        rg[1].slice().sort(function (a, b) { return a.name.localeCompare(b.name); }).forEach(function (e) {
+          var x = margin;
+          rect(x, y, nameW, rowH, '#ffffff'); txt(x + 12, y + rowH / 2, e.name, {anchor:'start', size:15}); x += nameW;
+          rect(x, y, roleW, rowH, '#ffffff'); txt(x + roleW / 2, y + rowH / 2, rg[0] === 'Grooming' ? 'SPA' : roleTitle(e.role), {size:15}); x += roleW;
+          days.forEach(function (d) {
+            var en = entryAt(e.id, d), group = (CAT[en[0]] || CAT.Other).group;
+            var value = group === 'none' || group === 'gone' ? '' : label(en);
+            var fill = group === 'duty' ? '#e7f0fc' : group === 'off' ? '#fff5d9' : group === 'away' ? '#fde9ee' : '#ffffff';
+            var color = group === 'duty' ? '#315d91' : group === 'off' ? '#936b1b' : group === 'away' ? '#a44362' : '#344054';
+            rect(x, y, dayW, rowH, fill); txt(x + dayW / 2, y + rowH / 2, value, {fill:color, size:14, weight:600}); x += dayW;
+          });
+          y += rowH;
+        });
+      });
+    });
+
+    var height = y + 20;
+    var svgDoc = '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + ' ' + height + '"><rect width="100%" height="100%" fill="#ffffff"/>' + svg.join('') + '</svg>';
+    var svgBlob = new Blob([svgDoc], {type:'image/svg+xml;charset=utf-8'});
+    var url = URL.createObjectURL(svgBlob), image = new Image();
+    image.onload = function () {
+      var canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height;
+      canvas.getContext('2d').drawImage(image, 0, 0);
+      canvas.toBlob(function (jpg) {
+        URL.revokeObjectURL(url);
+        if (!jpg) { toast('Could not create the roster image.', true); return; }
+        var jpgUrl = URL.createObjectURL(jpg), a = document.createElement('a');
+        var safeStore = titleStore.replace(/[^a-z0-9]+/gi, '_').replace(/^_|_$/g, '');
+        a.href = jpgUrl; a.download = 'HUFT_Roster_' + safeStore + '_' + ws + '_to_' + we + '.jpg';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(jpgUrl); }, 1000);
+        toast('Roster JPG exported');
+      }, 'image/jpeg', 0.95);
+    };
+    image.onerror = function () { URL.revokeObjectURL(url); toast('Could not create the roster image.', true); };
+    image.src = url;
+  }
+
+  /* ---------- full month (read only) ---------- */
+  function viewMonth(md) {
+    var first = md.key + '-01', q = state.q;
+    var emps = md.employees.filter(function (e) {
+      return (state.store === 'All' || e.store === state.store) &&
+        (!state.role || e.role === state.role) &&
+        (!q || e.name.toLowerCase().indexOf(q) >= 0) &&
+        (!e.removedOn || e.removedOn > first);
+    });
+    if (!emps.length) return '<div class="panel glass empty">No team members match this filter.</div>';
+    var offset = (weekday(first) + 6) % 7, calendar = '<div class="month-calendar">';
+    ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].forEach(function (day) {
+      calendar += '<div class="month-weekday">' + day + '</div>';
+    });
+    for (var blank = 0; blank < offset; blank++) calendar += '<div class="month-day empty"></div>';
+    var order = ['Opening','Closing','Mid','Spa','Training','Deployed','Other','Week off','Comp off','Holiday','Leave','Absent','Unassigned'];
+    var roleOrder = function (role) { return role === 'Retail' ? 0 : role === 'Grooming' ? 1 : 2; };
+    for (var d = 1; d <= md.daysInMonth; d++) {
+      var iso = md.key + '-' + pad(d), groups = {};
+      emps.forEach(function (e) {
+        var en = entryAt(e.id, iso), shift = en[0], meta = CAT[shift] || CAT.Other;
+        if (meta.group === 'gone') return;
+        var shiftLabel = shift === 'Deployed' || shift === 'Other' ? label(en) : meta.label;
+        var key = shift + '|' + e.role + '|' + shiftLabel;
+        if (!groups[key]) groups[key] = {shift:shift, role:e.role, label:shiftLabel, names:[]};
+        var name = e.name;
+        if (shift === 'Deployed' && en[2]) name += ' → ' + en[2];
+        groups[key].names.push(name);
+      });
+      var shiftHtml = Object.keys(groups).sort(function (a, b) {
+        var ga = groups[a], gb = groups[b], ia = order.indexOf(ga.shift), ib = order.indexOf(gb.shift);
+        return (ia - ib) || roleOrder(ga.role) - roleOrder(gb.role) || ga.label.localeCompare(gb.label);
+      }).map(function (key) {
+        var g = groups[key], meta = CAT[g.shift] || CAT.Other;
+        return '<div class="month-shift t-' + meta.cls + '"><div class="month-shift-label">' + esc(g.label) + ' · ' + esc(roleTitle(g.role)) + '</div>' +
+          '<div class="month-shift-names">' + esc(g.names.join(', ')) + '</div></div>';
+      }).join('');
+      var dayClass = 'month-day' + (iso === state.todayIso ? ' today' : '') + (iso === state.date ? ' selected' : '');
+      calendar += '<div class="' + dayClass + '"><button class="month-date" data-act="goto" data-date="' + iso + '"><span>' + d + '</span>' +
+        (iso === state.todayIso ? '<small>Today</small>' : '') + '</button><div class="month-day-shifts">' + shiftHtml + '</div></div>';
+    }
+    calendar += '</div>';
+    var legend = ['Opening','Closing','Mid','Spa','Training','Deployed','Week off','Comp off','Holiday','Leave','Absent','Unassigned'].map(function (k) {
+      var m = CAT[k];
+      return '<span class="t-' + m.cls + '"><b>' + m.abbr + '</b>' + m.label + '</span>';
+    }).join('');
+    return '<div class="panel glass"><div class="panel-head"><div><h2>' + esc(md.label) + '</h2><div class="sub">Calendar view · click a date to open that week. Staff are grouped by shift and role.</div></div></div>' +
+      '<div class="month-calendar-wrap">' + calendar + '</div><div class="legend">' + legend + '</div></div>';
+  }
+
+  /* ---------- overview ---------- */
+  function staffAvatar(e, large) {
+    var photo = state.photos[e.photoKey || e.id];
+    if (photo) return '<img class="' + (large ? 'employee-photo' : 'profile-avatar') + '" src="' + esc(photo) + '" alt="Profile photo of ' + esc(e.name) + '">';
+    return '<span class="avatar' + (large ? ' employee-photo' : '') + '" style="--h:' + hue(e.name) + '">' + esc(initials(e.name)) + '</span>';
+  }
+  function loadStaffPhotos(emps) {
+    var ids = emps.filter(function (e) {
+      var key = e.photoKey || e.id; return e.photoId && !state.photos[key] && !state.photoRequests[key];
+    }).slice(0, 50).map(function (e) { var key = e.photoKey || e.id; state.photoRequests[key] = true; return key; });
+    if (!ids.length) return;
+    call('getStaffPhotos', ids).then(function (photos) {
+      Object.keys(photos || {}).forEach(function (id) { state.photos[id] = photos[id]; });
+      render();
+    }).catch(function () {});
+  }
+  function staffRow(e, iso) {
+    var en = entryAt(e.id, iso), m = CAT[en[0]] || CAT.Other;
+    return '<li class="staff">' + staffAvatar(e) +
+      '<span class="who"><span class="nm">' + esc(e.name) + '</span></span><span class="pill t-' + m.cls + '">' +
+      esc(label(en)) + '</span></li>';
+  }
+  function storeCard(store, list, iso) {
+    var s = stats(list, iso), pct = s.total ? Math.round(s.duty / s.total * 100) : 0;
+    var body = byRole(list).map(function (g) {
+      return '<div class="role-label">' + esc(roleTitle(g[0])) + ' · ' + g[1].length + '</div><ul class="staff-list">' +
+        sortedForDay(g[1], iso).map(function (e) { return staffRow(e, iso); }).join('') + '</ul>';
+    }).join('');
+    return '<article class="panel glass"><div class="store-head"><h3>' + esc(store) + '</h3><span class="store-meta">' +
+      s.duty + ' / ' + s.total + ' on duty · O ' + s.opening + ' · C ' + s.closing + '</span></div><div class="bar"><i style="width:' + pct + '%"></i></div>' + body + '</article>';
+  }
+  function overviewCharts(emps, iso) {
+    var counts = {}, maxShift = 0;
+    DUTY_SHIFTS.forEach(function (k) { counts[k] = 0; });
+    emps.forEach(function (e) {
+      var en = entryAt(e.id, iso), shift = en[0] === 'Deployed' ? en[1] : en[0];
+      if (Object.prototype.hasOwnProperty.call(counts, shift)) counts[shift]++;
+    });
+    DUTY_SHIFTS.forEach(function (k) { maxShift = Math.max(maxShift, counts[k]); });
+    var bars = DUTY_SHIFTS.map(function (k) {
+      var pct = maxShift ? Math.round(counts[k] / maxShift * 100) : 0;
+      return '<div class="shift-row"><span>' + esc(CAT[k].label) + '</span><div class="shift-track"><div class="shift-fill" style="width:' + pct + '%"></div></div><strong>' + counts[k] + '</strong></div>';
+    }).join('');
+
+    var days = [], max = 1;
+    for (var i = 0; i < 7; i++) {
+      var day = addDays(weekStart(iso), i), s = stats(emps, day);
+      days.push({date:day, duty:s.duty, missing:s.none});
+      max = Math.max(max, s.duty, s.none);
+    }
+    var left = 38, right = 610, top = 16, bottom = 145, span = Math.max(1, max);
+    function xy(v, i) { return (left + i * (right - left) / 6) + ',' + (bottom - v / span * (bottom - top)); }
+    var dutyPoints = days.map(function (d, i) { return xy(d.duty, i); }).join(' ');
+    var missingPoints = days.map(function (d, i) { return xy(d.missing, i); }).join(' ');
+    var grid = [0, Math.ceil(max / 2), max].filter(function (v, i, a) { return a.indexOf(v) === i; }).map(function (v) {
+      var y = bottom - v / span * (bottom - top);
+      return '<line class="trend-grid" x1="' + left + '" y1="' + y + '" x2="' + right + '" y2="' + y + '"></line><text class="trend-label" x="25" y="' + (y + 4) + '" text-anchor="end">' + v + '</text>';
+    }).join('');
+    var labels = days.map(function (d, i) {
+      var x = left + i * (right - left) / 6;
+      return '<text class="trend-label" x="' + x + '" y="170" text-anchor="middle">' + WD[weekday(d.date)].slice(0, 3) + '</text>';
+    }).join('');
+    var dots = days.map(function (d, i) {
+      var p = xy(d.duty, i).split(',');
+      return '<circle class="trend-dot" cx="' + p[0] + '" cy="' + p[1] + '" r="4"><title>' + esc(WD[weekday(d.date)] + ': ' + d.duty + ' on duty') + '</title></circle>';
+    }).join('');
+    return '<div class="analytics"><section class="panel glass chart-card"><h2 class="chart-title">Shift mix</h2><div class="chart-sub">Selected date · ' + esc(fmtShort(iso)) + '</div><div class="shift-bars">' + bars + '</div></section>' +
+      '<section class="panel glass chart-card"><h2 class="chart-title">Seven-day coverage</h2><div class="chart-sub">Daily staffing across the week of ' + esc(fmtShort(weekStart(iso))) + '</div>' +
+      '<svg class="trend-svg" viewBox="0 0 630 180" role="img" aria-label="Seven-day trend of staff on duty and shifts not assigned">' + grid +
+      '<polyline class="trend-missing" points="' + missingPoints + '"></polyline><polyline class="trend-duty" points="' + dutyPoints + '"></polyline>' + dots + labels + '</svg>' +
+      '<div class="chart-legend"><span><i></i>On duty</span><span><i class="missing"></i>Unassigned shifts</span></div></section></div>';
+  }
+  function viewOverview(md) {
+    var emps = filtered(md, state.date);
+    if (!emps.length) return '<div class="panel glass empty">No team members match this filter.</div>';
+    var s = stats(emps, state.date), html = '';
+    if (s.none) html += '<div class="banner warn">⚠️ ' + s.none + ' without a shift <span>' + esc(s.noneNames.slice(0, 10).join(', ')) + (s.noneNames.length > 10 ? '…' : '') + '</span></div>';
+    if (s.away) html += '<div class="banner bad">🧳 ' + s.away + ' on leave or absent <span>' + esc(s.awayNames.join(', ')) + '</span></div>';
+    html += overviewCharts(emps, state.date) + '<div class="stores">' + byStore(emps).map(function (g) { return storeCard(g[0], g[1], state.date); }).join('') + '</div>';
+    return html;
+  }
+
+  function samePunctualityEmployee(event, employee) {
+    var eventCode = String(event.employeeId || '').trim().toLowerCase();
+    var employeeCode = String(employee.employeeId || '').trim().toLowerCase();
+    if (eventCode && employeeCode) return eventCode === employeeCode;
+    return String(event.store).toLowerCase() === String(employee.store).toLowerCase() &&
+      String(event.name).replace(/\s+/g, ' ').trim().toLowerCase() === String(employee.name).replace(/\s+/g, ' ').trim().toLowerCase();
+  }
+  function punctualityProfile(e, allowRecord) {
+    if (!state.punctualityLoaded) return '<div class="punctuality-box"><small class="muted">Loading punctuality records…</small></div>';
+    var events = state.punctualityEvents.filter(function (x) { return samePunctualityEmployee(x, e); })
+      .sort(function (a, b) { return b.date.localeCompare(a.date); });
+    var leaves = events.filter(function (x) { return x.type === 'Unapproved leave'; }).length;
+    var informed = events.filter(function (x) { return x.type === 'Late reporting' && x.notice === 'Informed'; }).length;
+    var uninformed = events.filter(function (x) { return x.type === 'Late reporting' && x.notice !== 'Informed'; }).length;
+    var score = Math.max(0, 100 - leaves * 20 - informed * 5 - uninformed * 10);
+    var color = score >= 80 ? '#16a34a' : score >= 50 ? '#d97706' : '#e11d48';
+    var history = events.slice(0, 3).map(function (x) {
+      var label = x.type === 'Unapproved leave' ? 'Unapproved leave' : 'Late ' + (x.minutes || 0) + ' min · ' + (x.notice || 'Not informed');
+      return '<div class="punctuality-event"><span>' + esc(fmtShort(x.date)) + ' · ' + esc(label) + '</span><span title="' + esc(x.details || '') + '">' + esc(x.details || '') + '</span></div>';
+    }).join('');
+    var action = allowRecord !== false && canEditStoreClient(e.store)
+      ? '<button class="btn sm punctuality-action" data-act="recordPunctuality" data-store="' + esc(e.store) + '" data-name="' + esc(e.name) + '" data-employee-id="' + esc(e.employeeId || '') + '">＋ Add punctuality record</button>'
+      : '';
+    return '<details class="punctuality-box punctuality-disclosure"><summary class="punctuality-summary"><div class="punctuality-pie" style="--score:' + score + '%;--score-color:' + color + '" title="Punctuality score ' + score + ' out of 100"><span>' + score + '</span></div><span class="punctuality-summary-copy"><strong>Punctuality score · ' + score + '/100</strong><small>Click to view score details</small></span></summary>' +
+      '<div class="punctuality-expanded"><div class="punctuality-copy"><small>' + leaves + ' unapproved leave · ' + (informed + uninformed) + ' late reports</small></div>' +
+      '<button type="button" class="btn sm punctuality-history-action" data-act="punctualityHistory" data-store="' + esc(e.store) + '" data-name="' + esc(e.name) + '" data-employee-id="' + esc(e.employeeId || '') + '">View date-wise history (' + events.length + ')</button>' +
+      '<div class="punctuality-events">' + (history || '<div class="punctuality-event"><span>No records</span></div>') + '</div>' +
+      '<small class="muted">Score: −20 per unapproved leave, −5 informed late, −10 uninformed late.</small>' + action + '</div></details>';
+  }
+
+  function openPunctualityHistory(store, name, employeeId) {
+    var employee = { store:store, name:name, employeeId:employeeId || '' };
+    var events = state.punctualityEvents.filter(function (x) { return samePunctualityEmployee(x, employee); })
+      .sort(function (a, b) { return a.date.localeCompare(b.date) || String(a.recordedAt || '').localeCompare(String(b.recordedAt || '')); });
+    var score = 100;
+    var rows = events.map(function (x) {
+      var deduction = x.type === 'Unapproved leave' ? 20 : x.type === 'Late reporting' ? (x.notice === 'Informed' ? 5 : 10) : 0;
+      var before = score;
+      score = Math.max(0, score - deduction);
+      var applied = before - score;
+      var incident = x.type === 'Late reporting' ? 'Late reporting · ' + (x.minutes || 0) + ' min · ' + (x.notice || 'Not informed') : x.type;
+      return { date:x.date, incident:incident, deduction:applied, before:before, score:score, details:x.details || '', recordedBy:x.recordedBy || '' };
+    }).reverse();
+    var table = rows.length
+      ? '<div class="punctuality-history-wrap"><table class="punctuality-history-table"><thead><tr><th>Date</th><th>Incident</th><th>Score change</th><th>Score after</th><th>Details</th><th>Recorded by</th></tr></thead><tbody>' + rows.map(function (r) {
+          return '<tr><td>' + esc(fmtShort(r.date)) + '</td><td>' + esc(r.incident) + '</td><td>−' + r.deduction + ' <span class="muted">(' + r.before + ' → ' + r.score + ')</span></td><td><strong>' + r.score + '/100</strong></td><td>' + esc(r.details || '—') + '</td><td>' + esc(r.recordedBy || '—') + '</td></tr>';
+        }).join('') + '</tbody></table></div>'
+      : '<div class="empty">No punctuality incidents are recorded for this employee.</div>';
+    openModal('Punctuality history · ' + esc(name), 'Date-wise incidents and score changes. Scores are reconstructed from the recorded incidents using the current rules.', table, 'Close', function () {});
+  }
+  /* ---------- stores & staff ---------- */
+  function viewManage(md) {
+    var emps = filtered(md, state.date, 'manage').filter(function (e) { return !e.isDeployment; });
+    var map = {};
+    emps.forEach(function (e) { (map[e.store] = map[e.store] || []).push(e); });
+    var storeNames = state.stores.slice();
+    Object.keys(map).forEach(function (k) { if (storeNames.indexOf(k) < 0) storeNames.push(k); });
+    if (state.store !== 'All') storeNames = storeNames.filter(function (s) { return s === state.store; });
+
+    var head = '<div class="panel glass" style="margin-bottom:14px"><div class="panel-head"><div><h2>Stores &amp; staff</h2><div class="sub">' +
+      (state.isAdmin ? 'Manage staff and rosters across all stores.' : state.accessStores.length ? 'You can manage staff and shifts only in stores assigned to your email.' :
+        'Roster details are read only. Ask the Hyderguda admin to grant store access to your email.') +
+      '</div></div><div>' +
+      (state.isAdmin ? '<button class="btn" data-act="addStore">+ Register store</button>' : '') +
+      (canEditStoreClient(state.store) ? ' <button class="btn primary" data-act="addStaff" data-store="' + esc(state.store === 'All' ? '' : state.store) + '">+ Add staff</button>' : '') +
+      '</div></div></div>';
+
+    var cards = storeNames.map(function (sn) {
+      var list = (map[sn] || []);
+      var profiles = '';
+      byRole(list).forEach(function (g) {
+        g[1].forEach(function (e) {
+          var en = entryAt(e.id, state.date), shift = label(en);
+          profiles += '<article class="employee-card glass">' + staffAvatar(e, true) + '<h3>' + esc(e.name) + '</h3>' +
+            '<span class="employee-role">' + esc(roleTitle(e.role)) + ' · Permanent</span><div class="employee-details">' +
+            '<div class="employee-detail"><span>Store</span><strong>' + esc(e.store) + '</strong></div>' +
+            '<div class="employee-detail"><span>Employee ID</span><strong>' + esc(e.employeeId || 'Not added') + '</strong></div>' +
+            '<div class="employee-detail"><span>Email</span>' + (e.email ? '<a href="mailto:' + esc(e.email) + '">' + esc(e.email) + '</a>' : '<strong>Not added</strong>') + '</div>' +
+            '<div class="employee-detail"><span>WhatsApp</span>' + (e.phone ? '<a href="https://wa.me/' + esc(e.phone) + '" target="_blank" rel="noopener">' + esc(e.phone) + '</a>' : '<strong>Not added</strong>') + '</div>' +
+            (e.reportsTo ? '<div class="employee-detail"><span>Reports to</span><strong>' + esc(e.reportsTo) + '</strong></div>' : '') +
+            '<div class="employee-detail"><span>Selected shift</span><strong>' + esc(shift) + '</strong></div></div>' + punctualityProfile(e, true) + '<div class="employee-actions">' +
+            (canEditStoreClient(e.store) ? '<button class="btn sm" data-act="moveStaff" data-id="' + esc(e.id) + '">⇄ Request deployment</button>' : '') +
+            '<button class="btn sm" data-act="employeeCalendar" data-id="' + esc(e.id) + '">Monthly calendar</button>' +
+            (canEditStoreClient(e.store) ? '<button class="btn sm primary" data-act="editStaff" data-id="' + esc(e.id) + '">Edit profile</button>' : '') +
+            (canEditStoreClient(e.store) ? '<button class="btn sm danger" data-act="removeStaff" data-id="' + esc(e.id) + '">Remove</button>' : '') + '</div></article>';
+        });
+      });
+      if (!profiles) profiles = '<div class="empty">No staff in this store yet.</div>';
+      return '<section class="panel glass staff-store-panel"><div class="panel-head"><div><h2>' + esc(sn) + '</h2><div class="sub">' + list.length + ' team members · profile cards</div></div>' +
+        (canEditStoreClient(sn) ? '<button class="btn sm" data-act="addStaff" data-store="' + esc(sn) + '">+ Add staff</button>' : '') + '</div>' +
+        '<div class="employee-grid">' + profiles + '</div></section>';
+    }).join('');
+    return head + cards;
+  }
+
+  function viewRemovedEmployees() {
+    if (!state.isAdmin) return '<div class="panel glass empty">Removed employee records are available only to the Hyderguda admin.</div>';
+    var deleted = state.deletedStaff.filter(function (e) {
+      return (state.store === 'All' || state.store === e.store) && (!state.role || e.role === state.role) &&
+        (!state.q || e.name.toLowerCase().indexOf(state.q) >= 0);
+    });
+    var deletedCards = deleted.map(function (e) {
+      return '<article class="employee-card glass">' + staffAvatar(e, true) + '<h3>' + esc(e.name) + '</h3>' +
+        '<span class="employee-role">' + esc(roleTitle(e.role)) + ' · Removed</span><div class="employee-details">' +
+        '<div class="employee-detail"><span>Store</span><strong>' + esc(e.store) + '</strong></div>' +
+        '<div class="employee-detail"><span>Employee ID</span><strong>' + esc(e.employeeId || 'Not added') + '</strong></div>' +
+        '<div class="employee-detail"><span>Removed on</span><strong>' + esc(e.removedOn ? fmtShort(e.removedOn) : '—') + '</strong></div></div>' +
+        '<div class="employee-actions">' + (canEditStoreClient(e.store) ? '<button class="btn sm primary" data-act="restoreStaff" data-store="' + esc(e.store) + '" data-name="' + esc(e.name) + '">Restore to same store</button>' : '<span class="muted">View only</span>') + '</div></article>';
+    }).join('');
+    return '<section class="panel glass staff-store-panel"><div class="panel-head"><div><h2>Removed employees</h2><div class="sub">Former employees are listed separately. Restore puts them back in their original store; their roster history is retained.</div></div><span class="pill">' + deleted.length + ' records</span></div>' +
+      (state.deletedStaffLoading ? '<div class="empty">Loading removed employees…</div>' : deletedCards ? '<div class="employee-grid">' + deletedCards + '</div>' : '<div class="empty">No removed employees match this filter.</div>') + '</section>';
+  }
+
+  function viewEmailSettings() {
+    if (!state.isSuperAdmin) return '<div class="panel glass empty">Email settings are available only to the Hyderguda admin.</div>';
+    if (!state.emailAdminData) return '<div class="panel glass empty">Loading email templates and delivery log…</div>';
+    var data = state.emailAdminData;
+    var selected = data.templates.filter(function (t) { return t.id === state.emailTemplateId; })[0] || data.templates[0];
+    if (!selected) return '<div class="panel glass empty">No email templates are configured.</div>';
+    var options = data.templates.map(function (t) { return '<option value="' + esc(t.id) + '"' + (selected.id === t.id ? ' selected' : '') + '>' + esc(t.name) + (t.workflowImplemented ? '' : ' · workflow not available') + '</option>'; }).join('');
+    var preview = selected.body.replace(/\{\{[a-zA-Z][a-zA-Z0-9]*\}\}/g, 'Sample value');
+    var templatePanel = '<section class="panel glass"><div class="panel-head"><div><h2>Email template settings</h2><div class="sub">One HUFT-branded email layout. Messages are plain text with a plain-text fallback; only implemented workflows can be enabled.</div></div><span class="pill">' + (selected.workflowImplemented ? 'Workflow available' : 'Inactive · workflow not implemented') + '</span></div>' +
+      '<div style="padding:16px;display:grid;gap:12px"><div class="fld"><label for="emailTemplateSelect">Template</label><select class="sel" id="emailTemplateSelect">' + options + '</select></div>' +
+      '<div class="fld"><label for="emailSubject">Subject</label><input class="inp" id="emailSubject" maxlength="200" value="' + esc(selected.subject) + '"></div>' +
+      '<div class="fld"><label for="emailBody">Message text</label><textarea class="inp" id="emailBody" rows="9" maxlength="5000">' + esc(selected.body) + '</textarea><small class="muted">Available placeholders are filled from each request. Unknown values display as —.</small></div>' +
+      '<label><input id="emailEnabled" type="checkbox"' + (selected.enabled ? ' checked' : '') + (selected.workflowImplemented ? '' : ' disabled') + '> Enabled for its implemented workflow</label>' +
+      '<div class="panel" style="padding:12px;background:#fff;margin-top:4px"><strong>Message preview</strong><div class="sub">' + esc(selected.subject) + '</div><pre style="white-space:pre-wrap;font:inherit;font-size:12px;margin:8px 0 0">' + esc(preview) + '</pre></div>' +
+      '<div class="acts"><button class="btn primary" data-act="saveEmailTemplate">Save template</button><button class="btn" data-act="testEmailTemplate">Send test to my admin email</button></div></div></section>';
+    var recipients = data.recipients.map(function (r) { return '<tr><td>' + esc(r.store) + '</td><td><input class="inp" type="email" maxlength="254" data-email-store="' + esc(r.store) + '" value="' + esc(r.email || '') + '" placeholder="manager@company.com"></td><td><button class="btn sm" data-act="saveEmailRecipient" data-store="' + esc(r.store) + '">Save email</button></td></tr>'; }).join('');
+    var recipientPanel = '<section class="panel glass"><div class="panel-head"><div><h2>Store email routing</h2><div class="sub">Configure the store manager email used for approval routing. Hyderguda deployment requests copy all configured store addresses, excluding the sender and destination.</div></div></div><div style="overflow:auto"><table class="tbl"><thead><tr><th>Store</th><th>Approval email</th><th>Action</th></tr></thead><tbody>' + recipients + '</tbody></table></div></section>';
+    var logs = data.logs.map(function (r) { return '<tr><td>' + esc(r.updated || '—') + '</td><td>' + esc(r.template) + '<div class="sub">' + esc(r.reference || 'Test') + '</div></td><td>' + esc(r.recipient) + '</td><td>' + esc(r.status) + (r.cc ? '<div class="sub">CC: ' + esc(r.cc) + '</div>' : '') + (r.error ? '<div class="sub">' + esc(r.error) + '</div>' : '') + '</td><td>' + (r.status === 'Failed' ? '<button class="btn sm" data-act="retryEmail" data-id="' + esc(r.id) + '">Retry failed send</button>' : esc(String(r.attempts))) + '</td></tr>'; }).join('');
+    if (!logs) logs = '<tr><td colspan="5" class="muted">No email deliveries are logged yet.</td></tr>';
+    var logPanel = '<section class="panel glass"><div class="panel-head"><div><h2>Email delivery log</h2><div class="sub">Most recent 100 attempts. A failed notification can be retried without reapplying its roster or approval action.</div></div><button class="btn" data-act="refreshEmailAdmin">Refresh</button></div><div style="overflow:auto"><table class="tbl"><thead><tr><th>Updated</th><th>Template / reference</th><th>Recipient</th><th>Status</th><th>Attempts / action</th></tr></thead><tbody>' + logs + '</tbody></table></div></section>';
+    return templatePanel + recipientPanel + logPanel;
+  }
+  function viewAccess() {
+    if (!state.isSuperAdmin) return '<div class="panel glass empty">Admin access is available only to the Hyderguda admin.</div>';
+    var rows = state.accessEntries.length ? state.accessEntries.map(function (entry) {
+      var accessName = entry.access === 'Admin' ? 'Full admin' : 'Store editor';
+      return '<tr><td><strong>' + esc(entry.email) + '</strong></td><td>' + esc(entry.access === 'Admin' ? 'All stores' : entry.store) + '</td><td class="muted">' + accessName + '</td><td class="acts"><button class="btn sm danger" data-act="revokeStoreAccess" data-email="' + esc(entry.email) + '" data-store="' + esc(entry.store) + '" data-access="' + esc(entry.access) + '">Revoke</button></td></tr>';
+    }).join('') : '<tr><td colspan="4" class="muted">No store access grants yet.</td></tr>';
+    return '<div class="panel glass"><div class="panel-head"><div><h2>Hyderguda admin panel</h2><div class="sub">Signed in as ' + esc(state.email || 'admin') + '. Grant an email access to one selected store.</div></div><button class="btn" data-act="shareProfilePhotos">Secure existing profile photo access</button></div>' +
+      '<div class="panel-head" style="align-items:flex-end"><div class="fld" style="min-width:250px"><label for="accessEmail">Email address</label><input id="accessEmail" class="inp" type="email" maxlength="254" placeholder="name@example.com"></div>' +
+      '<div class="fld"><label for="accessRole">Permission</label><select id="accessRole" class="sel"><option value="Editor">Store editor</option><option value="Admin">Full admin</option></select></div>' +
+      '<div class="fld" id="accessStoreField"><label for="accessStore">Store access</label><select id="accessStore" class="sel">' + state.stores.map(function (s) { return '<option value="' + esc(s) + '">' + esc(s) + '</option>'; }).join('') + '</select></div>' +
+      '<div class="acts"><button class="btn" data-act="grantStoreAccess" data-send-invite="false">Grant access</button><button class="btn primary" data-act="grantStoreAccess" data-send-invite="true">Grant &amp; email invite</button></div></div>' +
+      '<div class="sub" style="padding:0 16px 12px">Use <strong>Grant &amp; email invite</strong> to save the selected permission and send the person an invitation with the roster link. Any valid email address can be invited. Store editors are limited to the selected store; admins have full access. Only roster admins can grant or revoke permissions.</div>' +
+      '<div style="overflow:auto"><table class="tbl"><thead><tr><th>Email</th><th>Store</th><th>Permission</th><th></th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+  }
+
+  function viewAccessRequest() {
+    var selected = state.homeStore || (state.store !== 'All' ? state.store : '');
+    var options = state.stores.map(function (s) {
+      return '<option value="' + esc(s) + '"' + (s === selected ? ' selected' : '') + '>' + esc(s) + '</option>';
+    }).join('');
+    return '<div class="panel glass"><div class="panel-head"><div><h2>Request store access</h2><div class="sub">Requests go only to the Hyderguda admin. Sending a request does not change your current permissions.</div></div></div>' +
+      '<div style="padding:16px;max-width:650px"><div class="fld"><label>Signed-in email</label><input class="inp" value="' + esc(state.email || 'Email unavailable') + '" readonly></div>' +
+      '<div class="fld" style="margin-top:12px"><label for="requestStore">Store you need access to</label><select class="sel" id="requestStore">' + options + '</select></div>' +
+      '<div class="fld" style="margin-top:12px"><label for="requestReason">Reason (optional)</label><textarea class="inp" id="requestReason" rows="3" maxlength="500" placeholder="Add a short note for the admin"></textarea></div>' +
+      '<button class="btn primary" style="margin-top:12px" data-act="requestRosterAccess">Send request to Hyderguda</button></div></div>';
+  }
+
+  function viewEmployeeRequests() {
+    var own = state.workRequests.filter(function (r) { return String(r.email || '').toLowerCase() === String(state.email || '').toLowerCase(); });
+    var rows = own.map(function (r) {
+      var evidence = /^https:\/\//i.test(r.evidence || '') ? '<a href="' + esc(r.evidence) + '" target="_blank" rel="noopener noreferrer">View evidence</a>' : '—';
+      return '<tr><td>' + esc(r.type) + '</td><td>' + esc(fmtShort(r.date)) + '</td><td>' + esc(r.previousShift || '—') + (r.requestedShift ? ' → ' + esc(r.requestedShift) : '') + '</td><td>' + esc(r.status) + '</td><td>' + esc(r.notes || '—') + '</td><td>' + evidence + '</td></tr>';
+    }).join('');
+    if (!rows) rows = '<tr><td colspan="6" class="muted">No requests submitted yet.</td></tr>';
+    var action = state.employeeSelf ? '<button class="btn primary" data-act="newEmployeeRequest">＋ New request</button>' : '<span class="sub">Employee self-service requires your email to be linked to an active employee profile.</span>';
+    return '<div class="panel glass"><div class="panel-head"><div><h2>My requests</h2><div class="sub">Requests and decisions for your linked employee profile.</div></div>' + action + '<button class="btn" data-act="refreshWorkRequests">Refresh</button></div>' +
+      '<div style="overflow:auto"><table class="tbl"><thead><tr><th>Request</th><th>Date</th><th>Roster change</th><th>Status</th><th>Manager notes</th><th>Evidence</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+  }
+
+  function viewEmployeeApprovals() {
+    var rows = state.workRequests.map(function (r) {
+      var pending = String(r.status).toLowerCase() === 'pending';
+      var mayReview = pending && state.workRequestsCanApprove && canEditStoreClient(r.store) && String(r.email).toLowerCase() !== String(state.email).toLowerCase();
+      var actions = mayReview
+        ? '<button class="btn sm primary" data-act="reviewWorkRequest" data-id="' + esc(r.id) + '" data-decision="approve">Approve</button> <button class="btn sm danger" data-act="reviewWorkRequest" data-id="' + esc(r.id) + '" data-decision="reject">Reject</button> <button class="btn sm" data-act="reviewWorkRequest" data-id="' + esc(r.id) + '" data-decision="changes">Request changes</button>'
+        : '<span class="muted">' + (pending ? 'Awaiting store review' : '—') + '</span>';
+      var evidence = /^https:\/\//i.test(r.evidence || '') ? '<div><a href="' + esc(r.evidence) + '" target="_blank" rel="noopener noreferrer">Evidence</a></div>' : '';
+      return '<tr><td><strong>' + esc(r.name) + '</strong><div class="sub">' + esc(r.store) + ' · ' + esc(r.email) + '</div></td><td>' + esc(r.type) + '</td><td>' + esc(fmtShort(r.date)) + '</td><td>' + esc(r.previousShift || '—') + (r.requestedShift ? ' → ' + esc(r.requestedShift) : '') + '</td><td>' + esc(r.reason) + evidence + '</td><td>' + esc(r.status) + '</td><td class="acts">' + actions + '</td></tr>';
+    }).join('');
+    if (!rows) rows = '<tr><td colspan="7" class="muted">No employee requests are available for your store.</td></tr>';
+    return '<div class="panel glass"><div class="panel-head"><div><h2>Approval centre</h2><div class="sub">Store managers can decide requests for their assigned store. Opening this page never approves anything.</div></div><button class="btn" data-act="refreshWorkRequests">Refresh</button></div>' +
+      '<div style="overflow:auto"><table class="tbl"><thead><tr><th>Employee</th><th>Request</th><th>Date</th><th>Roster change</th><th>Reason / evidence</th><th>Status</th><th>Decision</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+  }
+  function openEmployeeRequestForm() {
+    if (!state.employeeSelf) { toast('Your signed-in email is not linked to an employee profile.', true); return; }
+    var types = ['Leave request','Week-off change','Shift change','Attendance correction','Punctuality dispute','Grooming dispute'];
+    var typeOptions = types.map(function (t) { return '<option value="' + esc(t) + '">' + esc(t) + '</option>'; }).join('');
+    var shiftOptionsHtml = '<option value="">Choose a shift if needed</option>' + ['Opening','Closing','Mid','Spa','Training','Week off','Comp off'].map(function (s) { return '<option value="' + esc(s) + '">' + esc(shiftName(s)) + '</option>'; }).join('');
+    openModal('New employee request', 'Roster changes take effect only after your store approves them. Attendance and record disputes are reviewed without changing source records.',
+      fld('Request type', '<select class="sel" name="type" required>' + typeOptions + '</select>') +
+      fld('Date', '<input class="inp" type="date" name="date" required value="' + esc(state.date) + '">') +
+      fld('Requested shift (for shift or week-off changes)', '<select class="sel" name="requestedShift">' + shiftOptionsHtml + '</select>') +
+      fld('Reason', '<textarea class="inp" name="reason" maxlength="1000" required placeholder="Explain the request"></textarea>') +
+      fld('Evidence link (optional)', '<input class="inp" type="url" name="evidence" maxlength="1000" placeholder="https://…">'),
+      'Submit request', function (v) {
+        return call('submitEmployeeRequest', { type:v.type, date:v.date, requestedShift:v.requestedShift, reason:v.reason, evidence:v.evidence }).then(function (res) {
+          state.workRequestsLoaded = false; state.workRequestsLoading = false;
+          toast(res.message || 'Request submitted.');
+          return res;
+        });
+      });
+  }
+  function viewDeployments() {
+    var rows = state.deploymentRequests.map(function (r) {
+      var status = String(r.status || 'Pending'), pending = status.toLowerCase() === 'pending';
+      var statusLabel = status.toLowerCase() === 'approved' ? 'Approved · ' + r.fromStore + ' roster updated' : status;
+      if (r.notes) statusLabel += ' · ' + r.notes;
+      var actions = pending && canEditStoreClient(r.toStore)
+                ? '<button class="btn sm primary" data-act="reviewDeployment" data-id="' + esc(r.id) + '" data-decision="approve">Approve</button> <button class="btn sm danger" data-act="reviewDeployment" data-id="' + esc(r.id) + '" data-decision="reject">Reject</button> <button class="btn sm" data-act="reviewDeployment" data-id="' + esc(r.id) + '" data-decision="changes">Request changes</button>'
+        : '<span class="muted">' + (pending ? 'Awaiting ' + esc(r.toStore) : esc(status)) + '</span>';
+      return '<tr><td><strong>' + esc(r.name) + '</strong><div class="sub">' + esc(r.fromStore) + ' → ' + esc(r.toStore) + '</div></td>' +
+        '<td>' + esc(fmtShort(r.from)) + (r.to !== r.from ? ' – ' + esc(fmtShort(r.to)) : '') + '</td><td>' + esc(r.shift || 'Not specified') + '</td>' +
+        '<td>' + esc(r.requester) + '</td><td>' + esc(statusLabel) + '</td><td class="acts">' + actions + '</td></tr>';
+    }).join('');
+    if (!rows) rows = '<tr><td colspan="6" class="muted">No deployment requests are waiting for your stores, and you have no recent requests.</td></tr>';
+    return '<div class="panel glass"><div class="panel-head"><div><h2>Deployment requests and approvals</h2><div class="sub">The destination store approves first. Approval records the deployment on the originating store roster for the selected dates. Permanent transfers are disabled.</div></div><button class="btn" data-act="refreshDeployments">Refresh</button></div>' +
+      '<div style="overflow:auto"><table class="tbl"><thead><tr><th>Employee / stores</th><th>Dates</th><th>Shift</th><th>Requested by</th><th>Status</th><th>Actions</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+  }
+
+
+  function notificationStatusClass(status) {
+    var value = String(status || '').toLowerCase();
+    return value === 'approved' ? 'good' : value === 'pending' ? 'warn' : value === 'rejected' ? 'bad' : '';
+  }
+  function liveNotificationRows() {
+    var rows = [];
+    state.deploymentRequests.forEach(function (r) {
+      rows.push({ kind:'Deployment', employee:r.name, store:r.fromStore + ' → ' + r.toStore, date:r.from + (r.to && r.to !== r.from ? ' – ' + r.to : ''), status:r.status || 'Pending', detail:r.shift || 'Shift not specified', email:r.notification || 'Not recorded', submitted:r.created || '' });
+    });
+    state.workRequests.forEach(function (r) {
+      rows.push({ kind:r.type || 'Employee request', employee:r.name, store:r.store, date:r.date, status:r.status || 'Pending', detail:(r.previousShift || '—') + (r.requestedShift ? ' → ' + r.requestedShift : ''), email:r.notification || 'Not recorded', submitted:r.submitted || '' });
+    });
+    return rows.sort(function (a,b) { return String(b.submitted || b.date).localeCompare(String(a.submitted || a.date)); });
+  }
+  function viewLiveNotifications() {
+    var rows = liveNotificationRows().map(function (r) {
+      var cls = notificationStatusClass(r.status);
+      var status = '<span class="pill ' + cls + '">' + esc(r.status) + '</span>';
+      return '<tr><td><strong>' + esc(r.kind) + '</strong></td><td>' + esc(r.employee || '—') + '</td><td>' + esc(r.store || '—') + '</td><td>' + esc(fmtShort(r.date)) + '</td><td>' + esc(r.detail || '—') + '</td><td>' + status + '</td><td>' + esc(r.email) + '</td></tr>';
+    }).join('');
+    if (!rows) rows = '<tr><td colspan="7" class="muted">No request notifications are available to your account.</td></tr>';
+    var pending = liveNotificationRows().filter(function (r) { return String(r.status).toLowerCase() === 'pending'; }).length;
+    return '<div class="panel glass"><div class="panel-head"><div><h2>Live notifications</h2><div class="sub">Store-scoped request and deployment updates. Refreshes automatically while this tab is open. Pending: ' + pending + ' · All visible: ' + liveNotificationRows().length + '</div></div><button class="btn" data-act="refreshLiveNotifications">Refresh now</button></div>' +
+      '<div style="overflow:auto"><table class="tbl"><thead><tr><th>Notification</th><th>Employee</th><th>Store</th><th>Date</th><th>Roster detail</th><th>Status</th><th>Email delivery</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+  }
+
+  function updateRequestTabCounts() {
+    function countPending(rows) {
+      return rows.filter(function (r) { return String(r.status || '').trim().toLowerCase() === 'pending'; }).length;
+    }
+    var ownWork = state.workRequests.filter(function (r) { return String(r.email || '').trim().toLowerCase() === String(state.email || '').trim().toLowerCase(); });
+    var deploymentPending = countPending(state.deploymentRequests);
+    var workPending = countPending(state.workRequests);
+    var myPending = countPending(ownWork);
+    var d = $('#deploymentTabCount'), a = $('#approvalTabCount'), m = $('#myRequestsTabCount'), n = $('#notificationsTabCount');
+    if (d) d.textContent = state.deploymentRequestsLoaded ? String(deploymentPending) : '';
+    if (a) a.textContent = state.workRequestsLoaded ? String(workPending) : '';
+    if (m) m.textContent = state.workRequestsLoaded ? String(myPending) : '';
+    if (n) n.textContent = (state.deploymentRequestsLoaded || state.workRequestsLoaded) ? String(deploymentPending + workPending) : '';
+  }
+
+  /* ---------- whatsapp ---------- */
+  function storeMessage(store, list, iso) {
+    var duty = [], retailOffs = [], groomOffs = [], deployedOut = [];
+    var openers = [], closers = [];
+
+    list.forEach(function (e) {
+      var en = entryAt(e.id, iso);
+      var shift = en[0];
+      var group = (CAT[shift] || CAT.Other).group;
+      var isGroomer = e.role === 'Grooming';
+
+      if (group === 'duty') {
+        if (shift === 'Deployed' && en[2] && en[2] !== store) {
+          deployedOut.push([e, en]);
+          return;
+        }
+        duty.push([e, en]);
+
+        var actualShift = shift === 'Deployed' ? en[1] : shift;
+        // Key handover is a Retail responsibility; groomers never appear here.
+        if (!isGroomer && (shift !== 'Deployed' || en[2] === store)) {
+          if (actualShift === 'Opening') openers.push(e.name);
+          if (actualShift === 'Closing') closers.push(e.name);
+        }
+      } else if (group !== 'gone') {
+        if (isGroomer) groomOffs.push([e, en]);
+        else retailOffs.push([e, en]);
+      }
+    });
+
+    var retail = duty.filter(function (p) {
+      return p[0].role !== 'Grooming';
+    });
+
+    var groomers = duty.filter(function (p) {
+      return p[0].role === 'Grooming';
+    });
+
+    function shiftPeople(people, shiftName) {
+      return people.filter(function (p) {
+        var en = p[1];
+        var actualShift = en[0] === 'Deployed' ? en[1] : en[0];
+        return actualShift === shiftName;
+      }).map(function (p) {
+        return p[0].name;
+      });
+    }
+
+    function lines(people) {
+      return people.map(function (p) {
+        return '• ' + p[0].name + ' – ' + label(p[1]);
+      });
+    }
+
+    var openingRetail = shiftPeople(retail, 'Opening');
+    var closingRetail = shiftPeople(retail, 'Closing');
+    var supporting = duty.filter(function (p) { return !!p[0].isDeployment; });
+    var openingGroomers = shiftPeople(groomers, 'Opening');
+    var closingGroomers = shiftPeople(groomers, 'Closing');
+
+    var out = [
+      '📅 Date: ' + fmtMsg(iso),
+      '🏬 Store: ' + store,
+      '',
+      '👥 Total staff on duty: ' + duty.length,
+      '',
+      '🛒 Retail staff (' + retail.length + ')'
+    ];
+
+    if (deployedOut.length) {
+      out.push('', '📤 Staff deployed to another store');
+      deployedOut.forEach(function (p) {
+        var person = p[0], entry = p[1];
+        var shiftText = entry[1] ? shiftName(entry[1]) : 'Shift not specified';
+        out.push('• ' + person.name + ' – ' + roleTitle(person.role) + ' · from ' + store + ' to ' + entry[2] + ' · ' + shiftText);
+      });
+    }
+
+    if (supporting.length) {
+      out.push('', '🤝 Supporting staff (temporary deployment)');
+      supporting.forEach(function (p) {
+        var person = p[0], entry = p[1];
+        var actualShift = entry[0] === 'Deployed' ? entry[1] : entry[0];
+        var shiftText = actualShift ? shiftName(actualShift) : 'Shift not specified';
+        out.push('• ' + person.name + ' – ' + roleTitle(person.role) + ' · from ' + (person.homeStore || 'home store') + ' · ' + shiftText);
+      });
+      out.push('');
+    }
+
+    if (openingRetail.length) out.push('🔓 Opening shift: ' + openingRetail.join(', '));
+    if (closingRetail.length) out.push('🔒 Closing shift: ' + closingRetail.join(', '));
+    out.push('', '⚠️ Leaves & offs (Retail)');
+
+    out = out.concat(
+      retailOffs.length ? lines(retailOffs) : ['• No leaves & offs']
+    );
+
+    out.push('', '✂️ Groomers (' + groomers.length + ')');
+    if (openingGroomers.length) out.push('🔓 Opening shift: ' + openingGroomers.join(', '));
+    if (closingGroomers.length) out.push('🔒 Closing shift: ' + closingGroomers.join(', '));
+    out.push('', '⚠️ Leaves & offs (Groomers)');
+
+    out = out.concat(
+      groomOffs.length ? lines(groomOffs) : ['• No leaves & offs']
+    );
+
+    if (openers.length || closers.length) {
+      out.push('', '🔑 Key handover');
+      if (openers.length) out.push('• Opening key: ' + openers.join(', '));
+      if (closers.length) out.push('• Closing key: ' + closers.join(', '));
+    }
+
+    return out.join('\n');
+  }
+  function viewWhatsapp(md) {
+    var emps = filtered(md, state.date);
+    // Include employees assigned out from this home store so its report records
+    // who is away, their role, and the receiving store name.
+    md.employees.forEach(function (e) {
+      if (e.isDeployment || (state.store !== 'All' && e.store !== state.store) ||
+          (state.role && e.role !== state.role) || (state.q && e.name.toLowerCase().indexOf(state.q) < 0) ||
+          !activeOn(e, state.date) || entryAt(e.id, state.date)[0] !== 'Deployed') return;
+      emps.push(e);
+    });
+    if (!emps.length) return '<div class="panel glass empty">No team members match this filter.</div>';
+    var iso = state.date;
+    state.msgs = [];
+    var groups = byStore(emps);
+    var cards = groups.map(function (g) {
+      var text = storeMessage(g[0], g[1], iso);
+      state.msgs.push(text);
+      return '<article class="panel glass msg"><header><h3>' + esc(g[0]) + '</h3><div class="actions">' +
+        '<button class="btn sm" data-act="copy" data-i="' + (state.msgs.length - 1) + '">Copy</button>' +
+        '<a class="btn sm primary" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(text) + '">WhatsApp</a>' +
+        '</div></header><pre>' + esc(text) + '</pre></article>';
+    }).join('');
+
+    var rows = '';
+    groups.forEach(function (g) {
+      rows += '<tr class="grp"><td colspan="4">' + esc(g[0]) + '</td></tr>';
+      sortedForDay(g[1], iso).forEach(function (e) {
+        var en = entryAt(e.id, iso), m = CAT[en[0]] || CAT.Other, action;
+        var editShift = canEditStoreClient(e.store) ? '<button class="btn sm" data-act="editShift" data-id="' + esc(e.id) + '">Edit shift</button>' : '';
+        if (m.group === 'none') action = editShift + '<span class="muted">Shift missing</span>';
+        else if (!e.phone) action = editShift + '<span class="muted">No number</span>';
+        else action = editShift + '<button class="btn sm" data-act="editMessage" data-id="' + esc(e.id) + '" data-store="' + esc(g[0]) + '">Edit message</button>' +
+          '<a class="btn sm primary" target="_blank" rel="noopener" href="https://wa.me/' + e.phone + '?text=' + encodeURIComponent(dayMessage(e, iso, g[0])) + '">📲 Send</a>';
+        rows += '<tr><td><span class="staff-identity">' + staffAvatar(e) + '<span>' + esc(e.name) + '</span></span></td><td class="muted">' + esc(roleTitle(e.role)) + '</td><td><span class="pill t-' + m.cls + '">' +
+          esc(label(en)) + '</span></td><td>' + action + '</td></tr>';
+      });
+    });
+    return '<div class="whatsapp-layout"><section class="wa-summaries"><div class="section-title" style="margin-top:0">Store summaries · ' + esc(fmtLong(iso)) + '</div><div class="msgs">' + cards + '</div></section>' +
+      '<section class="wa-individual"><div class="section-title" style="margin-top:0">Individual shift messages</div><div class="panel glass individual-msg-wrap"><table class="tbl individual-msg-table"><thead><tr><th>Employee</th><th>Role</th><th>Shift</th><th>Actions</th></tr></thead><tbody>' +
+      rows + '</tbody></table></div></section></div>';
+  }
+
+  /* ---------- render ---------- */
+  function renderStoreSelect() {
+    var el = $('#storeSel'), list = ['All'].concat(state.stores);
+    if (state.store !== 'All' && list.indexOf(state.store) < 0) state.store = 'All';
+    el.innerHTML = list.map(function (s) {
+      return '<option value="' + esc(s) + '"' + (s === state.store ? ' selected' : '') + '>' + (s === 'All' ? 'All stores' : esc(s)) + '</option>';
+    }).join('');
+  }
+
+  function render() {
+    var md = monthData();
+    if (!md) return;
+    $('#accessTab').classList.toggle('hide', !state.isSuperAdmin);
+    if (state.tab === 'access' && !state.isSuperAdmin) state.tab = 'week';
+    $('#emailTab').classList.toggle('hide', !state.isSuperAdmin);
+    if (state.tab === 'email' && !state.isSuperAdmin) state.tab = 'week';
+    if (state.tab === 'removed' && !state.isAdmin) state.tab = 'week';
+    $('#removedEmployeesTabCount').parentElement.classList.toggle('hide', !state.isAdmin);
+    $('#datePick').value = state.date;
+    document.querySelectorAll('.tab').forEach(function (t) { t.setAttribute('aria-selected', String(t.dataset.tab === state.tab)); });
+    updateRequestTabCounts();
+    $('#removedEmployeesTabCount').textContent = String(state.deletedStaff.length || 0);
+    renderStoreSelect();
+    renderKpis(filtered(md, state.date));
+
+    var html;
+    if (state.tab === 'month') html = viewMonth(md);
+    else if (state.tab === 'overview') html = viewOverview(md);
+    else if (state.tab === 'manage') html = viewManage(md);
+    else if (state.tab === 'removed') html = viewRemovedEmployees();
+    else if (state.tab === 'wa') html = viewWhatsapp(md);
+    else if (state.tab === 'deployments') html = state.deploymentRequestsLoaded ? viewDeployments() : '<div class="panel glass empty">Loading deployment requests…</div>';
+    else if (state.tab === 'myrequests') html = state.workRequestsLoaded ? viewEmployeeRequests() : '<div class="panel glass empty">Loading your requests…</div>';
+    else if (state.tab === 'approvals') html = state.workRequestsLoaded ? viewEmployeeApprovals() : '<div class="panel glass empty">Loading approval centre…</div>';
+    else if (state.tab === 'notifications') html = state.workRequestsLoaded && state.deploymentRequestsLoaded ? viewLiveNotifications() : '<div class="panel glass empty">Loading live notifications…</div>';
+    else if (state.tab === 'request') html = viewAccessRequest();
+    else if (state.tab === 'access') html = state.accessLoaded ? viewAccess() : '<div class="panel glass empty">Loading access list…</div>';
+    else if (state.tab === 'email') html = viewEmailSettings();
+    else html = viewWeek(md);
+
+    var c = $('#content'), gw = c.querySelector('.tablewrap'), sx = 0, sy = 0;
+    if (gw) { sx = gw.scrollLeft; sy = gw.scrollTop; }
+    c.innerHTML = html;
+    var emailTemplateSelect = $('#emailTemplateSelect');
+    if (emailTemplateSelect) emailTemplateSelect.onchange = function () { state.emailTemplateId = emailTemplateSelect.value; render(); };
+    var accessRoleSelect = $('#accessRole');
+    if (accessRoleSelect) accessRoleSelect.onchange = function () {
+      $('#accessStoreField').classList.toggle('hide', accessRoleSelect.value === 'Admin');
+    };
+    var gw2 = c.querySelector('.tablewrap');
+    if (gw2) {
+      if (sx || sy) { gw2.scrollLeft = sx; gw2.scrollTop = sy; }
+      else if (state.tab === 'month') {
+        var sel = gw2.querySelector('th.sel');
+        if (sel) gw2.scrollLeft = Math.max(0, sel.offsetLeft - 240);
+      }
+    }
+    if (state.tab === 'manage' || state.tab === 'removed' || state.tab === 'overview' || state.tab === 'wa') {
+      var photoList = filtered(md, state.date);
+      if (state.tab === 'removed' && state.isAdmin) photoList = state.deletedStaff;
+      loadStaffPhotos(photoList);
+    }
+    if (state.isAdmin && !state.deletedStaffLoaded && !state.deletedStaffLoading) {
+      state.deletedStaffLoading = true;
+      call('getDeletedStaff').then(function (rows) {
+        state.deletedStaff = rows || []; state.deletedStaffLoaded = true; state.deletedStaffLoading = false; render();
+      }).catch(function (err) {
+        state.deletedStaffLoading = false; toast('Could not load deleted employees: ' + err.message, true);
+      });
+    }
+    if (state.tab === 'manage' && !state.punctualityLoaded && !state.punctualityLoading) {
+      state.punctualityLoading = true;
+      call('getPunctualityEvents').then(function (res) {
+        state.punctualityEvents = res.events || []; state.punctualityLoaded = true; state.punctualityLoading = false; render();
+      }).catch(function (err) {
+        state.punctualityEvents = []; state.punctualityLoaded = true; state.punctualityLoading = false;
+        toast('Could not load punctuality records: ' + err.message, true); render();
+      });
+    }
+    if ((state.tab === 'myrequests' || state.tab === 'approvals' || state.tab === 'notifications') && !state.workRequestsLoaded && !state.workRequestsLoading) {
+      state.workRequestsLoading = true;
+      call('getEmployeeRequests').then(function (res) {
+        state.workRequests = res.requests || []; state.workRequestsCanApprove = !!res.canApprove; state.workRequestsLoaded = true; state.workRequestsLoading = false; render();
+      }).catch(function (err) {
+        state.workRequestsLoading = false; c.innerHTML = '<div class="panel glass empty">Could not load requests: ' + esc(err.message) + '</div>';
+      });
+    }    if ((state.tab === 'deployments' || state.tab === 'notifications') && !state.deploymentRequestsLoaded && !state.deploymentRequestsLoading) {
+      state.deploymentRequestsLoading = true;
+      call('getDeploymentRequests').then(function (res) {
+        state.deploymentRequests = res.requests || []; state.deploymentRequestsLoaded = true; state.deploymentRequestsLoading = false; render();
+      }).catch(function (err) {
+        state.deploymentRequestsLoading = false; c.innerHTML = '<div class="panel glass empty">Could not load deployment requests: ' + esc(err.message) + '</div>';
+      });
+    }
+    if (state.tab === 'email' && state.isSuperAdmin && !state.emailAdminData && !state.emailAdminLoading) {
+      state.emailAdminLoading = true;
+      call('getEmailAdminData').then(function (res) {
+        state.emailAdminData = res; state.emailAdminLoading = false;
+        if (!state.emailTemplateId && res.templates.length) state.emailTemplateId = res.templates[0].id;
+        render();
+      }).catch(function (err) {
+        state.emailAdminLoading = false; $('#content').innerHTML = '<div class="panel glass empty">Could not load email settings: ' + esc(err.message) + '</div>';
+      });
+    }    if (state.tab === 'access' && state.isSuperAdmin && !state.accessLoaded && !state.accessLoading) {
+      state.accessLoading = true;
+      call('getRosterAccess').then(function (res) {
+        state.accessEntries = res.entries || []; state.accessLoaded = true; state.accessLoading = false; render();
+      }).catch(function (err) {
+        state.accessLoading = false; c.innerHTML = '<div class="panel glass empty">Could not load access list: ' + esc(err.message) + '</div>';
+      });
+    }
+  }
+
+  /* ---------- toast / clipboard ---------- */
+  function toast(msg, isErr) {
+    var t = $('#toast');
+    t.textContent = msg; t.className = 'toast show' + (isErr ? ' err' : '');
+    clearTimeout(toast.h); toast.h = setTimeout(function () { t.className = 'toast' + (isErr ? ' err' : ''); }, isErr ? 4500 : 2400);
+  }
+  function copyText(text) {
+    var fallback = function () {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); toast('Copied to clipboard'); } catch (e) { toast('Copy failed', true); }
+      document.body.removeChild(ta);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { toast('Copied to clipboard'); }, fallback);
+    } else fallback();
+  }
+
+  /* ---------- editing shifts (batched, saved to the sheet) ---------- */
+  function setSaveState(txt, cls) {
+    var el = $('#saveState');
+    el.textContent = txt; el.className = 'save-state' + (cls ? ' ' + cls : '');
+  }
+  function newEntry(spec) {
+    if (spec.cat === 'Clear') return 'Unassigned';
+    if (spec.cat === 'Deployed') return ['Deployed', spec.shift || '', spec.toStore];
+    return spec.cat;
+  }
+  function applyChange(id, iso, spec) {
+    var emp = findEmpForEdit(id, iso);
+    if (!emp) { toast('Could not find that employee.', true); return; }
+    emp.days[parseIso(iso).d - 1] = newEntry(spec);
+    state.pending = state.pending.filter(function (c) { return !(c.store === emp.store && c.name === emp.name && c.date === iso); });
+    state.pending.push({ store: emp.store, name: emp.name, date: iso, cat: spec.cat, toStore: spec.toStore || '', shift: spec.shift || '' });
+    setSaveState('Saving…', 'saving');
+    clearTimeout(state.flushTimer);
+    state.flushTimer = setTimeout(flush, 500);
+    render();
+  }
+  function flush() {
+    if (state.saving || !state.pending.length) return;
+    state.saving = true;
+    var batch = state.pending.splice(0, state.pending.length);
+    call('saveShifts', batch).then(function () {
+      state.saving = false;
+      if (state.pending.length) { setSaveState('Saving…', 'saving'); flush(); }
+      else setSaveState('Saved ✓', '');
+    }).catch(function (err) {
+      state.saving = false; state.pending = [];
+      setSaveState('Not saved', 'bad');
+      toast('Could not save: ' + err.message, true);
+      ensureRange(state.date, true).then(render, function () {});
+    });
+  }
+  window.addEventListener('beforeunload', function (e) {
+    if (state.pending.length || state.saving) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  /* ---------- modals ---------- */
+  function openModal(title, lead, html, submitLabel, onSubmit) {
+    var ov = $('#modal');
+    ov.innerHTML = '<div class="modal glass"><h3>' + esc(title) + '</h3>' + (lead ? '<p class="lead">' + lead + '</p>' : '') +
+      '<form id="mform" novalidate>' + html + '<div class="m-err" id="merr"></div><div class="m-actions">' +
+      '<button type="button" class="btn" data-act="mclose">Cancel</button><button type="submit" class="btn primary" id="msubmit">' + esc(submitLabel) + '</button></div></form></div>';
+    ov.classList.add('open');
+    var form = $('#mform');
+    var first = form.querySelector('input:not([type=radio]),select');
+    if (first) first.focus();
+    form.onsubmit = function (e) {
+      e.preventDefault();
+      var vals = {};
+      Array.prototype.forEach.call(form.elements, function (el) {
+        if (!el.name) return;
+        if (el.type === 'radio') { if (el.checked) vals[el.name] = el.value; }
+        else if (el.type === 'checkbox') vals[el.name] = el.checked;
+        else vals[el.name] = el.value;
+      });
+      $('#merr').textContent = '';
+      var btn = $('#msubmit'); btn.disabled = true;
+      var p;
+      try { p = Promise.resolve(onSubmit(vals)); } catch (err) { p = Promise.reject(err); }
+      p.then(closeModal, function (err) { btn.disabled = false; $('#merr').textContent = err && err.message ? err.message : String(err); });
+    };
+    return form;
+  }
+  function closeModal() { var ov = $('#modal'); ov.classList.remove('open'); ov.innerHTML = ''; render(); }
+  function storeOptions(selected, exclude) {
+    var stores = state.isAdmin ? state.stores : state.accessStores;
+    return stores.filter(function (s) { return s !== exclude; }).map(function (s) {
+      return '<option value="' + esc(s) + '"' + (s === selected ? ' selected' : '') + '>' + esc(s) + '</option>';
+    }).join('');
+  }
+  function shiftOptions(blankLabel) {
+    return '<option value="">' + esc(blankLabel) + '</option>' + DUTY_SHIFTS.map(function (k) {
+      return '<option value="' + k + '">' + CAT[k].label + '</option>';
+    }).join('');
+  }
+  function fld(lbl, inner) { return '<div class="fld"><label>' + lbl + '</label>' + inner + '</div>'; }
+
+  function reloadAfter(res) {
+    if (res && res.stores) state.stores = res.stores;
+    if (res && res.message) toast(res.message);
+    state.data = {};
+    state.photos = {}; state.photoRequests = {};
+    return ensureRange(state.date, true).then(function () { renderStoreSelect(); });
+  }
+
+  function readProfilePhoto(file) {
+    if (!file) return Promise.resolve('');
+    if (!/^image\//.test(file.type || '')) return Promise.reject(new Error('Choose an image file.'));
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onerror = function () { reject(new Error('Could not read that image.')); };
+      reader.onload = function () {
+        var img = new Image();
+        img.onerror = function () { reject(new Error('Could not open that image.')); };
+        img.onload = function () {
+          var side = Math.min(img.naturalWidth, img.naturalHeight), sx = (img.naturalWidth - side) / 2, sy = (img.naturalHeight - side) / 2;
+          var canvas = document.createElement('canvas'); canvas.width = 320; canvas.height = 320;
+          canvas.getContext('2d').drawImage(img, sx, sy, side, side, 0, 0, 320, 320);
+          resolve(canvas.toDataURL('image/jpeg', 0.82));
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function openEditStaff(id) {
+    var emp = findEmp(id, state.date);
+    if (!emp) return;
+    var photoPromise = Promise.resolve('');
+    var currentPhoto = state.photos[emp.id] || '';
+    var preview = currentPhoto ? '<img class="photo-preview" id="profilePreview" src="' + esc(currentPhoto) + '" alt="Profile photo">' :
+      '<div class="avatar photo-preview" id="profilePreview" style="--h:' + hue(emp.name) + '">' + esc(initials(emp.name)) + '</div>';
+    var form = openModal('Edit staff profile', 'Update ' + esc(emp.name) + '’s details and optional profile photo.',
+      '<div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">' + preview +
+        '<div style="flex:1">' + fld('Profile photo', '<input class="inp" type="file" id="profileFile" accept="image/*">') +
+        '<div class="photo-hint">Choose a file, or click below and press Ctrl+V to paste a copied image.</div>' +
+        '<div class="photo-paste" id="photoPasteTarget" tabindex="0" role="textbox" aria-label="Paste a profile photo">Click here, then press Ctrl+V</div>' +
+        '<label style="display:block;margin-top:8px;font-size:12px"><input type="checkbox" name="removePhoto"> Remove current photo</label></div></div>' +
+      fld('Full name', '<input class="inp" name="newName" maxlength="40" required value="' + esc(emp.name) + '">') +
+      fld('Employee ID (optional)', '<input class="inp" name="employeeId" maxlength="50" value="' + esc(emp.employeeId || '') + '" placeholder="e.g. HUFT-1024">') +
+      '<div class="row2">' + fld('Role', '<select class="sel" name="role"><option value="Retail"' + (emp.role === 'Retail' ? ' selected' : '') + '>Retail</option><option value="Grooming"' + (emp.role === 'Grooming' ? ' selected' : '') + '>Groomer</option></select>') +
+      fld('WhatsApp number', '<input class="inp" name="phone" inputmode="tel" maxlength="16" value="' + esc(emp.phone || '') + '">') + '</div>' +
+      fld('Email address (optional)', '<input class="inp" name="email" type="email" maxlength="254" value="' + esc(emp.email || '') + '">'),
+      'Save changes', function (v) {
+        if (!v.newName.trim()) throw new Error('Enter a name.');
+        return photoPromise.then(function (photoData) {
+          return call('updateStaff', { store: emp.store, name: emp.name, newName: v.newName, role: v.role, phone: v.phone, email: v.email, employeeId: v.employeeId,
+            photoData: photoData || '', removePhoto: !!v.removePhoto }).then(reloadAfter);
+        });
+      });
+    var input = form.querySelector('#profileFile');
+    var pasteTarget = form.querySelector('#photoPasteTarget');
+    function selectProfilePhoto(file) {
+      if (!file) return;
+      photoPromise = readProfilePhoto(file).then(function (data) {
+        var old = $('#profilePreview'), img = document.createElement('img');
+        img.id = 'profilePreview'; img.className = 'photo-preview'; img.alt = 'Selected profile photo'; img.src = data;
+        old.parentNode.replaceChild(img, old);
+        pasteTarget.textContent = 'Photo ready · paste another image to replace';
+        return data;
+      });
+      photoPromise.catch(function (err) { toast(err.message, true); });
+    }
+    input.addEventListener('change', function () {
+      var file = input.files && input.files[0] ? input.files[0] : null;
+      if (!file) { photoPromise = Promise.resolve(''); return; }
+      selectProfilePhoto(file);
+    });
+    pasteTarget.addEventListener('paste', function (event) {
+      event.preventDefault();
+      var clipboard = event.clipboardData, file = null;
+      if (clipboard && clipboard.items) {
+        for (var i = 0; i < clipboard.items.length; i++) {
+          if (clipboard.items[i].kind === 'file' && /^image\//.test(clipboard.items[i].type)) {
+            file = clipboard.items[i].getAsFile();
+            if (file) break;
+          }
+        }
+      }
+      if (!file && clipboard && clipboard.files && clipboard.files.length) file = clipboard.files[0];
+      if (!file) { toast('Copy an image first, then paste it here.', true); return; }
+      selectProfilePhoto(file);
+    });
+  }
+
+  function profileCalendarHtml(id, md) {
+    var out = '<div class="profile-calendar">';
+    ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(function (d) { out += '<div class="profile-calendar-head">' + d + '</div>'; });
+    var first = md.key + '-01', offset = (weekday(first) + 6) % 7;
+    for (var i = 0; i < offset; i++) out += '<div class="profile-day empty"></div>';
+    for (var d = 1; d <= md.daysInMonth; d++) {
+      var iso = md.key + '-' + pad(d), en = entryAt(id, iso), meta = CAT[en[0]] || CAT.Other;
+      var cls = meta.group === 'duty' ? 't-duty' : meta.group === 'off' ? 't-off' : meta.group === 'away' ? 't-away' : 't-none';
+      var shift = meta.group === 'none' ? 'Unassigned' : label(en);
+      out += '<div class="profile-day ' + cls + '" title="' + esc(fmtLong(iso) + ' · ' + shift) + '"><span class="profile-day-no">' + d + '</span>' +
+        '<span class="profile-day-shift">' + esc(shift) + '</span><button type="button" class="profile-day-action" data-act="profileDate" data-date="' + iso + '">Open day</button></div>';
+    }
+    return out + '</div>';
+  }
+
+  function openEmployeeCalendar(id) {
+    var emp = findEmp(id, state.date);
+    if (!emp) return;
+    var selectedMonth = monthKey(state.date), options = state.months.map(function (m) {
+      return '<option value="' + esc(m.key) + '"' + (m.key === selectedMonth ? ' selected' : '') + '>' + esc(m.label) + '</option>';
+    }).join('');
+    var form = openModal('Monthly calendar · ' + emp.name, 'View every shift and day off for this employee. Select a date to open that day in the roster.',
+      fld('Roster month', '<select class="sel" name="month">' + options + '</select>') +
+      '<div id="profileCalendarContent" class="calendar-loading">Loading calendar…</div>',
+      'Done', function () {});
+    form.closest('.modal').classList.add('modal-calendar');
+    var monthSelect = form.querySelector('[name=month]'), content = form.querySelector('#profileCalendarContent');
+    function loadMonth(key) {
+      content.className = 'calendar-loading'; content.textContent = 'Loading calendar…';
+      ensureMonth(key).then(function (md) {
+        if (!md || !md.found) { content.className = 'muted'; content.textContent = 'No roster data is available for this month.'; return; }
+        content.className = '';
+        content.innerHTML = profileCalendarHtml(id, md);
+      }).catch(function (err) { content.className = 'muted'; content.textContent = err.message || 'Could not load this month.'; });
+    }
+    monthSelect.addEventListener('change', function () { loadMonth(monthSelect.value); });
+    loadMonth(selectedMonth);
+  }
+
+  function openMessageEditor(id, iso, store) {
+    var emp = findEmp(id, iso);
+    if (!emp || !emp.phone) { toast('Add a WhatsApp number before sending.', true); return; }
+    openModal('Edit WhatsApp message', 'Change the text for this message before opening WhatsApp.',
+      fld('Message', '<textarea class="inp" name="message" rows="7" required>' + esc(dayMessage(emp, iso, store)) + '</textarea>'),
+      'Open WhatsApp', function (v) {
+        if (!v.message.trim()) throw new Error('Enter a message.');
+        var url = 'https://wa.me/' + emp.phone + '?text=' + encodeURIComponent(v.message);
+        window.open(url, '_blank', 'noopener,noreferrer');
+      });
+  }
+
+  function openShiftEditor(id) {
+    var emp = findEmp(id, state.date);
+    if (!emp) return;
+    if (!canEditStoreClient(emp.store)) { toast('You do not have edit access to ' + emp.store + '.', true); return; }
+    var en = entryAt(id, state.date), current = en[0];
+    var options = '<option value="Clear"' + ((CAT[current] || CAT.Other).group === 'none' ? ' selected' : '') + '>Unassigned</option>';
+    if (current === 'Deployed') options += '<option value="__keep__" selected>Keep deployment · ' + esc(label(en)) + '</option>';
+    options += SHIFT_OPTS.map(function (shift) {
+      return '<option value="' + esc(shift) + '"' + (current === shift ? ' selected' : '') + '>' + esc(CAT[shift].label) + '</option>';
+    }).join('');
+    openModal('Edit shift · ' + emp.name, 'Choose the shift for ' + esc(fmtLong(state.date)) + '. The change saves to the roster.',
+      fld('Shift', '<select class="sel" name="shift">' + options + '</select>'),
+      'Save shift', function (v) {
+        if (v.shift === '__keep__') return;
+        applyChange(id, state.date, { cat: v.shift });
+      });
+  }
+
+  function openDeploy(id, iso) {
+    var emp = findEmp(id, iso);
+    if (!emp) return;
+    var destinations = state.stores.filter(function (store) { return store !== emp.store; }).map(function (store) {
+      return '<option value="' + esc(store) + '">' + esc(store) + '</option>';
+    }).join('');
+    openModal('Request deployment · ' + emp.name, 'Request deployment to another store on ' + esc(fmtShort(iso)) + '. The destination store receives an approval email; the roster changes only after approval.',
+      fld('Deploy to', '<select class="sel" name="toStore" required>' + destinations + '</select>') +
+      fld('Shift there', '<select class="sel" name="shift">' + shiftOptions('Not specified') + '</select>'),
+      'Send for approval', function (v) {
+        if (!v.toStore) throw new Error('Choose a store.');
+        return call('requestDeployment', { store: emp.store, name: emp.name, toStore: v.toStore, from: iso, to: iso, shift: v.shift }).then(function (res) {
+          toast(res.message || 'Deployment request sent for approval.');
+          state.tab = 'deployments';
+          state.deploymentRequestsLoaded = false;
+        });
+      });
+  }
+
+  function openAddStaff(store) {
+    openModal('Add staff', 'The person is added to the HUFT Directory and appears in the roster straight away.',
+      fld('Full name', '<input class="inp" name="name" maxlength="40" required placeholder="e.g. Anitha Reddy">') +
+      fld('Employee ID (optional)', '<input class="inp" name="employeeId" maxlength="50" placeholder="e.g. HUFT-1024">') +
+      '<div class="row2">' + fld('Store', '<select class="sel" name="store">' + storeOptions(store) + '</select>') +
+      fld('Role', '<select class="sel" name="role"><option value="Retail">Retail</option><option value="Grooming">Groomer</option></select>') + '</div>' +
+      fld('WhatsApp number (optional)', '<input class="inp" name="phone" inputmode="tel" maxlength="16" placeholder="10-digit mobile">') +
+      fld('Employee email', '<input class="inp" name="email" type="email" maxlength="254" required placeholder="employee@example.com">') +
+      '<div class="sub"><label><input type="checkbox" name="invite" checked> Send an employee self-service invitation when added by the Hyderguda admin</label></div>',
+      'Add staff', function (v) {
+        if (!v.name.trim()) throw new Error('Enter a name.');
+        if (v.invite && !v.email.trim()) throw new Error('Enter the employee email address or uncheck the invitation option.');
+        return call('addStaff', { name: v.name, store: v.store, role: v.role, phone: v.phone, email: v.email, employeeId: v.employeeId }).then(function (res) {
+          if (!v.invite) return reloadAfter(res);
+          var permissionFlow = state.isAdmin
+            ? call('sendRosterInvitation', { email: v.email, store: v.store, access: 'Employee' })
+            : Promise.resolve({ ok: true });
+          return permissionFlow.then(function () {
+            toast(state.isAdmin ? 'Employee added and self-service invitation sent to ' + v.email.toLowerCase() : 'Employee added. Their linked work email can access their own profile.');
+            return reloadAfter(res);
+          }).catch(function (err) { toast('Employee added, but the access request could not be sent: ' + err.message, true); return reloadAfter(res); });
+        });
+      });
+  }
+
+  function openRemove(id) {
+    var emp = findEmp(id, state.date);
+    if (!emp) return;
+    openModal('Remove ' + emp.name + '?', 'They disappear from the roster from the date below. Earlier days are kept as history.',
+      fld('Last working day is the day before', '<input class="inp" type="date" name="date" value="' + state.todayIso + '">'),
+      'Remove', function (v) {
+        if (!v.date) throw new Error('Choose a date.');
+        return call('removeStaff', { store: emp.store, name: emp.name, role: emp.role, date: v.date }).then(reloadAfter);
+      });
+  }
+
+  function openPunctualityRecord(store, name, employeeId) {
+    if (!canEditStoreClient(store)) { toast('You can record punctuality issues only for your store.', true); return; }
+    var form = openModal('Add punctuality record · ' + esc(name), 'Records are manual. The score formula is shown on the employee profile.',
+      fld('Incident', '<select class="sel" name="type"><option value="Unapproved leave">Unapproved leave</option><option value="Late reporting">Late reporting</option></select>') +
+      fld('Date', '<input class="inp" type="date" name="date" value="' + state.date + '" required>') +
+      '<div class="row2" id="lateFields"><div class="fld"><label>Was the store informed?</label><select class="sel" name="notice"><option value="Informed">Informed</option><option value="Not informed">Not informed</option></select></div>' +
+      '<div class="fld"><label>Minutes late</label><input class="inp" type="number" name="minutes" min="1" max="720" value="5"></div></div>' +
+      fld('Details / write-up (optional)', '<textarea class="inp" name="details" rows="3" maxlength="500" placeholder="Add a brief factual note"></textarea>'),
+      'Save record', function (v) {
+        if (!v.date) throw new Error('Choose the date of the incident.');
+        if (v.type === 'Late reporting' && (!v.minutes || Number(v.minutes) < 1 || Number(v.minutes) > 720)) throw new Error('Enter late minutes from 1 to 720.');
+        return call('addPunctualityEvent', { store: store, name: name, employeeId: employeeId || '', date: v.date, type: v.type, notice: v.notice, minutes: v.minutes, details: v.details }).then(function (res) {
+          state.punctualityEvents = res.events || state.punctualityEvents;
+          state.punctualityLoaded = true;
+          toast(res.message || 'Punctuality record saved.');
+        });
+      });
+    var type = form.querySelector('[name=type]'), lateFields = form.querySelector('#lateFields');
+    type.addEventListener('change', function () { lateFields.classList.toggle('hide', type.value !== 'Late reporting'); });
+    lateFields.classList.toggle('hide', type.value !== 'Late reporting');
+  }
+
+  function openMove(id) {
+    var emp = findEmp(id, state.date);
+    if (!emp) return;
+    var deployDate = state.date;
+    var destinations = state.stores.filter(function (s) { return s !== emp.store; }).map(function (s) {
+      return '<option value="' + esc(s) + '">' + esc(s) + '</option>';
+    }).join('');
+    openModal('Request deployment · ' + emp.name, 'Currently in ' + esc(emp.store) + '. The destination store must approve before the roster changes.',
+      fld('Deploy to', '<select class="sel" name="toStore" required>' + destinations + '</select>') +
+      '<div class="row2">' + fld('From date', '<input class="inp" type="date" name="from" value="' + deployDate + '" required>') +
+      fld('To date (same date for one day)', '<input class="inp" type="date" name="to" value="' + deployDate + '" required>') + '</div>' +
+      fld('Shift at destination', '<select class="sel" name="shift">' + shiftOptions('Not specified') + '</select>'),
+      'Send for approval', function (v) {
+        if (!v.toStore) throw new Error('Choose a store.');
+        if (!v.from || !v.to || v.to < v.from) throw new Error('Choose a valid date range.');
+        return call('requestDeployment', { store: emp.store, name: emp.name, toStore: v.toStore, from: v.from, to: v.to, shift: v.shift }).then(function (res) {
+          toast(res.message || 'Deployment request sent for approval.');
+          state.tab = 'deployments';
+          state.deploymentRequestsLoaded = false;
+        });
+      });
+  }
+
+  function openAddStore() {
+    openModal('Register a new store', 'The store appears everywhere in the dashboard and in every store dropdown.',
+      fld('Store name', '<input class="inp" name="name" maxlength="40" required placeholder="e.g. Kondapur">') +
+      fld('Location (optional)', '<input class="inp" name="location" maxlength="80" placeholder="Area / city">') +
+      fld('Store manager (optional)', '<input class="inp" name="manager" maxlength="40">') +
+      fld('Store manager email (optional)', '<input class="inp" name="managerEmail" type="email" maxlength="254" placeholder="manager@example.com">') +
+      '<div class="sub"><label><input type="checkbox" name="inviteManager" checked> Give the manager access to this store and send an invitation</label></div>',
+      'Register store', function (v) {
+        if (!v.name.trim()) throw new Error('Enter the store name.');
+        if (v.inviteManager && !v.managerEmail.trim()) throw new Error('Enter the manager email or uncheck the invitation option.');
+        return call('addStore', { name: v.name, location: v.location, manager: v.manager, managerEmail: v.managerEmail }).then(function (res) {
+          if (!v.inviteManager || !v.managerEmail.trim()) return reloadAfter(res);
+          return call('setRosterAccess', { email: v.managerEmail, store: v.name, access: 'Editor' }).then(function () {
+            return call('sendRosterInvitation', { email: v.managerEmail, store: v.name, access: 'Editor' });
+          }).then(function () { toast('Store registered and invitation sent to ' + v.managerEmail.toLowerCase()); return reloadAfter(res); })
+            .catch(function (err) { toast('Store registered, but access or invitation could not be completed: ' + err.message, true); return reloadAfter(res); });
+        });
+      });
+  }
+
+  /* ---------- navigation ---------- */
+  function setDate(iso) {
+    if (!iso) return Promise.resolve();
+    busy(true);
+    return ensureRange(iso).then(function () {
+      busy(false); state.date = iso; render(); prefetch();
+    }, function (err) { busy(false); toast(err.message, true); render(); });
+  }
+  function prefetch() {
+    [addDays(state.date, -31), addDays(state.date, 31)].forEach(function (iso) {
+      var k = monthKey(iso);
+      var known = state.months.some(function (m) { return m.key === k; });
+      if (known && !state.data[k]) ensureMonth(k).catch(function () {});
+    });
+  }
+  function refresh() {
+    busy(true);
+    state.data = {};
+    ensureRange(state.date, true).then(function () { busy(false); render(); toast('Roster refreshed'); },
+      function (e) { busy(false); toast('Refresh failed: ' + e.message, true); });
+  }
+  function applyTheme(t) {
+    state.theme = t;
+    document.documentElement.setAttribute('data-theme', t);
+    try { localStorage.setItem('huft-theme', t); } catch (e) {}
+  }
+
+  /* ---------- wiring ---------- */
+  $('#prev').onclick = function () { setDate(addDays(state.date, -7)); };
+  $('#next').onclick = function () { setDate(addDays(state.date, 7)); };
+  $('#btnToday').onclick = function () { setDate(state.todayIso); };
+  $('#btnRefresh').onclick = refresh;
+  $('#btnExport').onclick = exportWeeklyRoster;
+  $('#btnPrint').onclick = function () { window.print(); };
+  $('#btnTheme').onclick = function () { applyTheme(state.theme === 'dark' ? 'light' : 'dark'); };
+  $('#btnDesktopShortcut').onclick = function () {
+    var url = state.appUrl;
+    if (!/^https:\/\/script\.google\.com\/.*\/s\/[^/]+\/exec(?:\?.*)?$/.test(url)) {
+      toast('Deploy the web app first to download its desktop shortcut.', true); return;
+    }
+    var blob = new Blob(['[InternetShortcut]\r\nURL=' + url + '\r\n'], {type:'application/internet-shortcut'});
+    var href = URL.createObjectURL(blob), link = document.createElement('a');
+    link.href = href; link.download = 'HUFT_Roster.url';
+    document.body.appendChild(link); link.click(); document.body.removeChild(link);
+    setTimeout(function () { URL.revokeObjectURL(href); }, 1000);
+    toast('Desktop shortcut downloaded. Move HUFT_Roster.url to your desktop.');
+  };
+  function syncFullscreenButton() {
+    var active = !!document.fullscreenElement;
+    $('#btnFullscreen').textContent = active ? '⛶ Exit full screen' : '⛶ Full screen';
+    $('#btnFullscreen').setAttribute('aria-label', active ? 'Exit fullscreen' : 'Enter fullscreen');
+  }
+  $('#btnFullscreen').onclick = function () {
+    var action = document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+    if (action && action.catch) action.catch(function () { toast('Full screen is not available in this browser.', true); });
+  };
+  document.addEventListener('fullscreenchange', syncFullscreenButton);
+  $('#datePick').onchange = function (e) { setDate(e.target.value); };
+  $('#search').oninput = function (e) { state.q = e.target.value.trim().toLowerCase(); render(); };
+  $('#roleSel').onchange = function (e) { state.role = e.target.value; render(); };
+  $('#storeSel').onchange = function (e) {
+    state.store = e.target.value;
+    try { localStorage.setItem('huft-store', state.store); } catch (x) {}
+    render();
+  };
+  document.querySelector('.tabs').addEventListener('click', function (e) {
+    var b = e.target.closest('.tab');
+    if (b) { state.tab = b.dataset.tab; render(); }
+  });
+  window.setInterval(function () {
+    if (state.tab !== 'notifications' || state.workRequestsLoading || state.deploymentRequestsLoading) return;
+    state.workRequestsLoaded = false; state.deploymentRequestsLoaded = false;
+    render();
+  }, 60000);
+  $('#content').addEventListener('change', function (e) {
+    var sel = e.target.closest('select.shift');
+    if (!sel) return;
+    var v = sel.value, id = sel.dataset.id, iso = sel.dataset.date;
+    if (v === '__keep__') return;
+    if (v === '__deploy__') { openDeploy(id, iso); render(); return; }
+    applyChange(id, iso, { cat: v });
+  });
+  $('#content').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-act]');
+    if (!b) return;
+    var act = b.dataset.act;
+    if (act === 'copy') copyText(state.msgs[Number(b.dataset.i)] || '');
+    else if (act === 'goto') { state.tab = 'week'; setDate(b.dataset.date); }
+    else if (act === 'addStaff') openAddStaff(b.dataset.store || '');
+    else if (act === 'editStaff') openEditStaff(b.dataset.id);
+    else if (act === 'employeeCalendar') openEmployeeCalendar(b.dataset.id);
+    else if (act === 'editMessage') openMessageEditor(b.dataset.id, state.date, b.dataset.store || '');
+    else if (act === 'editShift') openShiftEditor(b.dataset.id);
+    else if (act === 'requestRosterAccess') {
+      var requestStore = ($('#requestStore') || {}).value || '', requestReason = ($('#requestReason') || {}).value || '';
+      if (!requestStore) { toast('Choose a store for your request.', true); return; }
+      b.disabled = true;
+      call('requestRosterAccess', { store: requestStore, reason: requestReason }).then(function (res) {
+        toast(res.message || 'Access request sent to Hyderguda.');
+      }).catch(function (err) { b.disabled = false; toast(err.message || 'Could not send the access request.', true); });
+    }
+    else if (act === 'shareProfilePhotos') {
+      b.disabled = true;
+      call('shareAllProfilePhotos').then(function (res) { toast(res.message || 'Profile photos secured with store-scoped access.'); b.disabled = false; })
+        .catch(function (err) { b.disabled = false; toast(err.message || 'Could not share profile photos.', true); });
+    }
+    else if (act === 'restoreStaff') {
+      b.disabled = true;
+      call('restoreStaff', { store: b.dataset.store, name: b.dataset.name }).then(function (res) {
+        state.deletedStaffLoaded = false;
+        toast(res.message || 'Employee restored.');
+        return reloadAfter(res).then(function () { state.tab = 'removed'; render(); });
+      }).catch(function (err) { b.disabled = false; toast(err.message || 'Could not restore employee.', true); });
+    }
+    else if (act === 'recordPunctuality') openPunctualityRecord(b.dataset.store, b.dataset.name, b.dataset.employeeId);
+    else if (act === 'punctualityHistory') openPunctualityHistory(b.dataset.store, b.dataset.name, b.dataset.employeeId);
+    else if (act === 'newEmployeeRequest') openEmployeeRequestForm();
+    else if (act === 'refreshWorkRequests') { state.workRequestsLoaded = false; state.workRequestsLoading = false; render(); }
+    else if (act === 'refreshLiveNotifications') { state.workRequestsLoaded = false; state.workRequestsLoading = false; state.deploymentRequestsLoaded = false; state.deploymentRequestsLoading = false; render(); }
+    else if (act === 'reviewWorkRequest') {
+      var decision = b.dataset.decision;
+      if (decision !== 'changes' && !window.confirm('Confirm you want to ' + decision + ' this employee request?')) return;
+      var note = window.prompt('Optional manager note:', '');
+      if (note === null) return;
+      b.disabled = true;
+      call('reviewEmployeeRequest', { id:b.dataset.id, decision:decision, notes:note }).then(function (res) {
+        state.workRequests = res.requests || []; state.workRequestsLoaded = true; state.workRequestsLoading = false;
+        toast(res.message || 'Request reviewed.'); render();
+        ensureRange(state.date, true).then(render, function () {});
+      }).catch(function (err) { b.disabled = false; toast(err.message || 'Could not review request.', true); });
+    }    else if (act === 'refreshDeployments') {
+      state.deploymentRequestsLoaded = false; state.deploymentRequestsLoading = false; render();
+    }
+    else if (act === 'reviewDeployment') {
+      var deploymentDecision = b.dataset.decision, deploymentNotes = '';
+      if (deploymentDecision === 'changes') {
+        deploymentNotes = window.prompt('What needs to change before this deployment can be approved?', '');
+        if (deploymentNotes === null || !deploymentNotes.trim()) return;
+      } else if (!window.confirm('Confirm you want to ' + deploymentDecision + ' this deployment request?')) return;
+      b.disabled = true;
+      call('reviewDeploymentRequest', { id:b.dataset.id, decision:deploymentDecision, notes:deploymentNotes }).then(function (res) {
+        state.deploymentRequests = res.requests || []; state.deploymentRequestsLoaded = true;
+        toast(res.message || 'Deployment request updated.'); render();
+        ensureRange(state.date, true).then(render, function () {});
+      }).catch(function (err) { b.disabled = false; toast(err.message || 'Could not review deployment.', true); });
+    }
+    else if (act === 'saveEmailRecipient') {
+      var recipientStore = b.dataset.store || '', recipientInput = Array.prototype.filter.call(document.querySelectorAll('[data-email-store]'), function (input) { return input.dataset.emailStore === recipientStore; })[0];
+      b.disabled = true;
+      call('setEmailRecipient', { store:recipientStore, email:recipientInput ? recipientInput.value : '' }).then(function (res) {
+        state.emailAdminData = res; toast('Approval email saved for ' + recipientStore + '.'); render();
+      }).catch(function (err) { b.disabled = false; toast(err.message || 'Could not save approval email.', true); });
+    }    else if (act === 'saveEmailTemplate') {
+      var templateId = ($('#emailTemplateSelect') || {}).value || '', emailSubject = ($('#emailSubject') || {}).value || '', emailBody = ($('#emailBody') || {}).value || '';
+      var emailEnabled = !!($('#emailEnabled') || {}).checked;
+      b.disabled = true;
+      call('saveEmailTemplate', { id:templateId, subject:emailSubject, body:emailBody, enabled:emailEnabled }).then(function (res) {
+        state.emailAdminData = res; state.emailTemplateId = templateId; toast('Email template saved.'); render();
+      }).catch(function (err) { b.disabled = false; toast(err.message || 'Could not save template.', true); });
+    }
+    else if (act === 'testEmailTemplate') {
+      var testId = ($('#emailTemplateSelect') || {}).value || '';
+      b.disabled = true;
+      call('sendEmailTemplateTest', { id:testId, recipient:state.email }).then(function (res) {
+        toast(res.message || 'Test email sent.'); return call('getEmailAdminData');
+      }).then(function (res) { state.emailAdminData = res; render(); }).catch(function (err) { b.disabled = false; toast(err.message || 'Test email failed.', true); });
+    }
+    else if (act === 'retryEmail') {
+      b.disabled = true;
+      call('retryFailedEmail', { id:b.dataset.id }).then(function (res) {
+        state.emailAdminData = res; toast('Failed email retried.'); render();
+      }).catch(function (err) { b.disabled = false; toast(err.message || 'Could not retry email.', true); });
+    }
+    else if (act === 'refreshEmailAdmin') {
+      state.emailAdminData = null; state.emailAdminLoading = false; render();
+    }    else if (act === 'grantStoreAccess') {
+      var email = ($('#accessEmail') || {}).value || '', accessRole = ($('#accessRole') || {}).value || 'Editor';
+      var accessStore = ($('#accessStore') || {}).value || '', sendInvite = b.dataset.sendInvite === 'true';
+      if (!email.trim() || (accessRole === 'Editor' && !accessStore)) { toast('Enter an email and choose a store when granting store access.', true); return; }
+      b.disabled = true;
+      call('setRosterAccess', { email: email, store: accessStore, access: accessRole }).then(function (res) {
+        state.accessEntries = res.entries || []; state.accessLoaded = true;
+        if (!sendInvite) { toast('Access granted to ' + email.toLowerCase()); render(); return; }
+        return call('sendRosterInvitation', { email: email, store: accessStore, access: accessRole }).then(function () {
+          toast('Access granted and invitation sent to ' + email.toLowerCase()); render();
+        }).catch(function (err) {
+          toast('Access granted, but the invitation email failed: ' + err.message, true); render();
+        });
+      }).catch(function (err) { b.disabled = false; toast(err.message || 'Could not grant access.', true); });
+    }
+    else if (act === 'revokeStoreAccess') {
+      call('setRosterAccess', { email: b.dataset.email, store: b.dataset.store, access: b.dataset.access, remove: true }).then(function (res) {
+        state.accessEntries = res.entries || []; state.accessLoaded = true; toast('Store access revoked.'); render();
+      }).catch(function (err) { toast(err.message || 'Could not revoke access.', true); });
+    }
+    else if (act === 'removeStaff') openRemove(b.dataset.id);
+    else if (act === 'moveStaff') openMove(b.dataset.id);
+    else if (act === 'addStore') openAddStore();
+  });
+  $('#modal').addEventListener('click', function (e) {
+    var day = e.target.closest('[data-act=profileDate]');
+    if (day) { var iso = day.dataset.date; closeModal(); setDate(iso); return; }
+    if (e.target.id === 'modal' || e.target.closest('[data-act=mclose]')) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && $('#modal').classList.contains('open')) closeModal();
+  });
+
+  function handleEmailActionLink() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('huftAction') !== 'email') return;
+    var kind = params.get('kind') || '', id = params.get('id') || '', choice = params.get('choice') || '';
+    var allowed = ['approve','reject','changes'];
+    var cleanUrl = new URL(window.location.href);
+    ['huftAction','kind','id','choice'].forEach(function (key) { cleanUrl.searchParams.delete(key); });
+    window.history.replaceState({}, document.title, cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
+    if (!id || ['deployment','employee'].indexOf(kind) < 0 || allowed.indexOf(choice) < 0) {
+      toast('This email action link is invalid.', true); return;
+    }
+    call('getEmailActionContext', { kind:kind, id:id }).then(function (ctx) {
+      var labels = { approve:'Approve request', reject:'Reject request', changes:'Request changes' };
+      var title = kind === 'deployment' ? 'Confirm deployment · ' + ctx.employee : 'Confirm employee request · ' + ctx.employee;
+      var summary = kind === 'deployment'
+        ? '<div><strong>Employee:</strong> ' + esc(ctx.employee) + '</div><div><strong>Home store:</strong> ' + esc(ctx.fromStore) + '</div><div><strong>Destination:</strong> ' + esc(ctx.store) + '</div><div><strong>Dates:</strong> ' + esc(ctx.dateRange) + '</div><div><strong>Shift:</strong> ' + esc(ctx.shift) + '</div>'
+        : '<div><strong>Request:</strong> ' + esc(ctx.requestType) + '</div><div><strong>Employee:</strong> ' + esc(ctx.employee) + '</div><div><strong>Store:</strong> ' + esc(ctx.store) + '</div><div><strong>Date:</strong> ' + esc(fmtShort(ctx.date)) + '</div><div><strong>Shift:</strong> ' + esc(ctx.previousShift || '—') + (ctx.requestedShift ? ' → ' + esc(ctx.requestedShift) : '') + '</div>';
+      var notes = '<div class="fld" style="margin-top:12px"><label for="emailActionNotes">' + (choice === 'changes' ? 'Required changes' : 'Remarks (optional)') + '</label><textarea class="inp" id="emailActionNotes" name="notes" rows="3" maxlength="1000" ' + (choice === 'changes' ? 'required' : '') + ' placeholder="' + (choice === 'changes' ? 'Explain what must be updated' : 'Add a note for the requester') + '"></textarea></div>';
+      openModal(title, 'Review the details below. The request changes only after you select the confirmation button.', '<div class="email-action-summary">' + summary + '</div>' + notes, labels[choice], function (values) {
+        if (choice === 'changes' && !String(values.notes || '').trim()) throw new Error('Explain what needs to change.');
+        var method = kind === 'deployment' ? 'reviewDeploymentRequest' : 'reviewEmployeeRequest';
+        return call(method, { id:id, decision:choice, notes:values.notes || '' }).then(function (result) {
+          if (kind === 'deployment') {
+            state.deploymentRequests = result.requests || []; state.deploymentRequestsLoaded = true; state.tab = 'deployments';
+          } else {
+            state.workRequests = result.requests || []; state.workRequestsLoaded = true; state.tab = 'approvals';
+          }
+          toast(result.message || 'Request updated.');
+          return ensureRange(state.date, true).then(function () { render(); return result; }, function () { render(); return result; });
+        });
+      });
+    }).catch(function (err) { toast(err.message || 'This request cannot be reviewed from this account.', true); });
+  }
+  /* ---------- boot ---------- */
+  var saved = null, savedStore = null;
+  try { saved = localStorage.getItem('huft-theme'); savedStore = localStorage.getItem('huft-store'); } catch (e) {}
+  applyTheme(saved || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  busy(true);
+  call('getBootstrap').then(function (b) {
+    busy(false);
+    state.todayIso = b.todayIso; state.appUrl = b.appUrl || ''; state.stores = b.stores; state.months = b.months;
+    state.isAdmin = !!b.isAdmin; state.isSuperAdmin = !!b.isSuperAdmin; state.accessStores = b.accessStores || []; state.email = b.email || ''; state.employeeSelf = !!b.employeeSelf;
+    state.homeStore = b.homeStore || '';
+    state.store = state.homeStore || (savedStore && (savedStore === 'All' || state.stores.indexOf(savedStore) >= 0) ? savedStore : 'All');
+    $('#appTitle').textContent = b.title || 'HUFT Roster';
+    if (!b.month || !b.month.found) throw new Error('No roster data found.');
+    keep(b.month);
+    state.date = b.month.key === monthKey(b.todayIso) ? b.todayIso : b.month.key + '-01';
+    render(); handleEmailActionLink(); // Load adjacent months only after the user navigates.
+    // Load request totals once so tab badges are available before a tab is opened.
+    state.workRequestsLoading = true;
+    call('getEmployeeRequests').then(function (res) { state.workRequests = res.requests || []; state.workRequestsCanApprove = !!res.canApprove; state.workRequestsLoaded = true; state.workRequestsLoading = false; render(); }).catch(function () { state.workRequestsLoading = false; });
+    state.deploymentRequestsLoading = true;
+    call('getDeploymentRequests').then(function (res) { state.deploymentRequests = res.requests || []; state.deploymentRequestsLoaded = true; state.deploymentRequestsLoading = false; render(); }).catch(function () { state.deploymentRequestsLoading = false; });
+  }).catch(function (err) {
+    busy(false);
+    $('#content').innerHTML = '<div class="panel glass empty"><strong>Could not load the roster</strong><br>' + esc(err && err.message ? err.message : err) +
+      '<br><br><button class="btn" onclick="location.reload()">Try again</button></div>';
+  });
+})();
+</script>
+</body>
+</html>
