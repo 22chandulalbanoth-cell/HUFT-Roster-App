@@ -26,13 +26,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          find public/js scripts -type f -name '*.js' -print0 | while IFS= read -r -d '' file; do
+          while IFS= read -r -d '' file; do
             echo "Checking $file"
             node --check "$file"
-          done
-          node --check scripts/import-workbook.mjs
+          done < <(find public/js scripts -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
 
-      - name: Validate frontend configuration
+      - name: Validate required frontend files and configuration
         shell: bash
         run: |
           set -euo pipefail
@@ -42,7 +41,10 @@ jobs:
           test -s public/js/huft-supabase.js
           test -s public/js/huft-api.js
           ! grep -Eq 'YOUR_PROJECT_REF|YOUR_PUBLISHABLE_OR_ANON_KEY' public/js/huft-config.js
-          ! grep -R -n -E 'service_role|SUPABASE_SERVICE_ROLE_KEY[[:space:]]*=[[:space:]]*["'\''"][^$]' public
+          if grep -R -n 'service_role' public; then
+            echo "A service-role reference must never be shipped in public assets."
+            exit 1
+          fi
 
       - name: Validate database migrations
         shell: bash
