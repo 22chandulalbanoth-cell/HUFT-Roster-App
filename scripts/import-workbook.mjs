@@ -60,19 +60,41 @@ for (const [index, employee] of data.employees.entries()) {
   }
   employeeKeys.add(keyForEmployee);
 }
+const cleanedRoster = new Map();
+const conflictingRosterKeys = new Set();
 for (const [index, entry] of data.roster_entries.entries()) {
   if (!entry.employee_name || !storeNames.has(entry.store)
       || !employeeKeys.has(employeeKey(entry.store, entry.employee_name))) {
     throw new Error(`Roster row ${index + 1} refers to an unknown employee or store. No data was written.`);
   }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(entry.roster_date) || !entry.shift_code) {
-    throw new Error(`Roster row ${index + 1} has an invalid date or blank shift.`);
+  const date = new Date(`${entry.roster_date}T00:00:00Z`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(entry.roster_date)
+      || !Number.isFinite(date.valueOf())
+      || date.toISOString().slice(0, 10) !== entry.roster_date) {
+    throw new Error(`Roster row ${index + 1} has an invalid date. No data was written.`);
+  }
+  if (typeof entry.shift_code !== 'string' || !entry.shift_code.trim()
+      || entry.shift_code.trim().length > 32 || /[\r\n]/.test(entry.shift_code)
+      || /__REPORT_TO__|appointments:|tomorrow date not found|^❌ error:/i.test(entry.shift_code)) {
+    throw new Error(`Roster row ${index + 1} has a suspicious shift value. Correct the private import data before writing. No data was written.`);
   }
   if (entry.deployment_store && !storeNames.has(entry.deployment_store)) {
-    throw new Error(`Roster row ${index + 1} refers to an unknown deployment store.`);
+    throw new Error(`Roster row ${index + 1} refers to an unknown deployment store. No data was written.`);
+  }
+  entry.shift_code = entry.shift_code.trim();
+  const rosterKey = `${employeeKey(entry.store, entry.employee_name)}|${entry.roster_date}`;
+  const prior = cleanedRoster.get(rosterKey);
+  if (prior && (prior.shift_code !== entry.shift_code
+      || (prior.deployment_store || null) !== (entry.deployment_store || null))) {
+    conflictingRosterKeys.add(rosterKey);
+  } else if (!prior) {
+    cleanedRoster.set(rosterKey, entry);
   }
 }
-
+if (conflictingRosterKeys.size) {
+  throw new Error(`Found ${conflictingRosterKeys.size} conflicting employee/date groups. Resolve them against the source workbook before importing. No data was written.`);
+}
+data.roster_entries = [...cleanedRoster.values()];
 const supabase = createClient(url, key, {
   auth: { persistSession: false, autoRefreshToken: false }
 });
