@@ -52,3 +52,4 @@ jobs:
           set -euo pipefail
           test -s supabase/migrations/001_initial_schema.sql
           test -s supabase/migrations/002_huft_integration.sql
+          test -s supabase/migrations/003_authenticated_privileges.sql
