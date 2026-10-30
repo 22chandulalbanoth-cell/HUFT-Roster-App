@@ -19,7 +19,7 @@ The UI will show an explicit “not migrated” error if one of those actions is
 
 ## Setup
 1. Create a Supabase project.
-2. In SQL Editor run `supabase/migrations/001_initial_schema.sql` from the previous starter package, then run `supabase/migrations/002_huft_integration.sql` from this package.
+2. In SQL Editor run `supabase/migrations/001_initial_schema.sql`, then `supabase/migrations/002_huft_integration.sql`, then `supabase/migrations/003_authenticated_privileges.sql` in that order. The third migration grants table access only to authenticated users; row-level security policies remain the data-access boundary.
 3. In Authentication → Providers enable Email. Keep public sign-up disabled; create/invite authorised users individually.
 4. In Authentication → Users create your first admin user. Copy its UUID. In SQL Editor add a profile: `insert into public.profiles(id,full_name,email,role,is_active) values ('AUTH-UUID','HUFT Admin','hyderguda@headsupfortails.com','super_admin',true);`
 5. Add store manager profiles and `user_store_access` rows. Use `super_admin` only for the authorised admin. Roles are `super_admin`, `area_manager`, `store_manager`, `employee`.
