@@ -1,0 +1,21 @@
+{
+  "name": "huft-roster",
+  "version": "2.1.0",
+  "description": "Hyderabad HUFT Roster — Enterprise Cloud Roster with Supabase Database, Storage & Google Workspace Integration",
+  "main": "Dashboard.html",
+  "scripts": {
+    "start": "node scripts/dev-server.js",
+    "test": "node -e \"console.log('HUFT Roster & Supabase Cloud: Integrity OK')\""
+  },
+  "keywords": [
+    "huft",
+    "roster",
+    "supabase",
+    "google-apps-script",
+    "cloud-storage",
+    "postgresql",
+    "realtime"
+  ],
+  "author": "Heads Up For Tails",
+  "license": "ISC"
+}

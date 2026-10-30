@@ -1,0 +1,32 @@
+{
+  "stores": [
+    { "name": "Hyderguda", "active": true, "location": "Hyderguda Main Road", "manager": "Ramesh K", "managerEmail": "hyderguda@headsupfortails.com" },
+    { "name": "Golden Mile", "active": true, "location": "Golden Mile Business Park, Kokapet", "manager": "Pooja V", "managerEmail": "golden.mile@headsupfortails.com" },
+    { "name": "Banjara Hills", "active": true, "location": "Road No. 12, Banjara Hills", "manager": "Anil S", "managerEmail": "banjarahills@headsupfortails.com" },
+    { "name": "Nallagandla", "active": true, "location": "Aparna Sarovar Grande Road", "manager": "Sneha M", "managerEmail": "nallagandla@headsupfortails.com" },
+    { "name": "Madhapur", "active": true, "location": "Hitech City Road, Madhapur", "manager": "Vikram T", "managerEmail": "madhapur@headsupfortails.com" }
+  ],
+  "employees": [
+    { "id": "Hyderguda|rahulsharma", "store": "Hyderguda", "name": "Rahul Sharma", "role": "Retail", "phone": "919876543210", "email": "rahul.sharma@headsupfortails.com", "employeeId": "HUFT-101", "active": true, "reportsTo": "Hyderguda" },
+    { "id": "Hyderguda|priyapatel", "store": "Hyderguda", "name": "Priya Patel", "role": "Grooming", "phone": "919876543211", "email": "priya.patel@headsupfortails.com", "employeeId": "HUFT-102", "active": true, "reportsTo": "Hyderguda" },
+    { "id": "Golden Mile|amitkumar", "store": "Golden Mile", "name": "Amit Kumar", "role": "Retail", "phone": "919876543212", "email": "amit.kumar@headsupfortails.com", "employeeId": "HUFT-103", "active": true, "reportsTo": "Golden Mile" },
+    { "id": "Golden Mile|snehadutta", "store": "Golden Mile", "name": "Sneha Dutta", "role": "Grooming", "phone": "919876543213", "email": "sneha.dutta@headsupfortails.com", "employeeId": "HUFT-104", "active": true, "reportsTo": "Golden Mile" },
+    { "id": "Banjara Hills|vikassingh", "store": "Banjara Hills", "name": "Vikas Singh", "role": "Retail", "phone": "919876543214", "email": "vikas.singh@headsupfortails.com", "employeeId": "HUFT-105", "active": true, "reportsTo": "Banjara Hills" },
+    { "id": "Banjara Hills|deepakverma", "store": "Banjara Hills", "name": "Deepak Verma", "role": "Grooming", "phone": "919876543215", "email": "deepak.verma@headsupfortails.com", "employeeId": "HUFT-106", "active": true, "reportsTo": "Banjara Hills" },
+    { "id": "Nallagandla|anitarao", "store": "Nallagandla", "name": "Anita Rao", "role": "Retail", "phone": "919876543216", "email": "anita.rao@headsupfortails.com", "employeeId": "HUFT-107", "active": true, "reportsTo": "Nallagandla" },
+    { "id": "Madhapur|kiranreddy", "store": "Madhapur", "name": "Kiran Reddy", "role": "Retail", "phone": "919876543217", "email": "kiran.reddy@headsupfortails.com", "employeeId": "HUFT-108", "active": true, "reportsTo": "Madhapur" },
+    { "id": "Madhapur|manojsharma", "store": "Madhapur", "name": "Manoj Sharma", "role": "Grooming", "phone": "919876543218", "email": "manoj.sharma@headsupfortails.com", "employeeId": "HUFT-109", "active": true, "reportsTo": "Madhapur" }
+  ],
+  "shifts": {},
+  "punctuality": [],
+  "deployments": [],
+  "employeeRequests": [],
+  "backups": [],
+  "access": [
+    { "email": "hyderguda@headsupfortails.com", "store": "", "access": "Admin", "addedOn": "2026-01-01" },
+    { "email": "golden.mile@headsupfortails.com", "store": "Golden Mile", "access": "Editor", "addedOn": "2026-01-01" },
+    { "email": "madhapur@headsupfortails.com", "store": "Madhapur", "access": "Editor", "addedOn": "2026-01-01" }
+  ],
+  "supabaseUrl": "https://sumoyszqxxuarwzpzsgw.supabase.co",
+  "supabaseKey": ""
+}
