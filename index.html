@@ -1824,13 +1824,37 @@ body {
 
 <!-- ==================== EDIT EMPLOYEE PROFILE MODAL ==================== -->
 <div class="modal-overlay" id="editEmployeeModal">
-  <div class="modal-card" style="max-width: 480px;">
-    <div class="modal-header">
-      <div class="modal-title">Edit Employee Profile</div>
+  <div class="modal-card" style="max-width: 480px; padding: 26px; border-radius: 20px;">
+    <div class="modal-header" style="margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #F1F5F9;">
+      <div class="modal-title" style="font-size: 17px; font-weight: 800; color: #0F172A;">Edit Employee Profile</div>
       <button class="close-btn" onclick="closeEditEmployeeModal()">&times;</button>
     </div>
-    <form onsubmit="handleEditEmployeeSubmit(event)" style="display: flex; flex-direction: column; gap: 11px;">
+    <form onsubmit="handleEditEmployeeSubmit(event)" style="display: flex; flex-direction: column; gap: 13px;">
       <input type="hidden" id="editEmpTargetId">
+
+      <!-- PROFILE PHOTO MANAGEMENT SECTION UNDER EDIT PROFILE -->
+      <div style="display: flex; align-items: center; gap: 16px; padding: 14px 16px; background: #F8FAFC; border-radius: 14px; border: 1.5px solid #E2E8F0;">
+        <div id="editModalAvatarContainer" style="position: relative; width: 68px; height: 68px; border-radius: 50%; overflow: hidden; background: #24324D; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2.5px solid #FF7138; box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor: pointer;" title="Click to upload or drag photo here" onclick="triggerUploadPhoto(document.getElementById('editEmpTargetId').value)">
+          <img id="editModalAvatarImg" src="" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+          <div id="editModalAvatarInitials" style="color: #FFFFFF; font-weight: 800; font-size: 22px;"></div>
+          <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0'">
+            <span style="font-size: 18px; color: #fff;">📷</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px; flex-grow: 1;">
+          <div style="font-size: 12.5px; font-weight: 700; color: #1E293B;">Profile Photograph</div>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn btn-secondary" onclick="triggerUploadPhoto(document.getElementById('editEmpTargetId').value)" style="padding: 6px 12px; font-size: 11.5px; font-weight: 700; border-radius: 8px; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #334155;">
+              <span>📁</span> Upload Photo
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="triggerPastePhoto(document.getElementById('editEmpTargetId').value)" style="padding: 6px 12px; font-size: 11.5px; font-weight: 700; border-radius: 8px; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #334155;">
+              <span>📋</span> Paste (Ctrl+V)
+            </button>
+          </div>
+          <div style="font-size: 10.5px; color: #64748B;">Supports JPG, PNG, WEBP (Max 5MB) or press Ctrl+V to paste</div>
+        </div>
+      </div>
       
       <div class="form-group">
         <label class="form-label">Employee Name</label>
@@ -3845,6 +3869,15 @@ function saveCroppedPhoto() {
   renderStaffProfiles();
   if (currentUser.role === 'employee') renderEmployeePortal();
 
+  // If edit modal is open, update avatar preview
+  const editImg = document.getElementById('editModalAvatarImg');
+  const editInit = document.getElementById('editModalAvatarInitials');
+  if (editImg && editInit) {
+    editImg.src = croppedDataUrl;
+    editImg.style.display = 'block';
+    editInit.style.display = 'none';
+  }
+
   // If dedicated modal is open, refresh it
   if (activeModalEmployeeId) {
     openEmployeeProfileModal(activeModalEmployeeId);
@@ -3875,20 +3908,13 @@ function renderPremiumEmployeeProfileCardHTML(emp, isCardView = false) {
 
   return `
     <div class="huft-card-header">
-      <div class="huft-avatar-container" id="avatarBox_${emp.employeeId}" title="Drag photo here or Click to change" onclick="triggerUploadPhoto('${emp.employeeId}')">
+      <div class="huft-avatar-container" id="avatarBox_${emp.employeeId}">
         ${photoSrc ? `<img src="${photoSrc}" alt="${emp.name}" class="huft-avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">` : ''}
         <div class="huft-avatar-initials" style="${photoSrc ? 'display:none;' : ''}">${initials}</div>
-        <div class="huft-avatar-upload-badge" title="Upload or Paste photo">📷</div>
       </div>
 
       <div class="huft-card-name">${emp.name}</div>
       <span class="huft-single-designation-tag ${tagClass}">${designationTag}</span>
-
-      <!-- Photo Update Shortcut Toolbar -->
-      <div class="huft-photo-toolbar">
-        <button type="button" class="huft-photo-btn" onclick="triggerUploadPhoto('${emp.employeeId}')">📁 Upload</button>
-        <button type="button" class="huft-photo-btn" onclick="triggerPastePhoto('${emp.employeeId}')">📋 Paste (Ctrl+V)</button>
-      </div>
     </div>
 
     <!-- Clean Two-Column Information Section -->
@@ -4019,6 +4045,7 @@ function closeMonthlyCalendarModal() {
 }
 
 function openEditEmployeeModal(empId) {
+  activeModalEmployeeId = empId;
   const emp = (window.HUFT_DATA.employees || []).find(e => e.employeeId === empId || e.id === empId);
   if (!emp) return;
 
@@ -4031,6 +4058,29 @@ function openEditEmployeeModal(empId) {
   document.getElementById('editEmpDesignation').value = emp.designation || 'Sales Associate';
   document.getElementById('editEmpDefaultShift').value = emp.defaultShift || 'Closing';
   document.getElementById('editEmpEmploymentType').value = emp.employmentType || 'Permanent';
+
+  // Populate Photo preview in Edit Profile modal
+  const cachedPhoto = loadCustomPhotoLocally(emp.employeeId);
+  const photoSrc = cachedPhoto || emp.photoUrl;
+  const initials = emp.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+  const imgEl = document.getElementById('editModalAvatarImg');
+  const initEl = document.getElementById('editModalAvatarInitials');
+  if (imgEl && initEl) {
+    if (photoSrc) {
+      imgEl.src = photoSrc;
+      imgEl.style.display = 'block';
+      initEl.style.display = 'none';
+    } else {
+      imgEl.style.display = 'none';
+      initEl.textContent = initials;
+      initEl.style.display = 'flex';
+    }
+  }
+
+  // Setup drag & drop inside edit modal avatar
+  const editBox = document.getElementById('editModalAvatarContainer');
+  if (editBox) setupAvatarDragAndDrop(editBox, emp.employeeId);
 
   document.getElementById('editEmployeeModal').classList.add('open');
 }
