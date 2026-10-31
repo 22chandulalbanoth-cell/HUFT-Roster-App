@@ -3,7 +3,7 @@ window.HUFT_DATA = {
     {
       "storeId": "STORE-HYD-01",
       "name": "Hyderguda",
-      "officialName": "HUFT Hyderguda (Heads Up For Tails)",
+      "officialName": "HUFT Hyderguda",
       "code": "HYD-01",
       "active": true,
       "location": "Hyderguda Main Road",
