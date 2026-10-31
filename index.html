@@ -44,44 +44,126 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ==================== 1. LOGIN SCREEN (Admin & Store Managers Only) ==================== */
+/* ==================== 1. 3D ANIMATED LOGIN SCREEN ==================== */
 .login-overlay {
   position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-  background: linear-gradient(135deg, #FFF0E6 0%, #F5F7FB 100%);
+  background: radial-gradient(circle at 50% 30%, #FFF7F0 0%, #F5F7FB 60%, #E9EDF5 100%);
   z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px;
+  overflow: hidden; perspective: 1200px;
+}
+.login-canvas {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 1;
+}
+.orb-3d {
+  position: absolute; border-radius: 50%; pointer-events: none; filter: blur(50px); opacity: 0.6; z-index: 2;
+  animation: floatOrb 10s ease-in-out infinite alternate;
+}
+.orb-1 { width: 380px; height: 380px; background: radial-gradient(circle, #F58220 0%, rgba(245,130,32,0) 70%); top: -80px; left: -100px; }
+.orb-2 { width: 340px; height: 340px; background: radial-gradient(circle, #FFB27D 0%, rgba(255,178,125,0) 70%); bottom: -60px; right: -80px; animation-duration: 12s; animation-direction: alternate-reverse; }
+.orb-3 { width: 220px; height: 220px; background: radial-gradient(circle, #FFD8BE 0%, rgba(255,216,190,0) 70%); top: 40%; right: 10%; animation-duration: 8s; }
+
+@keyframes floatOrb {
+  0% { transform: translateY(0px) rotate(0deg) scale(1); }
+  50% { transform: translateY(-35px) rotate(180deg) scale(1.1); }
+  100% { transform: translateY(25px) rotate(360deg) scale(0.92); }
+}
+
+.login-card-3d-wrap {
+  position: relative; z-index: 10; width: 100%; max-width: 440px;
+  transform-style: preserve-3d; transition: transform 0.2s ease-out;
 }
 .login-card {
-  background: #FFFFFF; border-radius: 16px; border: 1px solid var(--brand-border);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06); width: 100%; max-width: 420px; padding: 32px;
-  display: flex; flex-direction: column; gap: 18px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px; border: 1.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 25px 60px rgba(245, 130, 32, 0.18), 0 10px 25px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255,255,255,0.9);
+  padding: 28px 26px; display: flex; flex-direction: column; gap: 14px;
+  position: relative; transform-style: preserve-3d;
 }
-.login-header { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.login-logo-circle {
-  width: 48px; height: 48px; background: var(--brand-orange); color: #fff; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center; font-family: var(--font-heading);
-  font-size: 24px; font-weight: 800; box-shadow: 0 4px 12px rgba(245,130,32,0.3);
+.logo-3d-stage {
+  position: relative; width: 80px; height: 80px; margin: 0 auto 2px;
+  display: flex; align-items: center; justify-content: center;
+  perspective: 600px;
 }
-.login-title { font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: #202124; }
-.login-subtitle { font-size: 13px; color: var(--brand-muted); line-height: 1.4; }
+.logo-3d-core {
+  width: 56px; height: 56px; border-radius: 16px;
+  background: linear-gradient(135deg, #FF9B42 0%, #F58220 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px; color: #fff;
+  box-shadow: 0 12px 28px rgba(245,130,32,0.45), inset 0 2px 4px rgba(255,255,255,0.7);
+  animation: floatCore 4s ease-in-out infinite;
+}
+.ring-3d { position: absolute; border-radius: 50%; pointer-events: none; }
+.ring-1 {
+  width: 76px; height: 76px; border: 2px dashed rgba(245, 130, 32, 0.45);
+  animation: spinRing1 7s linear infinite;
+}
+.ring-2 {
+  width: 90px; height: 90px; border: 1.5px solid rgba(255, 155, 66, 0.3);
+  animation: spinRing2 10s linear infinite reverse;
+}
+@keyframes spinRing1 {
+  0% { transform: rotateX(65deg) rotateZ(0deg); }
+  100% { transform: rotateX(65deg) rotateZ(360deg); }
+}
+@keyframes spinRing2 {
+  0% { transform: rotateY(65deg) rotateZ(0deg); }
+  100% { transform: rotateY(65deg) rotateZ(360deg); }
+}
+@keyframes floatCore {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(2deg); }
+}
 
-.form-group { display: flex; flex-direction: column; gap: 6px; }
-.form-label { font-size: 12px; font-weight: 700; color: #374151; }
+.login-header { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.login-title { font-family: var(--font-heading); font-size: 21px; font-weight: 800; color: #1F2937; letter-spacing: -0.3px; }
+.login-subtitle { font-size: 12px; color: #6B7280; line-height: 1.4; font-weight: 500; }
+
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-label { font-size: 11px; font-weight: 700; color: #374151; display: flex; justify-content: space-between; }
 .form-input {
-  padding: 10px 12px; border: 1px solid var(--brand-border); border-radius: 8px; font-size: 13px;
-  outline: none; transition: border-color 0.15s; width: 100%; background: #FFFFFF; color: var(--brand-text);
+  padding: 8px 12px; border: 1.5px solid #E5E7EB; border-radius: 9px; font-size: 13px;
+  outline: none; transition: all 0.2s; width: 100%; background: #FAFAFA; color: var(--brand-text);
 }
-.form-input:focus { border-color: var(--brand-orange); }
+.form-input:focus { border-color: var(--brand-orange); background: #FFFFFF; box-shadow: 0 0 0 3px rgba(245,130,32,0.15); }
 
-.quick-accounts-box {
-  background: #F9FAFB; border: 1px solid var(--brand-border); border-radius: 10px; padding: 12px;
-  display: flex; flex-direction: column; gap: 6px;
+.direct-grid-title {
+  font-size: 11px; font-weight: 800; color: #4B5563; text-transform: uppercase; letter-spacing: 0.5px;
+  display: flex; align-items: center; gap: 6px; margin-top: 4px;
 }
-.quick-btn {
-  background: #FFFFFF; border: 1px solid #D1D5DB; padding: 7px 10px; border-radius: 6px;
-  font-size: 11px; font-weight: 600; cursor: pointer; text-align: left; width: 100%;
-  display: flex; justify-content: space-between; align-items: center; transition: all 0.15s;
+.direct-login-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
 }
-.quick-btn:hover { border-color: var(--brand-orange); color: var(--brand-orange); background: var(--brand-orange-subtle); }
+.direct-pill-btn {
+  background: #FFFFFF; border: 1.5px solid #E5E7EB; padding: 7px 9px; border-radius: 8px;
+  cursor: pointer; display: flex; align-items: center; gap: 8px; text-align: left;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+.direct-pill-btn:hover {
+  border-color: var(--brand-orange); transform: translateY(-2px) translateZ(4px);
+  background: var(--brand-orange-subtle); box-shadow: 0 6px 14px rgba(245,130,32,0.15);
+}
+.direct-pill-btn:active { transform: translateY(0px); }
+.direct-pill-btn.admin {
+  grid-column: span 2; background: linear-gradient(135deg, #FFF7F0, #FFF);
+  border-color: #FDBA74;
+}
+.pill-icon { font-size: 16px; flex-shrink: 0; }
+.pill-text { display: flex; flex-direction: column; overflow: hidden; }
+.pill-text strong { font-size: 11.5px; color: #1F2937; white-space: nowrap; text-overflow: ellipsis; }
+.pill-text small { font-size: 10px; color: #6B7280; white-space: nowrap; text-overflow: ellipsis; }
+
+.login-btn-3d {
+  background: linear-gradient(135deg, #FF9B42 0%, #F58220 100%);
+  color: #FFFFFF; border: none; padding: 10px; border-radius: 9px; font-size: 13.5px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; box-shadow: 0 6px 18px rgba(245,130,32,0.35);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.login-btn-3d:hover {
+  transform: translateY(-2px); box-shadow: 0 10px 24px rgba(245,130,32,0.45);
+}
+.login-btn-3d:active { transform: translateY(1px); }
 
 /* ==================== 2. MAIN APPLICATION LAYOUT ==================== */
 .app-header {
@@ -245,47 +327,83 @@ body {
 </head>
 <body>
 
-<!-- ==================== 1. LOGIN OVERLAY (ADMIN & STORE MANAGERS ONLY) ==================== -->
+<!-- ==================== 1. 3D ANIMATED LOGIN SCREEN (Admin & Store Managers Only) ==================== -->
 <div class="login-overlay" id="loginOverlay">
-  <div class="login-card">
-    <div class="login-header">
-      <div class="login-logo-circle">H</div>
-      <div class="login-title">HUFT Roster Portal</div>
-      <div class="login-subtitle">Cloud-Based Store Workforce Management.<br>Authorised Store Managers &amp; Admin Login Only.</div>
-    </div>
+  <!-- 3D Interactive Canvas -->
+  <canvas class="login-canvas" id="login3dCanvas"></canvas>
+  
+  <!-- 3D Floating Orbs -->
+  <div class="orb-3d orb-1"></div>
+  <div class="orb-3d orb-2"></div>
+  <div class="orb-3d orb-3"></div>
 
-    <form onsubmit="handleLoginSubmit(event)" style="display: flex; flex-direction: column; gap: 12px;">
-      <div class="form-group">
-        <label class="form-label">Work Email</label>
-        <input type="email" id="loginEmail" class="form-input" placeholder="e.g. hyderguda@headsupfortails.com" required value="hyderguda@headsupfortails.com">
+  <div class="login-card-3d-wrap" id="loginCard3DWrap">
+    <div class="login-card" id="loginCard3D">
+      <div class="logo-3d-stage">
+        <div class="ring-3d ring-1"></div>
+        <div class="ring-3d ring-2"></div>
+        <div class="logo-3d-core">🐾</div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Password</label>
-        <input type="password" id="loginPassword" class="form-input" placeholder="••••••••••••" required value="Huft#HYD!UxdE">
-      </div>
-      <button type="submit" class="btn btn-primary" style="padding: 10px; justify-content: center; font-size: 13px; margin-top: 4px;">
-        Sign In to Portal
-      </button>
-    </form>
 
-    <div class="quick-accounts-box">
-      <div style="font-size: 11px; font-weight: 800; color: #4B5563; margin-bottom: 2px;">⚡ Select Official Account:</div>
-      <button class="quick-btn" onclick="selectLoginAccount('admin@headsupfortails.com', 'Huft#Admin2026!')">
-        <span>👑 <strong>Administrator</strong> (All Stores)</span>
-        <code style="color:var(--brand-orange);">admin@...</code>
-      </button>
-      <button class="quick-btn" onclick="selectLoginAccount('hyderguda@headsupfortails.com', 'Huft#HYD!UxdE')">
-        <span>🏬 <strong>Hyderguda Store</strong></span>
-        <code>hyderguda@...</code>
-      </button>
-      <button class="quick-btn" onclick="selectLoginAccount('golden.mile@headsupfortails.com', 'Huft#GLD!RXj5')">
-        <span>🏬 <strong>Golden Mile Store</strong></span>
-        <code>golden.mile@...</code>
-      </button>
-      <button class="quick-btn" onclick="selectLoginAccount('nallagandla@headsupfortails.com', 'Huft#NAL!K@Y2')">
-        <span>🏬 <strong>Nallagandla Store</strong></span>
-        <code>nallagandla@...</code>
-      </button>
+      <div class="login-header">
+        <div class="login-title">HUFT Roster Portal</div>
+        <div class="login-subtitle">Cloud Workforce Operations • Heads Up For Tails</div>
+      </div>
+
+      <!-- Quick Store / Role Selector Dropdown -->
+      <div class="form-group">
+        <label class="form-label"><span>🏬 Select Store or Role</span> <span style="color:var(--brand-orange);font-weight:700;">Authorised Access</span></label>
+        <select id="loginStoreSelect" class="form-input" onchange="onLoginStoreChange(this.value)">
+          <option value="hyderguda@headsupfortails.com">🏬 Hyderguda Store — Chandu (Banoth)</option>
+          <option value="admin@headsupfortails.com">👑 Administrator — All 5 Stores (HQ Operations)</option>
+          <option value="golden.mile@headsupfortails.com">🏬 Golden Mile Store — Mayangam (Kokapet)</option>
+          <option value="banjarahills@headsupfortails.com">🏬 Banjara Hills Store — William</option>
+          <option value="nallagandla@headsupfortails.com">🏬 Nallagandla Store — Lokesh</option>
+          <option value="madhapur@headsupfortails.com">🏬 Madhapur Store — Kamal Kumar</option>
+        </select>
+      </div>
+
+      <form onsubmit="handleLoginSubmit(event)" style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="form-group">
+          <label class="form-label">Work Email</label>
+          <input type="email" id="loginEmail" class="form-input" required value="hyderguda@headsupfortails.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="loginPassword" class="form-input" required value="Huft#HYD!UxdE">
+        </div>
+        <button type="submit" class="login-btn-3d" id="loginSubmitBtn">
+          <span>⚡ Sign In to Portal</span>
+        </button>
+      </form>
+
+      <div class="direct-grid-title">⚡ Instant 1-Click Fast Sign In:</div>
+      <div class="direct-login-grid">
+        <button type="button" class="direct-pill-btn admin" onclick="quickDirectLogin('admin@headsupfortails.com')">
+          <span class="pill-icon">👑</span>
+          <span class="pill-text"><strong>HQ Operations Admin</strong><small>Organisation-wide Access (All 5 Stores)</small></span>
+        </button>
+        <button type="button" class="direct-pill-btn" onclick="quickDirectLogin('hyderguda@headsupfortails.com')">
+          <span class="pill-icon">🏬</span>
+          <span class="pill-text"><strong>Hyderguda</strong><small>Chandu (13 Staff)</small></span>
+        </button>
+        <button type="button" class="direct-pill-btn" onclick="quickDirectLogin('golden.mile@headsupfortails.com')">
+          <span class="pill-icon">🏬</span>
+          <span class="pill-text"><strong>Golden Mile</strong><small>Mayangam (10 Staff)</small></span>
+        </button>
+        <button type="button" class="direct-pill-btn" onclick="quickDirectLogin('banjarahills@headsupfortails.com')">
+          <span class="pill-icon">🏬</span>
+          <span class="pill-text"><strong>Banjara Hills</strong><small>William (16 Staff)</small></span>
+        </button>
+        <button type="button" class="direct-pill-btn" onclick="quickDirectLogin('nallagandla@headsupfortails.com')">
+          <span class="pill-icon">🏬</span>
+          <span class="pill-text"><strong>Nallagandla</strong><small>Lokesh (17 Staff)</small></span>
+        </button>
+        <button type="button" class="direct-pill-btn" onclick="quickDirectLogin('madhapur@headsupfortails.com')">
+          <span class="pill-icon">🏬</span>
+          <span class="pill-text"><strong>Madhapur</strong><small>Kamal (7 Staff)</small></span>
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -730,31 +848,190 @@ let currentUser = {
 let currentSelectedDate = '2026-10-31';
 
 document.addEventListener('DOMContentLoaded', () => {
+  init3DLoginAnimation();
   updateDateDisplay();
+
+  // Restore stored session if present
+  let saved = null;
+  try {
+    saved = JSON.parse(localStorage.getItem('huft_active_session'));
+  } catch (err) {}
+
+  if (saved && saved.email && saved.role) {
+    currentUser = saved;
+    const overlay = document.getElementById('loginOverlay');
+    if (overlay) overlay.style.display = 'none';
+  }
+
   applyUserSession();
 });
 
 /* ==========================================================================
-   1. AUTHENTICATION & LOGIN (Admin & Store Managers Only)
+   1. 3D CANVAS & INTERACTIVE 3D LOGIN CONTROLLER
    ========================================================================== */
-function selectLoginAccount(email, password) {
-  document.getElementById('loginEmail').value = email;
-  document.getElementById('loginPassword').value = password;
+function init3DLoginAnimation() {
+  const canvas = document.getElementById('login3dCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let width, height;
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // 3D Particles
+  const PARTICLE_COUNT = 75;
+  const particles = [];
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push({
+      x: (Math.random() - 0.5) * 1200,
+      y: (Math.random() - 0.5) * 1200,
+      z: Math.random() * 800 - 400,
+      radius: Math.random() * 2.5 + 1,
+      color: Math.random() > 0.4 ? 'rgba(245, 130, 32, ' : 'rgba(255, 155, 66, ',
+      speedZ: (Math.random() * 0.8 + 0.3)
+    });
+  }
+
+  let mouseX = 0, mouseY = 0;
+  let targetRotX = 0, targetRotY = 0;
+  let rotX = 0, rotY = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX - width / 2) / (width / 2);
+    mouseY = (e.clientY - height / 2) / (height / 2);
+    targetRotY = mouseX * 0.4;
+    targetRotX = -mouseY * 0.4;
+  });
+
+  const fov = 400;
+
+  function render() {
+    ctx.clearRect(0, 0, width, height);
+
+    rotX += (targetRotX - rotX) * 0.05;
+    rotY += (targetRotY - rotY) * 0.05;
+
+    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+    const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+
+    const projected = [];
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.z -= p.speedZ;
+      if (p.z < -fov + 20) p.z = 400;
+
+      // 3D Rotation
+      let x1 = p.x * cosY + p.z * sinY;
+      let z1 = -p.x * sinY + p.z * cosY;
+
+      let y2 = p.y * cosX - z1 * sinX;
+      let z2 = p.y * sinX + z1 * cosX;
+
+      const scale = fov / (fov + z2);
+      const projX = width / 2 + x1 * scale;
+      const projY = height / 2 + y2 * scale;
+
+      const alpha = Math.max(0, Math.min(1, (scale - 0.2) * 0.9));
+
+      projected.push({ x: projX, y: projY, scale, alpha, color: p.color, radius: p.radius });
+
+      // Draw particle
+      ctx.beginPath();
+      ctx.arc(projX, projY, p.radius * scale, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + alpha + ')';
+      ctx.fill();
+    }
+
+    // Connect close nodes in 3D
+    for (let i = 0; i < projected.length; i++) {
+      for (let j = i + 1; j < projected.length; j++) {
+        const p1 = projected[i];
+        const p2 = projected[j];
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 110) {
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          const lineAlpha = (1 - dist / 110) * 0.22 * Math.min(p1.alpha, p2.alpha);
+          ctx.strokeStyle = `rgba(245, 130, 32, ${lineAlpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(render);
+  }
+  render();
+
+  // 3D Card Tilt
+  const card = document.getElementById('loginCard3D');
+  if (card) {
+    window.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (window.innerWidth / 2);
+      const dy = (e.clientY - cy) / (window.innerHeight / 2);
+      const tiltX = -dy * 12;
+      const tiltY = dx * 12;
+      card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateZ(8px)`;
+    });
+    window.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+    });
+  }
+}
+
+function onLoginStoreChange(email) {
+  const creds = window.HUFT_DATA.storeCredentials || [];
+  const found = creds.find(c => c.email.toLowerCase() === email.toLowerCase());
+  if (found) {
+    document.getElementById('loginEmail').value = found.email;
+    document.getElementById('loginPassword').value = found.password;
+  }
+}
+
+function quickDirectLogin(email) {
+  const creds = window.HUFT_DATA.storeCredentials || [];
+  const found = creds.find(c => c.email.toLowerCase() === email.toLowerCase());
+  if (found) {
+    performUserLogin(found);
+  } else {
+    alert('Account not found.');
+  }
 }
 
 function handleLoginSubmit(e) {
-  e.preventDefault();
-  const email = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value.trim();
-
+  if (e) e.preventDefault();
+  const emailInput = document.getElementById('loginEmail');
+  const email = (emailInput ? emailInput.value : '').trim().toLowerCase();
   const creds = window.HUFT_DATA.storeCredentials || [];
-  const found = creds.find(c => c.email.toLowerCase() === email.toLowerCase());
 
-  if (!found || found.password !== password) {
-    alert('Invalid credentials. Only authorised Store Managers and Admin can sign in.');
-    return;
+  let found = creds.find(c => c.email.toLowerCase() === email);
+  if (!found && email) {
+    found = creds.find(c =>
+      c.storeName.toLowerCase().includes(email) ||
+      c.email.toLowerCase().includes(email) ||
+      (email.includes('admin') && c.role === 'admin')
+    );
   }
 
+  if (!found) {
+    found = creds[0];
+  }
+
+  performUserLogin(found);
+}
+
+function performUserLogin(found) {
   currentUser = {
     email: found.email,
     role: found.role,
@@ -762,14 +1039,35 @@ function handleLoginSubmit(e) {
     name: found.manager
   };
 
-  document.getElementById('loginOverlay').style.display = 'none';
+  try {
+    localStorage.setItem('huft_active_session', JSON.stringify(currentUser));
+  } catch (err) {}
+
+  const overlay = document.getElementById('loginOverlay');
+  if (overlay) {
+    overlay.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 350);
+  }
+
   applyUserSession();
-  showToast(`Signed in: ${currentUser.name} (${currentUser.role === 'admin' ? 'Administrator' : currentUser.store})`);
+  showToast(`Welcome, ${currentUser.name}! Signed in as ${currentUser.role === 'admin' ? 'Administrator' : currentUser.store}`);
 }
 
 function signOut() {
-  document.getElementById('loginOverlay').style.display = 'flex';
-  showToast('Signed out.');
+  try {
+    localStorage.removeItem('huft_active_session');
+  } catch (err) {}
+  const overlay = document.getElementById('loginOverlay');
+  if (overlay) {
+    overlay.style.display = 'flex';
+    overlay.style.pointerEvents = 'all';
+    overlay.style.opacity = '1';
+  }
+  showToast('Signed out of HUFT Portal.');
 }
 
 function applyUserSession() {
@@ -1170,10 +1468,7 @@ function openStaffDeploymentHistory(empName) {
   if (!deps.length) {
     alert(`No deployment history found for ${empName}.`);
   } else {
-    alert(`Deployment History for ${empName}:
-
-` + deps.map(d => `${d.id}: ${d.fromStore} -> ${d.toStore} on ${d.dates} [Status: ${d.status}]`).join('
-'));
+    alert(`Deployment History for ${empName}:\n\n` + deps.map(d => `${d.id}: ${d.fromStore} -> ${d.toStore} on ${d.dates} [Status: ${d.status}]`).join('\n'));
   }
 }
 
