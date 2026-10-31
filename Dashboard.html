@@ -3446,6 +3446,25 @@ function navigateDate(offset) {
   renderWeeklyRoster();
 }
 
+function navigateRosterWeek(direction) {
+  const parts = currentRosterMonday.split('-');
+  const mon = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+  mon.setDate(mon.getDate() + (direction * 7));
+
+  const y = mon.getFullYear();
+  const m = String(mon.getMonth() + 1).padStart(2, '0');
+  const d = String(mon.getDate()).padStart(2, '0');
+  currentRosterMonday = `${y}-${m}-${d}`;
+
+  // If there's a week dropdown, sync it
+  const sel = document.getElementById('rosterWeekDropdown');
+  if (sel) {
+    sel.value = currentRosterMonday;
+  }
+
+  renderWeeklyRoster();
+}
+
 /* ==========================================================================
    3. DASHBOARD (Admin & Store Manager)
    ========================================================================== */
