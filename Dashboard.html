@@ -5172,6 +5172,15 @@ function closeDeploymentRequestModal() {
   }
 }
 
+function getEmployeeRoleTag(e) {
+  const r = (e.role || '').toLowerCase();
+  const d = (e.designation || '').toLowerCase();
+  if (r.includes('groom') || r.includes('spa') || d.includes('groom') || d.includes('stylist') || d.includes('spa')) {
+    return 'Groomer';
+  }
+  return 'Retail';
+}
+
 function handleDeployStoreChange(storeName) {
   const empSel = document.getElementById('deployEmployee');
   if (!empSel) return;
@@ -5184,15 +5193,16 @@ function handleDeployStoreChange(storeName) {
     empSel.innerHTML = '<option value="">-- No staff in this store --</option>';
     return;
   }
-  empSel.innerHTML = emps.map(e => `
-    <option value="${e.id}|${e.name}|${e.employeeId}|${e.designation || e.role}">${e.name} (${e.employeeId} - ${e.designation || e.role})</option>
-  `).join('');
+  empSel.innerHTML = emps.map(e => {
+    const roleTag = getEmployeeRoleTag(e);
+    return `<option value="${e.employeeId}">${e.employeeId} - ${e.name} (${roleTag})</option>`;
+  }).join('');
 }
 
 function handleDeploymentRequestSubmit(e) {
   if (e && e.preventDefault) e.preventDefault();
   const sourceStore = document.getElementById('deploySourceStore')?.value;
-  const empVal = document.getElementById('deployEmployee')?.value;
+  const selectedEpplId = document.getElementById('deployEmployee')?.value;
   const startDate = document.getElementById('deployStartDate')?.value;
   const endDate = document.getElementById('deployEndDate')?.value;
   const shift = document.getElementById('deployShift')?.value || 'SPA Timings';
@@ -5200,7 +5210,7 @@ function handleDeploymentRequestSubmit(e) {
 
   const myStore = (currentUser && currentUser.store && currentUser.store !== 'All Stores') ? currentUser.store : 'Hyderguda';
 
-  if (!sourceStore || !empVal || !startDate || !endDate) {
+  if (!sourceStore || !selectedEpplId || !startDate || !endDate) {
     alert('Please fill in all required fields.');
     return;
   }
@@ -5210,10 +5220,10 @@ function handleDeploymentRequestSubmit(e) {
     return;
   }
 
-  const parts = empVal.split('|');
-  const empName = parts[1] || 'Staff';
-  const epplId = parts[2] || 'EPPL';
-  const designation = parts[3] || 'Staff';
+  const emp = (window.HUFT_DATA.employees || []).find(x => x.employeeId === selectedEpplId);
+  const empName = emp ? emp.name : 'Staff';
+  const epplId = selectedEpplId;
+  const roleTag = emp ? getEmployeeRoleTag(emp) : 'Staff';
 
   const deps = window.HUFT_DATA.deployments || [];
   let nextNum = 1;
@@ -5239,7 +5249,7 @@ function handleDeploymentRequestSubmit(e) {
     id: newId,
     employeeName: empName,
     employeeId: epplId,
-    designation: designation,
+    designation: roleTag,
     fromStore: sourceStore,
     toStore: myStore,
     dates: dateStr,
