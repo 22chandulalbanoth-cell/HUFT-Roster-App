@@ -2466,8 +2466,7 @@ function generateDailyStoreWhatsAppText(storeName, selectedDate) {
     `${groomLeaves.length > 0 ? groomLeaves.map(l => '• ' + l).join('\n') : '• No leaves & offs'}\n\n` +
     `🔑 Key handover\n` +
     `• Opening key: ${openKey}\n` +
-    `• Closing key: ${closeKey}\n\n` +
-    `🌐 HUFT Roster Portal: https://22chandulalbanoth-cell.github.io/HUFT-Roster-App/`;
+    `• Closing key: ${closeKey}`;
 }
 
 function generateWeeklyStoreWhatsAppText(storeName, mondayDateStr) {
@@ -2513,8 +2512,7 @@ function generateWeeklyStoreWhatsAppText(storeName, mondayDateStr) {
     `• Mid Shift: 11:00 AM – 08:00 PM / 12:00 PM – 09:00 PM\n` +
     `• Closing: 01:00 PM – 10:00 PM\n` +
     `• SPA Timings: 11:00 AM – 08:00 PM\n\n` +
-    `Please report on time. Shifts are auto-synced on the portal:\n` +
-    `🌐 https://22chandulalbanoth-cell.github.io/HUFT-Roster-App/\n` +
+    `Please report on time.\n` +
     `_Heads Up For Tails · People & Pets. Always Better Together._`;
 }
 
@@ -2534,8 +2532,7 @@ function generateIndividualStaffWhatsAppText(emp, dateStr) {
     `⏰ *Shift:* *${shift}* (${timing})\n` +
     `👤 *Role:* ${emp.role} · ${emp.designation}\n` +
     `🆔 *Employee ID:* ${emp.employeeId}\n\n` +
-    `Please report on time. Have a wonderful day caring for our pets! 🐶🐱\n\n` +
-    `🌐 Portal: https://22chandulalbanoth-cell.github.io/HUFT-Roster-App/`;
+    `Please report on time. Have a wonderful day caring for our pets! 🐶🐱`;
 }
 
 function generateIndividualWeeklyWhatsAppText(emp, mondayDateStr) {
@@ -2567,8 +2564,7 @@ function generateIndividualWeeklyWhatsAppText(emp, mondayDateStr) {
     `*Week:* ${fmtDate(weekStart)} – ${fmtDate(weekEnd)} ${weekEnd.getFullYear()}\n\n` +
     `*Your Schedule This Week:*\n` +
     `${scheduleLines}\n` +
-    `Please report on time. For shift swaps, get prior Store Manager approval.\n` +
-    `🌐 Portal: https://22chandulalbanoth-cell.github.io/HUFT-Roster-App/`;
+    `Please report on time. For shift swaps, get prior Store Manager approval.`;
 }
 
 function renderWhatsAppTab() {
