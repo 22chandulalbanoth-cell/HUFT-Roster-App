@@ -3,14 +3,120 @@
 // SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... node scripts/import-workbook.mjs
 import { createClient } from '@supabase/supabase-js';
 import fs from 'node:fs';
-const url=process.env.SUPABASE_URL, key=process.env.SUPABASE_SERVICE_ROLE_KEY;
-if(!url||!key) throw new Error('Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in your local terminal environment.');
-const supabase=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}});
-const data=JSON.parse(fs.readFileSync(new URL('../import-data.json',import.meta.url),'utf8'));
-const fail=(r,label)=>{if(r.error)throw new Error(label+': '+r.error.message);return r.data;};
-const storeIds={};
-for(const name of data.stores){const r=await supabase.from('stores').upsert({name,code:name.toUpperCase().replace(/[^A-Z0-9]+/g,'-'),is_active:data.store_meta?.[name]?.is_active??true},{onConflict:'name'}).select('id,name').single();const row=fail(r,'Store '+name);storeIds[name]=row.id;}
-const employeeIds={};
-for(const e of data.employees){const payload={employee_code:e.employee_code||null,full_name:e.full_name,role_title:e.role_title,phone:e.phone,email:e.email,store_id:storeIds[e.store],removed_on:e.removed_on,is_active:e.is_active,reports_to:e.reports_to||null};let q;if(e.employee_code){q=await supabase.from('employees').upsert(payload,{onConflict:'employee_code'}).select('id,full_name,store_id').single();}else{const f=await supabase.from('employees').select('id').eq('full_name',e.full_name).eq('store_id',storeIds[e.store]).maybeSingle();fail(f,'Find employee');if(f.data){q=await supabase.from('employees').update(payload).eq('id',f.data.id).select('id,full_name,store_id').single();}else q=await supabase.from('employees').insert(payload).select('id,full_name,store_id').single();}const row=fail(q,'Employee '+e.full_name);employeeIds[e.store+'|'+e.full_name.toLowerCase()]=row.id;}
-const batch=500;let count=0;for(let i=0;i<data.roster_entries.length;i+=batch){const rows=data.roster_entries.slice(i,i+batch).map(x=>({employee_id:employeeIds[x.store+'|'+x.employee_name.toLowerCase()],roster_date:x.roster_date,shift_code:x.shift_code,deployment_store_id:x.deployment_store?storeIds[x.deployment_store]:null})).filter(x=>x.employee_id);const r=await supabase.from('roster_entries').upsert(rows,{onConflict:'employee_id,roster_date'});fail(r,'Roster batch '+i);count+=rows.length;}
-console.log(JSON.stringify({stores:Object.keys(storeIds).length,employees:data.employees.length,rosterEntries:count,months:data.months},null,2));
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const url = process.env.SUPABASE_URL || 'https://sumoyszqxxuarwzpzsgw.supabase.co';
+const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+if (!key) {
+  console.log('NOTICE: SUPABASE_SERVICE_ROLE_KEY not supplied. Skipping direct Supabase push.');
+  console.log('To import into Supabase Cloud:');
+  console.log('SUPABASE_SERVICE_ROLE_KEY=your_key node scripts/import-workbook.mjs');
+  process.exit(0);
+}
+
+const supabase = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
+const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/roster-data.json'), 'utf8'));
+
+console.log('Importing stores...');
+for (const s of data.stores) {
+  const { error } = await supabase.from('stores').upsert({
+    name: s.name,
+    code: s.name.toUpperCase().replace(/[^A-Z0-9]+/g, '-'),
+    active: s.active,
+    location: s.location,
+    manager: s.manager,
+    manager_email: s.managerEmail
+  }, { onConflict: 'name' });
+  if (error) console.error('Store error:', s.name, error.message);
+}
+
+console.log('Importing employees...');
+for (const e of data.employees) {
+  const { error } = await supabase.from('employees').upsert({
+    id: e.id,
+    employee_id: e.employeeId || null,
+    name: e.name,
+    store: e.store,
+    role: e.role,
+    phone: e.phone || null,
+    email: e.email || null,
+    active: e.active !== false,
+    reports_to: e.reportsTo || null,
+    removed_on: e.removedOn || null,
+    profile_photo_id: e.profilePhotoId || null
+  }, { onConflict: 'id' });
+  if (error) console.error('Employee error:', e.name, error.message);
+}
+
+console.log('Importing email templates...');
+for (const t of (data.emailTemplates || [])) {
+  const { error } = await supabase.from('email_templates').upsert({
+    id: t.id,
+    name: t.name,
+    subject: t.subject,
+    body: t.message,
+    enabled: t.enabled
+  }, { onConflict: 'id' });
+  if (error) console.error('Template error:', t.id, error.message);
+}
+
+console.log('Importing email recipients...');
+for (const r of (data.emailRecipients || [])) {
+  const { error } = await supabase.from('email_recipients').upsert({
+    store: r.store,
+    email: r.email
+  }, { onConflict: 'store' });
+  if (error) console.error('Recipient error:', r.store, error.message);
+}
+
+console.log('Importing deployments...');
+for (const d of (data.deployments || [])) {
+  const { error } = await supabase.from('deployment_requests').upsert({
+    id: d.id,
+    request_id: d.id,
+    employee_id: d.name,
+    employee_name: d.name,
+    from_store: d.fromStore,
+    to_store: d.toStore,
+    from_date: d.from,
+    to_date: d.to,
+    shift: d.shift,
+    status: d.status,
+    requested_by: d.requester,
+    decided_by: d.decidedBy,
+    notes: d.notes || null
+  }, { onConflict: 'id' });
+  if (error) console.error('Deployment error:', d.id, error.message);
+}
+
+console.log('Importing shifts (in batches)...');
+const shiftEntries = Object.keys(data.shifts || {}).map(sKey => {
+  const parts = sKey.split('|');
+  const empId = parts[0];
+  const date = parts[1];
+  const shift = data.shifts[sKey];
+  const emp = data.employees.find(x => x.id === empId || x.employeeId === empId);
+  return {
+    employee_id: empId,
+    employee_name: emp ? emp.name : empId,
+    store: emp ? emp.store : 'Hyderguda',
+    date: date,
+    shift: shift
+  };
+});
+
+const batchSize = 250;
+let importedCount = 0;
+for (let i = 0; i < shiftEntries.length; i += batchSize) {
+  const batch = shiftEntries.slice(i, i + batchSize);
+  const { error } = await supabase.from('roster_shifts').upsert(batch, { onConflict: 'employee_id,date' });
+  if (error) {
+    console.error(`Batch ${i} error:`, error.message);
+  } else {
+    importedCount += batch.length;
+  }
+}
+
+console.log(`Import complete! Imported ${importedCount} of ${shiftEntries.length} shifts.`);
