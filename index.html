@@ -1440,8 +1440,8 @@ body {
     <section id="tab-request-staff" class="tab-pane">
       <div class="page-title-row">
         <div>
-          <h1 class="page-heading">Staff Requests – Inter-Store Deployment</h1>
-          <p class="page-subheading">Two-Store Approval Workflow with Automated Cloud Email Notifications</p>
+          <h1 class="page-heading" id="requestStaffPageHeading">Staff Requests – Inter-Store Deployment</h1>
+          <p class="page-subheading" id="requestStaffPageSubheading">Manage staff requests and deployments between stores</p>
         </div>
         <button class="btn btn-primary" onclick="openDeploymentRequestModal()">
           + Request Staff from Another Store
@@ -1449,9 +1449,38 @@ body {
       </div>
 
       <div class="panel">
-        <div class="panel-header">
-          <span class="panel-title">All Inter-Store Deployment Requests</span>
+        <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="panel-title" id="deploymentsPanelTitle">Inter-Store Deployment Requests</span>
+            <span id="deployCountBadge" style="background: #FFF7ED; color: #EA580C; border: 1px solid #FED7AA; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 99px;">0 Requests</span>
+          </div>
+          <!-- Admin-Only Multi-Store Selector -->
+          <div id="deployAdminFilterWrap" style="display: none; align-items: center; gap: 8px;">
+            <label style="font-size: 12px; font-weight: 700; color: #475569;">Filter Store:</label>
+            <select id="deployAdminStoreFilter" class="form-input" style="padding: 4px 10px; font-size: 12px; border-radius: 6px; width: auto;" onchange="renderDeploymentsTable()">
+              <option value="ALL">All Stores (5 Stores Overview)</option>
+              <option value="Golden Mile">Golden Mile</option>
+              <option value="Hyderguda">Hyderguda</option>
+              <option value="Banjara Hills">Banjara Hills</option>
+              <option value="Madhapur">Madhapur</option>
+              <option value="Nallagandla">Nallagandla</option>
+            </select>
+          </div>
         </div>
+
+        <!-- Store Manager Category Filter Pills -->
+        <div id="storeManagerDeployFilterPills" style="display: flex; gap: 8px; align-items: center; padding: 12px 16px 0 16px; flex-wrap: wrap;">
+          <button type="button" id="btnDeployBy" onclick="setDeployFilter('requested_by')" style="padding: 5px 14px; font-size: 11.5px; font-weight: 700; border-radius: 99px; background: #EA580C; color: #fff; border: none; cursor: pointer; transition: all 0.2s;">
+            📥 Requested by My Store (<span id="countDeployBy">0</span>)
+          </button>
+          <button type="button" id="btnDeployFrom" onclick="setDeployFilter('requested_from')" style="padding: 5px 14px; font-size: 11.5px; font-weight: 700; border-radius: 99px; background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; cursor: pointer; transition: all 0.2s;">
+            📤 Requested from My Store (<span id="countDeployFrom">0</span>)
+          </button>
+          <button type="button" id="btnDeployAll" onclick="setDeployFilter('all')" style="padding: 5px 14px; font-size: 11.5px; font-weight: 700; border-radius: 99px; background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; cursor: pointer; transition: all 0.2s;">
+            🔄 All Store Related (<span id="countDeployAll">0</span>)
+          </button>
+        </div>
+
         <div class="table-wrap">
           <table class="simple-table" id="deploymentRequestsTable">
             <thead>
@@ -2790,6 +2819,20 @@ function applyUserSession() {
   }
 
   // Build Sidebar for active role
+    // Update Staff Requests page headings according to role
+  const reqHeading = document.getElementById('requestStaffPageHeading');
+  const reqSub = document.getElementById('requestStaffPageSubheading');
+  if (reqHeading) {
+    reqHeading.textContent = isSuperAdmin
+      ? 'Staff Requests – All Stores Deployment Management'
+      : `Staff Requests – ${currentUser.store} Store`;
+  }
+  if (reqSub) {
+    reqSub.textContent = isSuperAdmin
+      ? 'Inter-Store Staff Deployment Requests Across All Hyderabad Stores (Admin Command)'
+      : `Staff requests and inter-store deployments for ${currentUser.store} Store`;
+  }
+
   buildSidebar();
 
   // Load appropriate default tab
@@ -4595,25 +4638,127 @@ function handleAddStaffSubmit(e) {
 /* ==========================================================================
    6. TWO-STORE STAFF DEPLOYMENT APPROVAL WORKFLOW
    ========================================================================== */
+let activeDeployFilter = 'requested_by'; // default to staff requested by this store
+
+function setDeployFilter(mode) {
+  activeDeployFilter = mode;
+  renderDeploymentsTable();
+}
+
 function renderDeploymentsTable() {
   const tbody = document.querySelector('#deploymentRequestsTable tbody');
+  const titleElem = document.getElementById('deploymentsPanelTitle');
+  const countBadge = document.getElementById('deployCountBadge');
+  const adminFilterWrap = document.getElementById('deployAdminFilterWrap');
+  const adminFilterElem = document.getElementById('deployAdminStoreFilter');
+  const pillsWrap = document.getElementById('storeManagerDeployFilterPills');
   if (!tbody) return;
-  const isSuperAdmin = (currentUser.role === 'admin');
+
+  const isSuperAdmin = (currentUser && currentUser.role === 'admin');
+  const myStore = (currentUser && currentUser.store && currentUser.store !== 'All Stores') ? currentUser.store : 'Hyderguda';
   const deps = window.HUFT_DATA.deployments || [];
 
-  const visibleDeps = isSuperAdmin || currentUser.store === 'All Stores'
-    ? deps
-    : deps.filter(d => d.fromStore === currentUser.store || d.toStore === currentUser.store);
+  // Configure UI headers and filter visibility based on role
+  if (isSuperAdmin) {
+    if (adminFilterWrap) adminFilterWrap.style.display = 'flex';
+    if (pillsWrap) pillsWrap.style.display = 'none';
+
+    const selectedStore = adminFilterElem ? adminFilterElem.value : 'ALL';
+    if (titleElem) {
+      titleElem.textContent = selectedStore === 'ALL'
+        ? 'All Inter-Store Deployment Requests (5 Stores HQ Overview)'
+        : `${selectedStore} Store Deployment Requests`;
+    }
+  } else {
+    if (adminFilterWrap) adminFilterWrap.style.display = 'none';
+    if (pillsWrap) pillsWrap.style.display = 'flex';
+
+    if (titleElem) {
+      if (activeDeployFilter === 'requested_by') {
+        titleElem.textContent = `${myStore} Store – Staff Requested by Us`;
+      } else if (activeDeployFilter === 'requested_from') {
+        titleElem.textContent = `${myStore} Store – Staff Requested from Us`;
+      } else {
+        titleElem.textContent = `${myStore} Store – All Store Deployment Requests`;
+      }
+    }
+
+    // Update pill counts
+    const byUs = deps.filter(d => d.toStore === myStore);
+    const fromUs = deps.filter(d => d.fromStore === myStore);
+    const allStore = deps.filter(d => d.toStore === myStore || d.fromStore === myStore);
+
+    const cBy = document.getElementById('countDeployBy');
+    const cFrom = document.getElementById('countDeployFrom');
+    const cAll = document.getElementById('countDeployAll');
+    if (cBy) cBy.textContent = byUs.length;
+    if (cFrom) cFrom.textContent = fromUs.length;
+    if (cAll) cAll.textContent = allStore.length;
+
+    // Update pill button styling
+    const btnBy = document.getElementById('btnDeployBy');
+    const btnFrom = document.getElementById('btnDeployFrom');
+    const btnAll = document.getElementById('btnDeployAll');
+
+    const setActivePill = (btn, active) => {
+      if (!btn) return;
+      if (active) {
+        btn.style.background = '#EA580C';
+        btn.style.color = '#fff';
+        btn.style.border = 'none';
+      } else {
+        btn.style.background = '#F1F5F9';
+        btn.style.color = '#475569';
+        btn.style.border = '1px solid #CBD5E1';
+      }
+    };
+
+    setActivePill(btnBy, activeDeployFilter === 'requested_by');
+    setActivePill(btnFrom, activeDeployFilter === 'requested_from');
+    setActivePill(btnAll, activeDeployFilter === 'all');
+  }
+
+  // Filter deployments:
+  let visibleDeps = [];
+  if (isSuperAdmin) {
+    const selectedStore = adminFilterElem ? adminFilterElem.value : 'ALL';
+    if (selectedStore === 'ALL') {
+      visibleDeps = deps; // Admin can see ALL requests across all stores!
+    } else {
+      visibleDeps = deps.filter(d => d.fromStore === selectedStore || d.toStore === selectedStore);
+    }
+  } else {
+    // Store Manager: STRICTLY ONLY their store related requests!
+    // Never show other stores' requests (e.g. Banjara Hills <-> Madhapur)!
+    if (activeDeployFilter === 'requested_by') {
+      visibleDeps = deps.filter(d => d.toStore === myStore);
+    } else if (activeDeployFilter === 'requested_from') {
+      visibleDeps = deps.filter(d => d.fromStore === myStore);
+    } else {
+      visibleDeps = deps.filter(d => d.fromStore === myStore || d.toStore === myStore);
+    }
+  }
+
+  if (countBadge) {
+    countBadge.textContent = `${visibleDeps.length} ${visibleDeps.length === 1 ? 'Request' : 'Requests'}`;
+  }
 
   if (visibleDeps.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="9" style="color:var(--brand-muted);">No deployment records found.</td></tr>';
+    const emptyMsg = isSuperAdmin
+      ? 'No inter-store deployment records found.'
+      : (activeDeployFilter === 'requested_by'
+          ? `No staff currently requested by ${myStore} Store. Click "+ Request Staff from Another Store" to request.`
+          : (activeDeployFilter === 'requested_from'
+              ? `No requests from other stores requesting ${myStore} Store staff.`
+              : `No deployment records related to ${myStore} Store.`));
+    tbody.innerHTML = `<tr><td colspan="9" style="color:var(--brand-muted);text-align:center;padding:24px;">${emptyMsg}</td></tr>`;
     return;
   }
 
   tbody.innerHTML = visibleDeps.map(d => {
     let actionBtns = '';
-    const isReleasingStore = (d.fromStore === currentUser.store);
-    const isRequestingStore = (d.toStore === currentUser.store);
+    const isReleasingStore = (d.fromStore === myStore);
+    const isRequestingStore = (d.toStore === myStore);
 
     if (d.stage === 1) {
       if (isReleasingStore || isSuperAdmin) {
@@ -4654,165 +4799,6 @@ function renderDeploymentsTable() {
     `;
   }).join('');
 }
-
-function formatDeployDate(dateStr) {
-  if (!dateStr) return '';
-  const d = new Date(dateStr);
-  if (isNaN(d.getTime())) return dateStr;
-  const day = String(d.getDate()).padStart(2, '0');
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const month = months[d.getMonth()];
-  const year = d.getFullYear();
-  return `${day} ${month} ${year}`;
-}
-
-function handleDeployStoreChange(selectedStore) {
-  const empSelect = document.getElementById('deployEmployee');
-  if (!empSelect) return;
-
-  if (!selectedStore) {
-    empSelect.innerHTML = '<option value="">-- Please select a store first --</option>';
-    return;
-  }
-
-  const emps = window.HUFT_DATA.employees || [];
-  const storeEmps = emps.filter(e => e.store === selectedStore && e.active);
-
-  if (storeEmps.length === 0) {
-    empSelect.innerHTML = '<option value="">No active employees in this store</option>';
-    return;
-  }
-
-  // Strictly formatted as: Employee ID and Name (e.g. EPPL2033 - Edmund)
-  empSelect.innerHTML = storeEmps.map(e => `
-    <option value="${e.employeeId}">${e.employeeId} - ${e.name}</option>
-  `).join('');
-}
-
-function openDeploymentRequestModal() {
-  const storeSelect = document.getElementById('deploySourceStore');
-  const myStore = (currentUser && currentUser.store && currentUser.store !== 'All Stores') ? currentUser.store : 'Hyderguda';
-
-  const allStores = ['Banjara Hills', 'Golden Mile', 'Hyderguda', 'Madhapur', 'Nallagandla'];
-  if (storeSelect) {
-    const defaultOther = allStores.find(s => s !== myStore) || 'Banjara Hills';
-    storeSelect.innerHTML = allStores.map(s => `
-      <option value="${s}" ${s === defaultOther ? 'selected' : ''}>${s} Store</option>
-    `).join('');
-
-    handleDeployStoreChange(storeSelect.value);
-  }
-
-  // Default From & To dates
-  const startDateInput = document.getElementById('deployStartDate');
-  const endDateInput = document.getElementById('deployEndDate');
-  if (startDateInput && endDateInput) {
-    const today = new Date();
-    const dStart = new Date(today);
-    dStart.setDate(today.getDate() + 2);
-    const dEnd = new Date(today);
-    dEnd.setDate(today.getDate() + 5);
-
-    startDateInput.value = dStart.toISOString().split('T')[0];
-    endDateInput.value = dEnd.toISOString().split('T')[0];
-  }
-
-  document.getElementById('deploymentRequestModal').classList.add('open');
-}
-
-function closeDeploymentRequestModal() {
-  document.getElementById('deploymentRequestModal').classList.remove('open');
-}
-
-function openDeploymentFromProfile(empId) {
-  closeEmployeeProfileCardModal();
-  openDeploymentRequestModal();
-
-  setTimeout(() => {
-    const emp = (window.HUFT_DATA.employees || []).find(e => e.employeeId === empId || e.id === empId);
-    if (!emp) return;
-
-    const storeSelect = document.getElementById('deploySourceStore');
-    if (storeSelect) {
-      storeSelect.value = emp.store;
-      handleDeployStoreChange(emp.store);
-    }
-
-    const empSelect = document.getElementById('deployEmployee');
-    if (empSelect) {
-      empSelect.value = emp.employeeId;
-    }
-  }, 60);
-}
-
-function handleDeploymentRequestSubmit(e) {
-  e.preventDefault();
-  const sourceStore = document.getElementById('deploySourceStore').value;
-  const empId = document.getElementById('deployEmployee').value;
-  const startDate = document.getElementById('deployStartDate').value;
-  const endDate = document.getElementById('deployEndDate').value;
-  const shift = document.getElementById('deployShift').value;
-  const reason = document.getElementById('deployReason').value.trim();
-
-  if (!sourceStore) {
-    alert('Please select a store to request staff from.');
-    return;
-  }
-  if (!empId) {
-    alert('Please select an employee.');
-    return;
-  }
-  if (!startDate || !endDate) {
-    alert('Please select both From and To dates.');
-    return;
-  }
-  if (new Date(startDate) > new Date(endDate)) {
-    alert('From Date cannot be later than To Date.');
-    return;
-  }
-
-  const emp = (window.HUFT_DATA.employees || []).find(x => x.employeeId === empId || x.id === empId);
-  if (!emp) return;
-
-  const datesFormatted = `${formatDeployDate(startDate)} - ${formatDeployDate(endDate)}`;
-  const newId = `DEP-2026-00${(window.HUFT_DATA.deployments || []).length + 1}`;
-  const targetStore = (currentUser && currentUser.store && currentUser.store !== 'All Stores') ? currentUser.store : 'Hyderguda';
-
-  const newDep = {
-    id: newId,
-    employeeName: emp.name,
-    employeeId: emp.employeeId,
-    designation: emp.designation,
-    fromStore: emp.store,
-    toStore: targetStore,
-    dates: datesFormatted,
-    shift: shift,
-    reason: reason,
-    status: 'Awaiting Source Approval',
-    stage: 1,
-    createdAt: new Date().toISOString().replace('T', ' ').substring(0, 16)
-  };
-
-  if (!window.HUFT_DATA.deployments) window.HUFT_DATA.deployments = [];
-  window.HUFT_DATA.deployments.unshift(newDep);
-
-  // Dispatch email notification
-  if (typeof logEmailNotification === 'function') {
-    logEmailNotification(
-      'New Staff Deployment Request',
-      `${emp.store.toLowerCase().replace(/\s+/g, '')}@headsupfortails.com`,
-      emp.store,
-      `Action Required: Deployment request for ${emp.employeeId} - ${emp.name} to ${targetStore} Store.`
-    );
-  }
-
-  closeDeploymentRequestModal();
-  showToast(`Deployment request submitted for ${emp.employeeId} - ${emp.name}!`);
-
-  renderDeploymentsTable();
-  if (typeof renderApprovalsHub === 'function') renderApprovalsHub();
-}
-
 
 function approveDeploymentStep1(id) {
   const dep = (window.HUFT_DATA.deployments || []).find(d => d.id === id);
