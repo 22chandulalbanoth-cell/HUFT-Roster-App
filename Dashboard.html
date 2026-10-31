@@ -2583,6 +2583,8 @@ function renderWeeklyRoster() {
   });
 
   let bodyHtml = '';
+  let lastGroup = null;
+
   const opCount = new Array(7).fill(0);
   const midCount = new Array(7).fill(0);
   const clCount = new Array(7).fill(0);
@@ -2592,8 +2594,49 @@ function renderWeeklyRoster() {
 
   storeStaff.forEach(e => {
     const isRetail = (e.role === 'Retail' || (e.designation && e.designation.includes('Manager')));
+    const currentGroup = isRetail ? 'Retail' : 'SPA';
     const roleLabel = isRetail ? 'Retail' : 'Groomers';
     let offCount = 0;
+
+    // INSERT PROMINENT VISUAL GAP & HEADERS BETWEEN RETAIL AND SPA
+    if (lastGroup === 'Retail' && currentGroup === 'SPA') {
+      bodyHtml += `
+        <!-- PROMINENT VISUAL GAP ROW -->
+        <tr class="roster-gap-row" style="background:#F1F5F9; height:18px;">
+          <td colspan="11" style="height:18px; padding:0; background:#F1F5F9; border-top:2px solid #CBD5E1; border-bottom:1px solid #CBD5E1;"></td>
+        </tr>
+        <!-- SPA & GROOMING SECTION HEADER -->
+        <tr class="roster-dept-header-row" style="background:#EFF6FF;">
+          <td colspan="11" style="padding:8px 14px; text-align:left; background:#EFF6FF; border-bottom:2px solid #BFDBFE;">
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+              <span style="font-weight:800; font-size:11px; color:#1D4ED8; letter-spacing:0.8px; text-transform:uppercase;">
+                ✂️ SPA &amp; GROOMING TEAM
+              </span>
+              <span style="font-size:10px; color:#1D4ED8; font-weight:700; background:#DBEAFE; padding:1px 8px; border-radius:99px;">
+                SPA Operations
+              </span>
+            </div>
+          </td>
+        </tr>
+      `;
+    } else if (lastGroup === null && currentGroup === 'Retail') {
+      bodyHtml += `
+        <!-- RETAIL SECTION HEADER -->
+        <tr class="roster-dept-header-row" style="background:#F0FDF4;">
+          <td colspan="11" style="padding:8px 14px; text-align:left; background:#F0FDF4; border-bottom:2px solid #BBF7D0;">
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+              <span style="font-weight:800; font-size:11px; color:#15803D; letter-spacing:0.8px; text-transform:uppercase;">
+                🛍️ RETAIL TEAM
+              </span>
+              <span style="font-size:10px; color:#15803D; font-weight:700; background:#DCFCE7; padding:1px 8px; border-radius:99px;">
+                Store Operations
+              </span>
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+    lastGroup = currentGroup;
 
     bodyHtml += `
       <tr>
