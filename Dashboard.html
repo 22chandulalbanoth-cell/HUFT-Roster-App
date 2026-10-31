@@ -906,6 +906,14 @@ body {
           </div>
         </div>
 
+        <!-- REMEMBER ME OPTION -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: -2px; margin-bottom: 2px;">
+          <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;">
+            <input type="checkbox" id="loginRememberMe" checked style="width: 16px; height: 16px; accent-color: #EA580C; cursor: pointer; border-radius: 4px;">
+            <span style="font-size: 12.5px; font-weight: 600; color: #475569;">Remember me</span>
+          </label>
+        </div>
+
         <button type="submit" class="trending-sign-btn" id="loginSubmitBtn" style="height: 46px; margin-top: 4px; border-radius: 9px; font-size: 14px; font-weight: 800;">
           <span>Sign In to Portal →</span>
         </button>
@@ -2209,6 +2217,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateDateDisplay();
 
+  // Pre-fill Remember Me credentials if present
+  try {
+    const remembered = localStorage.getItem('huft_remember_me');
+    if (remembered) {
+      const data = JSON.parse(remembered);
+      if (data && data.remember && data.email) {
+        const emailInput = document.getElementById('loginEmail');
+        const rememberCheckbox = document.getElementById('loginRememberMe');
+        if (emailInput && !emailInput.value) emailInput.value = data.email;
+        if (rememberCheckbox) rememberCheckbox.checked = true;
+      }
+    }
+  } catch(err) {}
+
   // Restore stored session if present
   let saved = null;
   try {
@@ -2664,6 +2686,18 @@ function handleLoginSubmit(e) {
     return;
   }
 
+  // Process Remember Me
+  const rememberCheckbox = document.getElementById('loginRememberMe');
+  if (rememberCheckbox && rememberCheckbox.checked) {
+    try {
+      localStorage.setItem('huft_remember_me', JSON.stringify({ email: email, remember: true }));
+    } catch(err) {}
+  } else {
+    try {
+      localStorage.removeItem('huft_remember_me');
+    } catch(err) {}
+  }
+
   const found = resolveStoreAccount(email);
   if (!found) {
     alert('Account not found. Please enter a valid registered Store Manager, Administrator or Employee email.');
@@ -2748,6 +2782,28 @@ function signOut() {
     overlay.style.pointerEvents = 'all';
     overlay.style.opacity = '1';
   }
+
+  // Pre-fill Remember Me credentials on sign out
+  try {
+    const remembered = localStorage.getItem('huft_remember_me');
+    const emailInput = document.getElementById('loginEmail');
+    const passInput = document.getElementById('loginPassword');
+    const rememberCheckbox = document.getElementById('loginRememberMe');
+    if (passInput) passInput.value = '';
+
+    if (remembered) {
+      const data = JSON.parse(remembered);
+      if (data && data.remember && data.email) {
+        if (emailInput) emailInput.value = data.email;
+        if (rememberCheckbox) rememberCheckbox.checked = true;
+        if (passInput) setTimeout(() => passInput.focus(), 150);
+      }
+    } else {
+      if (emailInput) emailInput.value = '';
+      if (rememberCheckbox) rememberCheckbox.checked = false;
+    }
+  } catch (err) {}
+
   showToast('Signed out of Store Portal.');
 }
 
