@@ -277,61 +277,321 @@ body {
 .btn-danger { background: #EF4444; color: #fff; }
 .btn-danger:hover { background: #DC2626; }
 
-/* Staff Profile Cards */
-.view-toggle-group {
-  display: flex; border: 1px solid var(--brand-border); border-radius: 8px; overflow: hidden; background: #F3F4F6;
+/* ==================== PREMIUM EMPLOYEE PROFILE CARD ==================== */
+.huft-profile-outer-wrap {
+  background: #F5F6FC;
+  padding: 24px;
+  border-radius: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
-.view-toggle-btn {
-  padding: 5px 12px; font-size: 11.5px; font-weight: 700; border: none; background: transparent;
-  cursor: pointer; color: #4B5563; transition: all 0.15s;
-}
-.view-toggle-btn.active {
-  background: #FFFFFF; color: var(--brand-orange); box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-.staff-cards-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-top: 14px;
-}
-.staff-profile-card {
-  background: #FFFFFF; border: 1.5px solid #E5E7EB; border-radius: 14px; padding: 16px;
-  display: flex; flex-direction: column; gap: 12px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.03); position: relative;
-}
-.staff-profile-card:hover {
-  transform: translateY(-2px); border-color: #FDBA74; box-shadow: 0 10px 24px rgba(245,130,32,0.1);
-}
-.staff-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-.staff-card-user { display: flex; align-items: center; gap: 12px; }
-.staff-avatar-circle {
-  width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-heading); font-size: 15px; font-weight: 800; color: #FFFFFF; flex-shrink: 0;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-}
-.staff-avatar-circle.retail { background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); }
-.staff-avatar-circle.grooming { background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%); }
 
-.staff-name-box { display: flex; flex-direction: column; }
-.staff-card-name { font-size: 14px; font-weight: 800; color: #111827; }
-.staff-card-id { font-size: 11px; font-family: monospace; color: var(--brand-orange); font-weight: 700; }
-
-.status-pill {
-  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; text-transform: uppercase;
+.huft-premium-card {
+  background: #FFFFFF;
+  border-radius: 22px;
+  border: 1px solid #E8EAF0;
+  box-shadow: 0 14px 40px rgba(36, 50, 77, 0.08), 0 2px 6px rgba(0,0,0,0.02);
+  width: 100%;
+  max-width: 420px;
+  padding: 28px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: var(--font-heading);
 }
-.status-pill.active { background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; }
-.status-pill.inactive { background: #FEF2F2; color: #B91C1C; border: 1px solid #FECACA; }
 
-.staff-card-details {
-  background: #F9FAFB; border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;
+.huft-premium-card:hover {
+  box-shadow: 0 20px 50px rgba(36, 50, 77, 0.12);
+  border-color: #DDE1EC;
+}
+
+/* Header: Photo, Name, Single Designation */
+.huft-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.huft-avatar-container {
+  position: relative;
+  width: 104px;
+  height: 104px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #FF7138 0%, #FFB27D 100%);
+  box-shadow: 0 8px 20px rgba(255, 113, 56, 0.25);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.huft-avatar-container.drag-over {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 4px #FF7138, 0 10px 25px rgba(255,113,56,0.4);
+}
+
+.huft-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #FFFFFF;
+  display: block;
+}
+
+.huft-avatar-initials {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #24324D 0%, #3B4D72 100%);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.huft-avatar-upload-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #FF7138;
+  color: #FFFFFF;
+  border: 2.5px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: transform 0.15s;
+}
+
+.huft-avatar-upload-badge:hover {
+  transform: scale(1.12);
+  background: #E05C25;
+}
+
+.huft-card-name {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 800;
+  color: #24324D;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+
+.huft-single-designation-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF4EC;
+  color: #FF7138;
+  border: 1px solid #FED7AA;
+  border-radius: 99px;
+  padding: 4px 16px;
   font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
-.card-detail-row { display: flex; justify-content: space-between; align-items: center; }
-.detail-label { color: #6B7280; font-weight: 600; }
-.detail-value { color: #1F2937; font-weight: 700; text-align: right; }
-.detail-value.role-tag { padding: 1px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; }
-.role-tag.retail { background: #DBEAFE; color: #1E40AF; }
-.role-tag.grooming { background: #EDE9FE; color: #5B21B6; }
 
-.staff-card-actions { display: flex; gap: 8px; margin-top: auto; padding-top: 4px; }
-.staff-card-actions .btn { flex: 1; padding: 6px 8px; font-size: 11px; font-weight: 700; justify-content: center; }
+/* Photo Quick Action Toolbar */
+.huft-photo-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.huft-photo-btn {
+  background: #F5F6FC;
+  border: 1px solid #E8EAF0;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #71809B;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.huft-photo-btn:hover {
+  background: #FFF4EC;
+  border-color: #FED7AA;
+  color: #FF7138;
+}
+
+/* Two-Column Information Section */
+.huft-card-info-table {
+  width: 100%;
+  border-top: 1px solid #E8EAF0;
+  margin-bottom: 22px;
+}
+
+.huft-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 4px;
+  border-bottom: 1px solid #E8EAF0;
+  font-size: 12.5px;
+}
+
+.huft-info-label {
+  color: #71809B;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.huft-info-value {
+  color: #24324D;
+  font-weight: 700;
+  text-align: right;
+  word-break: break-word;
+  max-width: 65%;
+}
+
+.huft-whatsapp-link {
+  color: #16A34A;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+}
+.huft-whatsapp-link:hover { text-decoration: underline; }
+
+.huft-shift-badge-val {
+  background: #E0F2FE;
+  color: #0369A1;
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.huft-shift-badge-val.Closing { background: #F3E8FF; color: #6D28D9; }
+.huft-shift-badge-val.MidShift { background: #FEF3C7; color: #B45309; }
+.huft-shift-badge-val.SPATimings { background: #ECFDF5; color: #047857; }
+
+/* 4 Profile Action Buttons */
+.huft-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.huft-action-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.huft-action-btn {
+  background: #FFFFFF;
+  border: 1.5px solid #E8EAF0;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #24324D;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+
+.huft-action-btn:hover {
+  background: #F5F6FC;
+  border-color: #DDE1EC;
+  color: #FF7138;
+  transform: translateY(-1px);
+}
+
+.huft-action-btn.primary-orange {
+  background: #FF7138;
+  border-color: #FF7138;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(255, 113, 56, 0.25);
+}
+.huft-action-btn.primary-orange:hover {
+  background: #E05C25;
+  border-color: #E05C25;
+  color: #FFFFFF;
+  box-shadow: 0 6px 16px rgba(255, 113, 56, 0.35);
+}
+
+.huft-remove-btn {
+  background: none;
+  border: none;
+  color: #EF4444;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px;
+  margin-top: 2px;
+  text-align: center;
+  transition: color 0.15s;
+}
+.huft-remove-btn:hover {
+  color: #DC2626;
+  text-decoration: underline;
+}
+
+/* Cropper Modal Canvas & Controls */
+.cropper-stage {
+  width: 340px;
+  height: 340px;
+  margin: 0 auto;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  background: #1F2937;
+  cursor: grab;
+}
+.cropper-stage:active { cursor: grabbing; }
+
+.cropper-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+/* Monthly Calendar Cells */
+.cal-grid-35 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 12px;
+}
+.cal-day-cell {
+  background: #FFFFFF;
+  border: 1px solid #E8EAF0;
+  border-radius: 8px;
+  padding: 8px 6px;
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 11px;
+}
+.cal-day-cell.today {
+  border-color: #FF7138;
+  background: #FFF7ED;
+}
+.cal-day-num { font-weight: 800; color: #24324D; display: flex; justify-content: space-between; }
+.cal-day-name { font-size: 9px; color: #71809B; font-weight: 600; }
 
 /* Workflow Stage Pills */
 .workflow-step-pill {
@@ -819,46 +1079,14 @@ body {
     <section id="tab-emp-profile" class="tab-pane">
       <div class="page-title-row">
         <div>
-          <h1 class="page-heading">My Profile</h1>
-          <p class="page-subheading">Personal employee records, designated store, and reporting structure</p>
+          <h1 class="page-heading">Employee Profile</h1>
+          <p class="page-subheading">Official employee identity, store assignment, and verified credentials</p>
         </div>
       </div>
 
-      <div class="panel" style="max-width: 600px;">
-        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
-          <div class="staff-avatar-circle retail" style="width: 64px; height: 64px; font-size: 24px;" id="empProfileAvatar">RS</div>
-          <div>
-            <h2 style="font-size: 18px; font-weight: 800;" id="empProfileName">Rohit Sharma</h2>
-            <div style="color: var(--brand-orange); font-weight: 700; font-size: 12px;" id="empProfileId">EMP001</div>
-            <span class="status-pill active" style="margin-top: 4px; display: inline-block;">Active</span>
-          </div>
-        </div>
-
-        <div class="staff-card-details" style="font-size: 13px; gap: 10px; padding: 16px;">
-          <div class="card-detail-row">
-            <span class="detail-label">Designation:</span>
-            <span class="detail-value" id="empProfileDesig">Store Associate</span>
-          </div>
-          <div class="card-detail-row">
-            <span class="detail-label">Department:</span>
-            <span class="detail-value role-tag retail" id="empProfileDept">Retail Operations</span>
-          </div>
-          <div class="card-detail-row">
-            <span class="detail-label">Assigned Store:</span>
-            <span class="detail-value" id="empProfileStore">🏬 Hyderguda Store</span>
-          </div>
-          <div class="card-detail-row">
-            <span class="detail-label">Joining Date:</span>
-            <span class="detail-value" id="empProfileJoining">15 Jan 2024</span>
-          </div>
-          <div class="card-detail-row">
-            <span class="detail-label">Direct Phone:</span>
-            <span class="detail-value" id="empProfilePhone">+91 98765 43210</span>
-          </div>
-          <div class="card-detail-row">
-            <span class="detail-label">Reporting Manager:</span>
-            <span class="detail-value" id="empProfileManager">Chandu (Store Operations Manager)</span>
-          </div>
+      <div class="huft-profile-outer-wrap">
+        <div class="huft-premium-card" id="selfEmpProfileCard">
+          <!-- Populated dynamically by renderEmployeeProfileCardComponent() -->
         </div>
       </div>
     </section>
@@ -1347,6 +1575,158 @@ body {
     </div>
   </div>
 </div>
+
+<!-- ==================== PHOTO CROPPING & PREVIEW MODAL ==================== -->
+<div class="modal-overlay" id="photoCropperModal">
+  <div class="modal-card" style="max-width: 420px; text-align: center;">
+    <div class="modal-header">
+      <div class="modal-title">Edit &amp; Crop Profile Photo</div>
+      <button class="close-btn" onclick="closePhotoCropperModal()">&times;</button>
+    </div>
+
+    <div style="font-size: 11.5px; color: #71809B; margin-bottom: 8px;">
+      Drag inside circle to position • Pinch/Slider to zoom
+    </div>
+
+    <div class="cropper-stage" id="cropperStage">
+      <canvas id="cropperCanvas" width="340" height="340"></canvas>
+    </div>
+
+    <div class="cropper-controls-row">
+      <span style="font-size: 12px; font-weight: 700; color: #71809B;">Zoom:</span>
+      <input type="range" id="cropZoomRange" min="0.5" max="3" step="0.05" value="1" style="flex: 1; accent-color: #FF7138;" oninput="onCropperZoomChange(this.value)">
+      <button type="button" class="huft-photo-btn" onclick="rotateCropperImage()">⟳ Rotate 90°</button>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 14px;">
+      <button type="button" class="btn btn-secondary" style="flex: 1; justify-content: center;" onclick="closePhotoCropperModal()">Cancel</button>
+      <button type="button" class="btn btn-primary" style="flex: 1; justify-content: center; background: #FF7138; border-color: #FF7138;" onclick="saveCroppedPhoto()">Save Photo</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DEDICATED EMPLOYEE PROFILE MODAL ==================== -->
+<div class="modal-overlay" id="employeeProfileCardModal">
+  <div class="modal-card" style="max-width: 460px; padding: 20px; background: transparent; box-shadow: none;">
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+      <button class="close-btn" style="background: #FFFFFF; border-radius: 50%; width: 32px; height: 32px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" onclick="closeEmployeeProfileCardModal()">&times;</button>
+    </div>
+    <div class="huft-profile-outer-wrap" style="padding: 10px;">
+      <div class="huft-premium-card" id="modalEmpProfileCard">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== EDIT EMPLOYEE PROFILE MODAL ==================== -->
+<div class="modal-overlay" id="editEmployeeModal">
+  <div class="modal-card" style="max-width: 480px;">
+    <div class="modal-header">
+      <div class="modal-title">Edit Employee Profile</div>
+      <button class="close-btn" onclick="closeEditEmployeeModal()">&times;</button>
+    </div>
+    <form onsubmit="handleEditEmployeeSubmit(event)" style="display: flex; flex-direction: column; gap: 11px;">
+      <input type="hidden" id="editEmpTargetId">
+      
+      <div class="form-group">
+        <label class="form-label">Employee Name</label>
+        <input type="text" id="editEmpName" class="form-input" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Employee ID</label>
+        <input type="text" id="editEmpIdCode" class="form-input" required>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="form-group">
+          <label class="form-label">Store</label>
+          <select id="editEmpStore" class="form-input">
+            <option value="Hyderguda">Hyderguda</option>
+            <option value="Golden Mile">Golden Mile</option>
+            <option value="Banjara Hills">Banjara Hills</option>
+            <option value="Nallagandla">Nallagandla</option>
+            <option value="Madhapur">Madhapur</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Designation</label>
+          <select id="editEmpDesignation" class="form-input">
+            <option value="Store Manager">Store Manager</option>
+            <option value="Assistant Store Manager">Assistant Store Manager</option>
+            <option value="Senior Sales Associate">Senior Sales Associate</option>
+            <option value="Sales Associate">Sales Associate</option>
+            <option value="Groomer">Groomer</option>
+            <option value="Senior Pet Stylist">Senior Pet Stylist</option>
+            <option value="Store Operations Manager">Store Operations Manager</option>
+            <option value="Retail Specialist">Retail Specialist</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Work Email</label>
+        <input type="email" id="editEmpEmail" class="form-input" required>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="form-group">
+          <label class="form-label">WhatsApp Number</label>
+          <input type="text" id="editEmpPhone" class="form-input" required placeholder="+91 83319 19091">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Default Shift</label>
+          <select id="editEmpDefaultShift" class="form-input">
+            <option value="Closing">Closing</option>
+            <option value="Opening">Opening</option>
+            <option value="Mid Shift">Mid Shift</option>
+            <option value="SPA Timings">SPA Timings</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Employment Type <span style="font-size:10px;color:#71809B;">(Internal only - not on card)</span></label>
+        <select id="editEmpEmploymentType" class="form-input">
+          <option value="Permanent">Permanent</option>
+          <option value="Probation">Probation</option>
+          <option value="Contract">Contract</option>
+        </select>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 8px;">
+        <button type="button" class="btn btn-secondary" style="flex: 1; justify-content: center;" onclick="closeEditEmployeeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center; background: #FF7138; border-color: #FF7138;">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== EMPLOYEE MONTHLY CALENDAR MODAL ==================== -->
+<div class="modal-overlay" id="employeeMonthlyCalendarModal">
+  <div class="modal-card" style="max-width: 580px;">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="empCalendarModalTitle">Monthly Roster Calendar</div>
+        <div style="font-size: 11px; color: #71809B; margin-top: 2px;">Shifts, weekly offs, leaves, and deployment schedule</div>
+      </div>
+      <button class="close-btn" onclick="closeMonthlyCalendarModal()">&times;</button>
+    </div>
+
+    <div class="cal-grid-35" id="empCalendarModalGrid">
+      <!-- Calendar day cells -->
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 10px; border-top: 1px solid #E8EAF0; font-size: 11px;">
+      <span style="color: #71809B;">Month: October - November 2026</span>
+      <button class="btn btn-secondary" style="font-size: 11px;" onclick="closeMonthlyCalendarModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden File Picker for Photo Upload -->
+<input type="file" id="photoFileInput" accept="image/jpeg,image/png,image/webp,image/jpg" style="display: none;" onchange="handlePhotoFileInput(this)">
 
 <div class="toast-msg" id="appToast">Notification</div>
 <script>
@@ -2003,28 +2383,543 @@ function publishAndSaveRoster() {
 }
 
 /* ==========================================================================
-   5. STAFF MANAGEMENT (Card Style & Table Style)
+   5. UPGRADED EMPLOYEE PROFILE CARD & PHOTO MANAGEMENT
    ========================================================================== */
-function switchStaffView(mode) {
-  activeStaffViewMode = mode;
-  const cardsWrap = document.getElementById('staffCardsContainer');
-  const tableWrap = document.getElementById('staffTableWrap');
-  const btnCards = document.getElementById('viewBtnCards');
-  const btnTable = document.getElementById('viewBtnTable');
+let activeModalEmployeeId = null;
 
-  if (mode === 'cards') {
-    if (cardsWrap) cardsWrap.style.display = 'grid';
-    if (tableWrap) tableWrap.style.display = 'none';
-    if (btnCards) btnCards.classList.add('active');
-    if (btnTable) btnTable.classList.remove('active');
-  } else {
-    if (cardsWrap) cardsWrap.style.display = 'none';
-    if (tableWrap) tableWrap.style.display = 'block';
-    if (btnCards) btnCards.classList.remove('active');
-    if (btnTable) btnTable.classList.add('active');
+// Cropper State
+let cropperState = {
+  img: null,
+  zoom: 1,
+  panX: 0,
+  panY: 0,
+  rotAngle: 0,
+  isDragging: false,
+  dragStartX: 0,
+  dragStartY: 0,
+  targetEmployeeId: null
+};
+
+// Local custom photo storage helper
+function saveCustomPhotoLocally(empId, dataUrl) {
+  try {
+    const key = `huft_photo_${empId}`;
+    localStorage.setItem(key, dataUrl);
+  } catch (err) {
+    console.warn('Storage limit reached for local photo cache', err);
   }
 }
 
+function loadCustomPhotoLocally(empId) {
+  try {
+    return localStorage.getItem(`huft_photo_${empId}`);
+  } catch (err) {
+    return null;
+  }
+}
+
+// ----------------------------------------------------
+// A. Device Upload, B. Paste (CTRL + V), C. Drag & Drop
+// ----------------------------------------------------
+function triggerUploadPhoto(empId) {
+  activeModalEmployeeId = empId;
+  const input = document.getElementById('photoFileInput');
+  if (input) {
+    input.value = '';
+    input.click();
+  }
+}
+
+function handlePhotoFileInput(input) {
+  if (input.files && input.files[0]) {
+    initCropperWithFile(input.files[0], activeModalEmployeeId);
+  }
+}
+
+// Copy & Paste (CTRL + V) Handler
+window.addEventListener('paste', (e) => {
+  const empId = activeModalEmployeeId || (currentUser.role === 'employee' ? (currentUser.empId || 'EMP001') : null);
+  if (!empId) return;
+
+  const clipboardData = e.clipboardData || window.clipboardData;
+  if (!clipboardData || !clipboardData.items) return;
+
+  const items = clipboardData.items;
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].type.indexOf('image') !== -1) {
+      const file = items[i].getAsFile();
+      initCropperWithFile(file, empId);
+      e.preventDefault();
+      showToast('Image detected from clipboard! Adjust crop & save.');
+      break;
+    }
+  }
+});
+
+async function triggerPastePhoto(empId) {
+  activeModalEmployeeId = empId;
+  try {
+    if (navigator.clipboard && navigator.clipboard.read) {
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        for (const type of item.types) {
+          if (type.startsWith('image/')) {
+            const blob = await item.getType(type);
+            initCropperWithFile(blob, empId);
+            showToast('Image pasted from clipboard!');
+            return;
+          }
+        }
+      }
+      alert('No image found in clipboard. Please copy an image (e.g. from WhatsApp, Snipping Tool, or Browser) and click Paste again or press CTRL + V.');
+    } else {
+      alert('Press CTRL + V on your keyboard to paste the copied image directly.');
+    }
+  } catch (err) {
+    alert('Please press CTRL + V on your keyboard to paste your copied image.');
+  }
+}
+
+// Drag & Drop Setup
+function setupAvatarDragAndDrop(element, empId) {
+  if (!element) return;
+  element.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    element.classList.add('drag-over');
+  });
+  element.addEventListener('dragleave', () => {
+    element.classList.remove('drag-over');
+  });
+  element.addEventListener('drop', (e) => {
+    e.preventDefault();
+    element.classList.remove('drag-over');
+    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      initCropperWithFile(e.dataTransfer.files[0], empId);
+    }
+  });
+}
+
+// ----------------------------------------------------
+// D. Photo Preview and Cropping Engine (HTML5 Canvas)
+// ----------------------------------------------------
+function initCropperWithFile(file, empId) {
+  if (!file) return;
+  if (file.type && !['image/jpeg', 'image/png', 'image/webp', 'image/jpg'].includes(file.type.toLowerCase())) {
+    alert('Please upload a valid image file (JPG, PNG, or WEBP).');
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    alert('Image file size must be less than 5 MB.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      cropperState.img = img;
+      cropperState.zoom = 1;
+      cropperState.panX = 0;
+      cropperState.panY = 0;
+      cropperState.rotAngle = 0;
+      cropperState.targetEmployeeId = empId;
+      document.getElementById('cropZoomRange').value = 1;
+      document.getElementById('photoCropperModal').classList.add('open');
+      setupCropperInteractions();
+      drawCropperCanvas();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function setupCropperInteractions() {
+  const canvas = document.getElementById('cropperCanvas');
+  if (!canvas || canvas._hasCropperListeners) return;
+  canvas._hasCropperListeners = true;
+
+  canvas.addEventListener('mousedown', (e) => {
+    cropperState.isDragging = true;
+    cropperState.dragStartX = e.clientX - cropperState.panX;
+    cropperState.dragStartY = e.clientY - cropperState.panY;
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!cropperState.isDragging) return;
+    cropperState.panX = e.clientX - cropperState.dragStartX;
+    cropperState.panY = e.clientY - cropperState.dragStartY;
+    drawCropperCanvas();
+  });
+
+  window.addEventListener('mouseup', () => {
+    cropperState.isDragging = false;
+  });
+
+  // Touch support for mobile
+  canvas.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      cropperState.isDragging = true;
+      cropperState.dragStartX = e.touches[0].clientX - cropperState.panX;
+      cropperState.dragStartY = e.touches[0].clientY - cropperState.panY;
+    }
+  });
+
+  window.addEventListener('touchmove', (e) => {
+    if (!cropperState.isDragging || e.touches.length !== 1) return;
+    cropperState.panX = e.touches[0].clientX - cropperState.dragStartX;
+    cropperState.panY = e.touches[0].clientY - cropperState.dragStartY;
+    drawCropperCanvas();
+  });
+
+  window.addEventListener('touchend', () => {
+    cropperState.isDragging = false;
+  });
+}
+
+function drawCropperCanvas() {
+  const canvas = document.getElementById('cropperCanvas');
+  if (!canvas || !cropperState.img) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width;
+  const h = canvas.height;
+  const cx = w / 2;
+  const cy = h / 2;
+  const radius = 125;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Draw image transformed
+  ctx.save();
+  ctx.translate(cx + cropperState.panX, cy + cropperState.panY);
+  ctx.rotate((cropperState.rotAngle * Math.PI) / 180);
+  ctx.scale(cropperState.zoom, cropperState.zoom);
+
+  const img = cropperState.img;
+  const maxDim = Math.max(img.width, img.height);
+  const baseScale = (radius * 2) / maxDim;
+  const drawW = img.width * baseScale;
+  const drawH = img.height * baseScale;
+
+  ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
+  ctx.restore();
+
+  // Draw circular mask overlay (darkened exterior, clear circle in center)
+  ctx.save();
+  ctx.fillStyle = 'rgba(36, 50, 77, 0.65)';
+  ctx.beginPath();
+  ctx.rect(0, 0, w, h);
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2, true);
+  ctx.fill();
+
+  // Circle outline in HUFT orange
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = '#FF7138';
+  ctx.stroke();
+  ctx.restore();
+}
+
+function onCropperZoomChange(val) {
+  cropperState.zoom = parseFloat(val);
+  drawCropperCanvas();
+}
+
+function rotateCropperImage() {
+  cropperState.rotAngle = (cropperState.rotAngle + 90) % 360;
+  drawCropperCanvas();
+}
+
+function closePhotoCropperModal() {
+  document.getElementById('photoCropperModal').classList.remove('open');
+}
+
+function saveCroppedPhoto() {
+  if (!cropperState.img || !cropperState.targetEmployeeId) return;
+  const radius = 125;
+
+  const outCanvas = document.createElement('canvas');
+  outCanvas.width = 250;
+  outCanvas.height = 250;
+  const outCtx = outCanvas.getContext('2d');
+
+  // Clip circle
+  outCtx.beginPath();
+  outCtx.arc(125, 125, 125, 0, Math.PI * 2);
+  outCtx.clip();
+
+  outCtx.translate(125 + cropperState.panX * (250 / 340), 125 + cropperState.panY * (250 / 340));
+  outCtx.rotate((cropperState.rotAngle * Math.PI) / 180);
+  outCtx.scale(cropperState.zoom, cropperState.zoom);
+
+  const img = cropperState.img;
+  const maxDim = Math.max(img.width, img.height);
+  const baseScale = 250 / maxDim;
+  const drawW = img.width * baseScale;
+  const drawH = img.height * baseScale;
+
+  outCtx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
+
+  const croppedDataUrl = outCanvas.toDataURL('image/jpeg', 0.88);
+
+  // Update employee record
+  const emp = (window.HUFT_DATA.employees || []).find(e => e.id === cropperState.targetEmployeeId || e.employeeId === cropperState.targetEmployeeId);
+  if (emp) {
+    emp.photoUrl = croppedDataUrl;
+    saveCustomPhotoLocally(emp.employeeId, croppedDataUrl);
+    showToast(`Profile photo updated for ${emp.name}!`);
+  }
+
+  closePhotoCropperModal();
+  renderStaffProfiles();
+  if (currentUser.role === 'employee') renderEmployeePortal();
+
+  // If dedicated modal is open, refresh it
+  if (activeModalEmployeeId) {
+    openEmployeeProfileModal(activeModalEmployeeId);
+  }
+}
+
+// ----------------------------------------------------
+// GENERATE PREMIUM EMPLOYEE PROFILE CARD HTML
+// ----------------------------------------------------
+function renderPremiumEmployeeProfileCardHTML(emp, isCardView = false) {
+  const shifts = window.HUFT_DATA.shifts || {};
+  const currentShift = shifts[`${emp.id}|${currentSelectedDate}`] || emp.defaultShift || 'Closing';
+
+  // Check custom local photo override
+  const cachedPhoto = loadCustomPhotoLocally(emp.employeeId);
+  const photoSrc = cachedPhoto || emp.photoUrl;
+
+  const initials = emp.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+  const rawPhone = (emp.phone || '918331919091').replace(/[^0-9]/g, '');
+  const displayPhone = emp.phoneFormatted || (emp.phone ? (emp.phone.startsWith('+') ? emp.phone : `+${emp.phone}`) : '+91 83319 19091');
+  const waUrl = `https://wa.me/${rawPhone.startsWith('91') ? rawPhone : '91' + rawPhone}?text=Hello%20${encodeURIComponent(emp.name)}`;
+
+  // Strict: ONE designation tag only
+  const designationTag = emp.designation || (emp.role === 'Grooming' ? 'Groomer' : 'Sales Associate');
+
+  return `
+    <div class="huft-card-header">
+      <div class="huft-avatar-container" id="avatarBox_${emp.employeeId}" title="Drag photo here or Click to change" onclick="triggerUploadPhoto('${emp.employeeId}')">
+        ${photoSrc ? `<img src="${photoSrc}" alt="${emp.name}" class="huft-avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">` : ''}
+        <div class="huft-avatar-initials" style="${photoSrc ? 'display:none;' : ''}">${initials}</div>
+        <div class="huft-avatar-upload-badge" title="Upload or Paste photo">📷</div>
+      </div>
+
+      <div class="huft-card-name">${emp.name}</div>
+      <span class="huft-single-designation-tag">${designationTag}</span>
+
+      <!-- Photo Update Shortcut Toolbar -->
+      <div class="huft-photo-toolbar">
+        <button type="button" class="huft-photo-btn" onclick="triggerUploadPhoto('${emp.employeeId}')">📁 Upload</button>
+        <button type="button" class="huft-photo-btn" onclick="triggerPastePhoto('${emp.employeeId}')">📋 Paste (Ctrl+V)</button>
+      </div>
+    </div>
+
+    <!-- Clean Two-Column Information Section -->
+    <div class="huft-card-info-table">
+      <div class="huft-info-row">
+        <span class="huft-info-label">Store</span>
+        <span class="huft-info-value">🏬 ${emp.store}</span>
+      </div>
+      <div class="huft-info-row">
+        <span class="huft-info-label">Employee ID</span>
+        <span class="huft-info-value" style="font-family:var(--font-mono); color:#FF7138;">${emp.employeeId}</span>
+      </div>
+      <div class="huft-info-row">
+        <span class="huft-info-label">Email</span>
+        <span class="huft-info-value" style="font-size:11.5px;">${emp.email || `${emp.name.toLowerCase()}@headsupfortails.com`}</span>
+      </div>
+      <div class="huft-info-row">
+        <span class="huft-info-label">WhatsApp</span>
+        <span class="huft-info-value">
+          <a href="${waUrl}" target="_blank" class="huft-whatsapp-link">
+            💬 ${displayPhone}
+          </a>
+        </span>
+      </div>
+      <div class="huft-info-row">
+        <span class="huft-info-label">Selected Shift</span>
+        <span class="huft-info-value">
+          <span class="huft-shift-badge-val ${currentShift.replace(/\s+/g, '')}">${currentShift}</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- 4 Action Buttons -->
+    <div class="huft-card-actions">
+      <div class="huft-action-grid-2">
+        <button type="button" class="huft-action-btn" onclick="openDeploymentFromProfile('${emp.employeeId}')">
+          <span>🚀</span> <span>Request Deployment</span>
+        </button>
+        <button type="button" class="huft-action-btn" onclick="openMonthlyCalendarFromProfile('${emp.employeeId}')">
+          <span>📅</span> <span>Monthly Calendar</span>
+        </button>
+      </div>
+
+      <button type="button" class="huft-action-btn primary-orange" onclick="openEditEmployeeModal('${emp.employeeId}')">
+        <span>✏️</span> <span>Edit Profile</span>
+      </button>
+
+      <button type="button" class="huft-remove-btn" onclick="removeEmployeeFromProfile('${emp.employeeId}')">
+        Remove Employee
+      </button>
+    </div>
+  `;
+}
+
+// ----------------------------------------------------
+// DEDICATED PROFILE MODAL & ACTION HANDLERS
+// ----------------------------------------------------
+function openEmployeeProfileModal(empId) {
+  activeModalEmployeeId = empId;
+  const emp = (window.HUFT_DATA.employees || []).find(e => e.employeeId === empId || e.id === empId);
+  if (!emp) return;
+
+  const cardContainer = document.getElementById('modalEmpProfileCard');
+  if (cardContainer) {
+    cardContainer.innerHTML = renderPremiumEmployeeProfileCardHTML(emp);
+    const box = document.getElementById(`avatarBox_${emp.employeeId}`);
+    if (box) setupAvatarDragAndDrop(box, emp.employeeId);
+  }
+
+  document.getElementById('employeeProfileCardModal').classList.add('open');
+}
+
+function closeEmployeeProfileCardModal() {
+  document.getElementById('employeeProfileCardModal').classList.remove('open');
+  activeModalEmployeeId = null;
+}
+
+function openDeploymentFromProfile(empId) {
+  closeEmployeeProfileCardModal();
+  openDeploymentRequestModal();
+  setTimeout(() => {
+    const sel = document.getElementById('deployEmployee');
+    if (sel) {
+      for (let i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].text.includes(empId) || sel.options[i].value.includes(empId)) {
+          sel.selectedIndex = i;
+          break;
+        }
+      }
+    }
+  }, 100);
+}
+
+function openMonthlyCalendarFromProfile(empId) {
+  const emp = (window.HUFT_DATA.employees || []).find(e => e.employeeId === empId || e.id === empId);
+  if (!emp) return;
+
+  const modal = document.getElementById('employeeMonthlyCalendarModal');
+  const title = document.getElementById('empCalendarModalTitle');
+  const grid = document.getElementById('empCalendarModalGrid');
+
+  title.textContent = `Monthly Roster Calendar – ${emp.name} (${emp.designation || 'Specialist'})`;
+
+  const shifts = window.HUFT_DATA.shifts || {};
+  let html = '';
+
+  for (let d = 1; d <= 31; d++) {
+    const dateObj = new Date(2026, 9, d);
+    const dayName = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+    const iso = `2026-10-${String(d).padStart(2, '0')}`;
+    const shift = shifts[`${emp.id}|${iso}`] || ((dateObj.getDay() === 2) ? 'Week Off' : 'Opening');
+    const isToday = (iso === currentSelectedDate);
+
+    html += `
+      <div class="cal-day-cell ${isToday ? 'today' : ''}">
+        <div class="cal-day-num">${d} <span class="cal-day-name">${dayName}</span></div>
+        <span class="shift-select s-${shift.replace(/\s+/g, '')}" style="font-size:9.5px;padding:2px 4px;">${shift}</span>
+      </div>
+    `;
+  }
+
+  grid.innerHTML = html;
+  modal.classList.add('open');
+}
+
+function closeMonthlyCalendarModal() {
+  document.getElementById('employeeMonthlyCalendarModal').classList.remove('open');
+}
+
+function openEditEmployeeModal(empId) {
+  const emp = (window.HUFT_DATA.employees || []).find(e => e.employeeId === empId || e.id === empId);
+  if (!emp) return;
+
+  document.getElementById('editEmpTargetId').value = emp.employeeId;
+  document.getElementById('editEmpName').value = emp.name;
+  document.getElementById('editEmpIdCode').value = emp.employeeId;
+  document.getElementById('editEmpStore').value = emp.store;
+  document.getElementById('editEmpEmail').value = emp.email || `${emp.name.toLowerCase()}@headsupfortails.com`;
+  document.getElementById('editEmpPhone').value = emp.phoneFormatted || emp.phone || '+91 83319 19091';
+  document.getElementById('editEmpDesignation').value = emp.designation || 'Sales Associate';
+  document.getElementById('editEmpDefaultShift').value = emp.defaultShift || 'Closing';
+  document.getElementById('editEmpEmploymentType').value = emp.employmentType || 'Permanent';
+
+  document.getElementById('editEmployeeModal').classList.add('open');
+}
+
+function closeEditEmployeeModal() {
+  document.getElementById('editEmployeeModal').classList.remove('open');
+}
+
+function handleEditEmployeeSubmit(e) {
+  e.preventDefault();
+  const empId = document.getElementById('editEmpTargetId').value;
+  const emp = (window.HUFT_DATA.employees || []).find(e => e.employeeId === empId);
+  if (!emp) return;
+
+  emp.name = document.getElementById('editEmpName').value.trim();
+  emp.store = document.getElementById('editEmpStore').value;
+  emp.email = document.getElementById('editEmpEmail').value.trim();
+  emp.phone = document.getElementById('editEmpPhone').value.trim();
+  emp.phoneFormatted = emp.phone;
+  emp.designation = document.getElementById('editEmpDesignation').value;
+  emp.defaultShift = document.getElementById('editEmpDefaultShift').value;
+  emp.employmentType = document.getElementById('editEmpEmploymentType').value;
+
+  closeEditEmployeeModal();
+  showToast(`Profile updated for ${emp.name}!`);
+
+  renderStaffProfiles();
+  if (activeModalEmployeeId === empId) {
+    openEmployeeProfileModal(empId);
+  }
+  if (currentUser.role === 'employee') {
+    renderEmployeePortal();
+  }
+}
+
+function removeEmployeeFromProfile(empId) {
+  const isSuperAdmin = (currentUser.role === 'admin');
+  if (!isSuperAdmin) {
+    alert('Security Notice: Only authorised Administrators can remove or deactivate employees.');
+    return;
+  }
+
+  const emp = (window.HUFT_DATA.employees || []).find(e => e.employeeId === empId);
+  if (!emp) return;
+
+  const conf = confirm(`Are you sure you want to remove ${emp.name} (${emp.employeeId}) from ${emp.store} Store?
+
+This will safely mark the employee inactive while preserving all historical shift records.`);
+  if (!conf) return;
+
+  emp.active = false;
+  emp.removedOn = '2026-10-31';
+  showToast(`${emp.name} marked inactive.`);
+
+  closeEmployeeProfileCardModal();
+  renderStaffProfiles();
+  renderWeeklyRoster();
+  renderDashboard();
+}
+
+// ----------------------------------------------------
+// RENDER STAFF PROFILES (GRID OF PREMIUM CARDS)
+// ----------------------------------------------------
 function renderStaffProfiles() {
   const cardsContainer = document.getElementById('staffCardsContainer');
   const tbody = document.querySelector('#staffRegistryTable tbody');
@@ -2040,94 +2935,45 @@ function renderStaffProfiles() {
 
   if (countBadge) countBadge.textContent = `${staff.length} Staff`;
 
-  // Render Card Style
+  // Render Grid of Premium Cards
   if (cardsContainer) {
     if (staff.length === 0) {
-      cardsContainer.innerHTML = '<div style="grid-column: 1/-1; padding: 40px; text-align: center; color: var(--brand-muted);">No staff members found matching criteria.</div>';
+      cardsContainer.innerHTML = '<div style="grid-column: 1/-1; padding: 40px; text-align: center; color: #71809B;">No staff members found matching criteria.</div>';
     } else {
-      cardsContainer.innerHTML = staff.map(e => {
-        const isGrooming = (e.role === 'Grooming' || e.designation.toLowerCase().includes('groom') || e.designation.toLowerCase().includes('spa'));
-        const initials = e.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-        const roleClass = isGrooming ? 'grooming' : 'retail';
-        const roleLabel = isGrooming ? 'Grooming & Spa' : 'Retail Operations';
-
-        return `
-        <div class="staff-profile-card">
-          <div class="staff-card-top">
-            <div class="staff-card-user">
-              <div class="staff-avatar-circle ${roleClass}">
-                ${initials}
-              </div>
-              <div class="staff-name-box">
-                <span class="staff-card-name">${e.name}</span>
-                <span class="staff-card-id">${e.employeeId}</span>
-              </div>
-            </div>
-            <span class="status-pill active">Active</span>
-          </div>
-
-          <div class="staff-card-details">
-            <div class="card-detail-row">
-              <span class="detail-label">Designation:</span>
-              <span class="detail-value" style="color:var(--brand-orange);">${e.designation}</span>
-            </div>
-            <div class="card-detail-row">
-              <span class="detail-label">Department:</span>
-              <span class="detail-value role-tag ${roleClass}">${roleLabel}</span>
-            </div>
-            <div class="card-detail-row">
-              <span class="detail-label">Assigned Store:</span>
-              <span class="detail-value">🏬 ${e.store}</span>
-            </div>
-            <div class="card-detail-row">
-              <span class="detail-label">Direct Contact:</span>
-              <span class="detail-value">
-                <a href="tel:${e.phone}" style="color:#2563EB; text-decoration:none;">📞 ${e.phoneFormatted || e.phone}</a>
-              </span>
-            </div>
-          </div>
-
-          <div class="staff-card-actions">
-            <button class="btn btn-secondary" onclick="openStaffDeploymentHistory('${e.name}')">📜 History</button>
-            <button class="btn btn-primary" onclick="quickDeployFromCard('${e.name}', '${e.store}')">🚀 Deploy</button>
-          </div>
+      cardsContainer.innerHTML = staff.map(e => `
+        <div class="huft-premium-card" style="cursor:default;">
+          ${renderPremiumEmployeeProfileCardHTML(e, true)}
         </div>
-        `;
-      }).join('');
+      `).join('');
+
+      // Attach Drag & Drop to each avatar in grid
+      staff.forEach(e => {
+        const box = document.getElementById(`avatarBox_${e.employeeId}`);
+        if (box) setupAvatarDragAndDrop(box, e.employeeId);
+      });
     }
   }
 
-  // Render Table Style
+  // Render Table View
   if (tbody) {
     tbody.innerHTML = staff.map(e => `
       <tr>
         <td><strong>${e.employeeId}</strong></td>
-        <td class="col-left"><strong>${e.name}</strong></td>
+        <td class="col-left">
+          <a href="javascript:void(0)" onclick="openEmployeeProfileModal('${e.employeeId}')" style="color:#24324D;font-weight:700;text-decoration:none;">
+            ${e.name}
+          </a>
+        </td>
         <td class="col-left">${e.designation}</td>
         <td>${e.store}</td>
         <td>${e.phoneFormatted || e.phone}</td>
         <td><span style="color:var(--brand-success);font-weight:700;">● Active</span></td>
         <td>
-          <button class="btn btn-secondary" style="padding:2px 8px;font-size:10px;" onclick="openStaffDeploymentHistory('${e.name}')">History</button>
+          <button class="btn btn-secondary" style="padding:2px 8px;font-size:10px;" onclick="openEmployeeProfileModal('${e.employeeId}')">View Profile</button>
         </td>
       </tr>
     `).join('');
   }
-}
-
-function quickDeployFromCard(name, store) {
-  openDeploymentRequestModal();
-  setTimeout(() => {
-    const sel = document.getElementById('deployEmployee');
-    if (sel) {
-      for (let i = 0; i < sel.options.length; i++) {
-        if (sel.options[i].text.includes(name)) {
-          sel.selectedIndex = i;
-          break;
-        }
-      }
-    }
-  }, 100);
 }
 
 function openAddStaffModal() {
@@ -2164,15 +3010,6 @@ function handleAddStaffSubmit(e) {
   renderWeeklyRoster();
   renderDashboard();
   showToast(`Staff member ${name} added to ${store} store.`);
-}
-
-function openStaffDeploymentHistory(empName) {
-  const deps = (window.HUFT_DATA.deployments || []).filter(d => d.employeeName === empName);
-  if (!deps.length) {
-    alert(`No deployment history found for ${empName}.`);
-  } else {
-    alert(`Deployment History for ${empName}:\n\n` + deps.map(d => `${d.id}: ${d.fromStore} -> ${d.toStore} on ${d.dates} [Status: ${d.status}]`).join('\n'));
-  }
 }
 
 /* ==========================================================================
@@ -2444,17 +3281,12 @@ function renderEmployeePortal() {
   const greeting = document.getElementById('empGreetingSub');
   if (greeting) greeting.textContent = `Welcome, ${empObj.name}! ${empObj.designation} at ${empObj.store} Store`;
 
-  // Profile Card
-  const pName = document.getElementById('empProfileName');
-  if (pName) {
-    pName.textContent = empObj.name;
-    document.getElementById('empProfileId').textContent = empObj.employeeId;
-    document.getElementById('empProfileDesig').textContent = empObj.designation;
-    document.getElementById('empProfileDept').textContent = empObj.role === 'Grooming' ? 'Grooming & Spa' : 'Retail Operations';
-    document.getElementById('empProfileStore').textContent = `🏬 ${empObj.store} Store`;
-    document.getElementById('empProfileJoining').textContent = empObj.joiningDate || '15 Jan 2024';
-    document.getElementById('empProfilePhone').textContent = empObj.phone;
-    document.getElementById('empProfileAvatar').textContent = empObj.name.substring(0, 2).toUpperCase();
+  // Profile Card (Premium Component)
+  const selfCard = document.getElementById('selfEmpProfileCard');
+  if (selfCard) {
+    selfCard.innerHTML = renderPremiumEmployeeProfileCardHTML(empObj);
+    const box = document.getElementById(`avatarBox_${empObj.employeeId}`);
+    if (box) setupAvatarDragAndDrop(box, empObj.employeeId);
   }
 
   // Today's shift badge
