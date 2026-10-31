@@ -826,6 +826,17 @@ body {
 .stage-rej { background: #FEE2E2; color: #991B1B; }
 
 /* Modal */
+
+/* Ensure Generate Password Modal is ALWAYS on top of login screen */
+#generatePasswordModal {
+  z-index: 20000 !important;
+  position: fixed !important;
+  inset: 0 !important;
+}
+#generatePasswordModal.open {
+  display: flex !important;
+}
+
 .modal-overlay {
   position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
   z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px;
@@ -2043,51 +2054,97 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ==========================================================================
    AUTHENTICATION, PASSWORD GENERATION & ADMIN APPROVAL CONTROLLERS
    ========================================================================== */
+// ==================== PASSWORD GENERATION & ADMIN APPROVAL WORKFLOW ====================
 function togglePasswordVisibility(inputId, btn) {
-  const inp = document.getElementById(inputId);
-  if (!inp) return;
-  if (inp.type === 'password') {
-    inp.type = 'text';
-    if (btn) btn.textContent = '🙈';
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  if (input.type === 'password') {
+    input.type = 'text';
+    if (btn) btn.textContent = '🔒';
   } else {
-    inp.type = 'password';
+    input.type = 'password';
     if (btn) btn.textContent = '👁️';
   }
 }
 
 function openGeneratePasswordModal() {
-  document.getElementById('generatePasswordModal')?.classList.add('open');
+  const modal = document.getElementById('generatePasswordModal');
+  if (!modal) return;
+  modal.classList.add('open');
+  modal.style.display = 'flex';
+
+  // Pre-fill user email from login input if present
+  const loginEmailVal = (document.getElementById('loginEmail')?.value || '').trim();
+  const userEmailInput = document.getElementById('genUserEmailInput');
+  if (userEmailInput) {
+    if (loginEmailVal) {
+      userEmailInput.value = loginEmailVal;
+    } else if (!userEmailInput.value) {
+      userEmailInput.value = '22chandulalbanoth@gmail.com';
+    }
+  }
+
+  // Pre-populate recommended password
   autoGeneratePasswordString();
 }
 
 function closeGeneratePasswordModal() {
-  document.getElementById('generatePasswordModal')?.classList.remove('open');
+  const modal = document.getElementById('generatePasswordModal');
+  if (!modal) return;
+  modal.classList.remove('open');
+  modal.style.display = 'none';
 }
 
 function autoGeneratePasswordString() {
-  const stores = ['Hyd', 'Gld', 'Bnj', 'Nal', 'Mad', 'Huft'];
-  const prefix = stores[Math.floor(Math.random() * stores.length)];
+  const prefixes = ['Store', 'Roster', 'Hyd', 'Auth', 'Pass', 'Admin'];
+  const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
   const num = Math.floor(100 + Math.random() * 900);
-  const symbols = ['@', '#', '!', '$'];
+  const symbols = ['@', '#', '$', '!'];
   const sym = symbols[Math.floor(Math.random() * symbols.length)];
-  const generated = `${prefix}2026${sym}${num}`;
-  
-  const inp = document.getElementById('genNewPasswordInput');
-  if (inp) inp.value = generated;
+  const generated = `${prefix}${sym}${num}`;
+
+  const newPassInput = document.getElementById('genNewPasswordInput');
+  const confirmPassInput = document.getElementById('genConfirmPasswordInput');
+  if (newPassInput) newPassInput.value = generated;
+  if (confirmPassInput) confirmPassInput.value = generated;
 }
 
 function handleGeneratePasswordSubmit(e) {
   if (e) e.preventDefault();
-  const select = document.getElementById('genPassStoreSelect');
-  const email = select ? select.value : '';
-  const selectedOption = select.options[select.selectedIndex];
-  const storeName = selectedOption ? selectedOption.getAttribute('data-store') : 'Store';
+  const emailInput = document.getElementById('genUserEmailInput');
+  const email = (emailInput ? emailInput.value : '').trim().toLowerCase();
   const newPass = (document.getElementById('genNewPasswordInput')?.value || '').trim();
+  const confirmPass = (document.getElementById('genConfirmPasswordInput')?.value || '').trim();
   const reason = (document.getElementById('genPassReasonInput')?.value || '').trim() || 'Store Manager Password Reset';
 
-  if (!newPass) {
-    alert('Please enter or generate a new password.');
+  if (!email) {
+    alert('Please enter your user email address.');
     return;
+  }
+  if (!newPass) {
+    alert('Please enter a new password.');
+    return;
+  }
+  if (newPass.length < 4) {
+    alert('Password must be at least 4 characters long.');
+    return;
+  }
+  if (newPass !== confirmPass) {
+    alert(`Passwords do not match!
+
+Please ensure your New Password and Confirm Password match exactly.`);
+    return;
+  }
+
+  // Detect store name from email or employee database
+  let storeName = 'Operations';
+  const creds = window.HUFT_DATA.storeCredentials || [];
+  const cred = creds.find(c => c.email.toLowerCase() === email || (c.altEmails && c.altEmails.map(a => a.toLowerCase()).includes(email)));
+  if (cred) {
+    storeName = cred.storeName;
+  } else {
+    const emp = (window.HUFT_DATA.employees || []).find(e => e.email && e.email.toLowerCase() === email);
+    if (emp) storeName = emp.store;
   }
 
   const reqId = `REQ-PASS-${Date.now().toString(36).toUpperCase()}`;
@@ -2108,20 +2165,37 @@ function handleGeneratePasswordSubmit(e) {
   if (!window.HUFT_DATA.passwordRequests) window.HUFT_DATA.passwordRequests = [];
   window.HUFT_DATA.passwordRequests.unshift(newReq);
 
+  // Persist to localStorage
+  try {
+    localStorage.setItem('huft_password_requests', JSON.stringify(window.HUFT_DATA.passwordRequests));
+  } catch(err) {}
+
+  // Dispatch email notification for Administrator
+  if (typeof logEmailNotification === 'function') {
+    logEmailNotification(
+      'New Password Request Submitted',
+      'admin@headsupfortails.com',
+      storeName,
+      `Action Required: Password change request for ${email} (Request ID: ${reqId}) requires Administrator review.`
+    );
+  }
+
   closeGeneratePasswordModal();
 
-  alert(`✅ Password Request Submitted!
+  alert(`✅ Password Request Sent Successfully!
 
 Request ID: ${reqId}
-Store: ${storeName} (${email})
-Requested Password: ${newPass}
+User Email: ${email}
+Store: ${storeName}
 
-Status: PENDING ADMIN APPROVAL
+Status: ⏳ PENDING ADMIN APPROVAL
 
-Your request has been forwarded to the System Administrator. Once approved by Admin, this new password will become active for login.`);
+The Administrator has been notified. Once approved by the Administrator, your new password will become active for login.`);
 
-  showToast('Password request submitted for Admin approval.');
-  renderPasswordApprovalRequests();
+  showToast('Password request sent! Awaiting Admin approval.');
+  if (typeof renderPasswordApprovalRequests === 'function') {
+    renderPasswordApprovalRequests();
+  }
 }
 
 function renderPasswordApprovalRequests() {
@@ -2129,10 +2203,23 @@ function renderPasswordApprovalRequests() {
   const badge = document.getElementById('pendingPasswordBadge');
   if (!tbody) return;
 
+  // Sync from localStorage if present
+  try {
+    const saved = localStorage.getItem('huft_password_requests');
+    if (saved) window.HUFT_DATA.passwordRequests = JSON.parse(saved);
+  } catch(e) {}
+
   const reqs = window.HUFT_DATA.passwordRequests || [];
   const pending = reqs.filter(r => r.status === 'PENDING');
 
   if (badge) badge.textContent = `${pending.length} Pending`;
+  const navBadge = document.getElementById('approvalsNavBadge');
+  if (navBadge) {
+    const empReqs = (window.HUFT_DATA.employeeRequests || []).filter(r => r.status === 'Pending').length;
+    const total = pending.length + empReqs;
+    navBadge.textContent = total;
+    navBadge.style.display = total > 0 ? 'inline-flex' : 'none';
+  }
 
   if (reqs.length === 0) {
     tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#64748B;padding:24px;">No password requests recorded.</td></tr>';
@@ -2144,23 +2231,23 @@ function renderPasswordApprovalRequests() {
     let actionBtn = '';
 
     if (r.status === 'PENDING') {
-      statusPill = '<span style="background:#FFF7ED;color:#C2410C;border:1px solid #FDBA74;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:800;">⏳ PENDING ADMIN APPROVAL</span>';
+      statusPill = '<span style="background:#FFF7ED;color:#C2410C;border:1px solid #FDBA74;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:800;">⏳ PENDING ADMIN APPROVAL</span>';
       actionBtn = `
-        <div style="display:flex;gap:5px;">
-          <button class="btn btn-success" style="padding:3px 8px;font-size:10px;font-weight:700;" onclick="approvePasswordRequest('${r.requestId}')">
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-success" style="padding:5px 12px;font-size:11px;font-weight:700;border-radius:6px;background:#16A34A;color:#fff;border:none;cursor:pointer;" onclick="approvePasswordRequest('${r.requestId}')">
             Approve &amp; Activate
           </button>
-          <button class="btn btn-danger" style="padding:3px 8px;font-size:10px;font-weight:700;" onclick="rejectPasswordRequest('${r.requestId}')">
+          <button class="btn btn-danger" style="padding:5px 10px;font-size:11px;font-weight:700;border-radius:6px;background:#EF4444;color:#fff;border:none;cursor:pointer;" onclick="rejectPasswordRequest('${r.requestId}')">
             Reject
           </button>
         </div>
       `;
     } else if (r.status === 'APPROVED') {
-      statusPill = `<span style="background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:800;">✅ APPROVED &amp; ACTIVE</span>`;
-      actionBtn = `<span style="font-size:10px;color:#64748B;">Approved by ${r.reviewedBy || 'Admin'}</span>`;
+      statusPill = `<span style="background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:800;">✅ APPROVED &amp; ACTIVE</span>`;
+      actionBtn = `<span style="font-size:11px;color:#64748B;font-weight:600;">Approved by ${r.reviewedBy || 'Admin'}</span>`;
     } else {
-      statusPill = '<span style="background:#FEF2F2;color:#B91C1C;border:1px solid #FECACA;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:800;">❌ REJECTED</span>';
-      actionBtn = '<span style="font-size:10px;color:#94A3B8;">Request Rejected</span>';
+      statusPill = '<span style="background:#FEF2F2;color:#B91C1C;border:1px solid #FECACA;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:800;">❌ REJECTED</span>';
+      actionBtn = '<span style="font-size:11px;color:#94A3B8;">Request Rejected</span>';
     }
 
     return `
@@ -2168,15 +2255,13 @@ function renderPasswordApprovalRequests() {
         <td><code>${r.requestId}</code></td>
         <td class="col-left">
           <strong>${r.storeName}</strong>
-          <small style="display:block;color:#64748B;">${r.email}</small>
+          <small style="display:block;color:#64748B;font-size:11px;">${r.email}</small>
         </td>
-        <td>
-          <code style="background:#F1F5F9;padding:2px 6px;border-radius:4px;color:#0F172A;font-weight:700;">
-            ${r.requestedPassword || '••••••••'}
-          </code>
+        <td style="font-family:monospace;font-weight:700;color:#0F172A;font-size:12.5px;">
+          <span style="background:#F8FAFC;padding:3px 8px;border-radius:6px;border:1px solid #E2E8F0;">${r.requestedPassword}</span>
         </td>
-        <td class="col-left" style="font-size:11px;">${r.reason || 'Password Reset'}</td>
-        <td style="font-size:11px;color:#64748B;">${r.requestedAt || 'Recent'}</td>
+        <td class="col-left" style="font-size:12px;color:#475569;">${r.reason}</td>
+        <td style="font-size:11.5px;color:#64748B;">${r.requestedAt}</td>
         <td>${statusPill}</td>
         <td>${actionBtn}</td>
       </tr>
@@ -2191,33 +2276,55 @@ function approvePasswordRequest(reqId) {
 
   // 1. Activate password in storeCredentials
   const creds = window.HUFT_DATA.storeCredentials || [];
-  const targetCred = creds.find(c => c.email.toLowerCase() === req.email.toLowerCase());
+  let targetCred = creds.find(c => c.email.toLowerCase() === req.email.toLowerCase() || (c.altEmails && c.altEmails.map(a => a.toLowerCase()).includes(req.email.toLowerCase())));
   if (targetCred) {
     targetCred.password = req.requestedPassword;
+  } else {
+    targetCred = {
+      storeName: req.storeName || 'Operations',
+      email: req.email,
+      password: req.requestedPassword,
+      manager: req.email.split('@')[0],
+      code: 'STORE-CUSTOM',
+      role: 'store_manager',
+      empId: 'EMP-CUSTOM'
+    };
+    creds.push(targetCred);
   }
+
+  // Persist updated credentials
+  try {
+    localStorage.setItem('huft_store_credentials', JSON.stringify(creds));
+  } catch(e) {}
 
   // 2. Mark request as APPROVED
   req.status = 'APPROVED';
-  req.reviewedBy = currentUser.email || 'admin@headsupfortails.com';
+  req.reviewedBy = (currentUser && currentUser.email) ? currentUser.email : 'System Administrator';
   req.reviewedAt = new Date().toISOString().replace('T', ' ').substring(0, 19);
 
+  try {
+    localStorage.setItem('huft_password_requests', JSON.stringify(reqs));
+  } catch(e) {}
+
   // 3. Log email audit
-  logEmailNotification(
-    'Password Request Approved & Activated',
-    req.email,
-    req.storeName,
-    `Your new HUFT Store Password has been APPROVED and activated by Administrator.`
-  );
+  if (typeof logEmailNotification === 'function') {
+    logEmailNotification(
+      'Password Request Approved & Activated',
+      req.email,
+      req.storeName,
+      `Your new store password has been APPROVED and activated by Administrator.`
+    );
+  }
 
   alert(`✅ SUCCESS: Password Approved & Activated!
 
 Store: ${req.storeName}
-Email: ${req.email}
+User: ${req.email}
 Active Password: ${req.requestedPassword}
 
-The Store Manager can now log in using this approved password.`);
+The user can now log in using this approved password.`);
 
-  showToast(`Password approved & activated for ${req.storeName}!`);
+  showToast(`Password approved & activated for ${req.email}!`);
   renderPasswordApprovalRequests();
 }
 
@@ -2227,12 +2334,17 @@ function rejectPasswordRequest(reqId) {
   if (!req) return;
 
   req.status = 'REJECTED';
-  req.reviewedBy = currentUser.email || 'admin@headsupfortails.com';
+  req.reviewedBy = (currentUser && currentUser.email) ? currentUser.email : 'System Administrator';
   req.reviewedAt = new Date().toISOString().replace('T', ' ').substring(0, 19);
 
-  showToast(`Password request ${reqId} rejected.`);
+  try {
+    localStorage.setItem('huft_password_requests', JSON.stringify(reqs));
+  } catch(e) {}
+
+  alert(`Request ${reqId} rejected.`);
   renderPasswordApprovalRequests();
 }
+
 
 function handleLoginSubmit(e) {
   if (e) e.preventDefault();
@@ -2455,7 +2567,7 @@ function buildSidebar() {
       </button>
       <button class="nav-btn" data-tab="approvals" onclick="switchTab('approvals')">
         <span>✅</span> <span>Approvals Hub</span>
-        <span class="nav-badge">2</span>
+        <span class="nav-badge" id="approvalsNavBadge">2</span>
       </button>
       <button class="nav-btn" data-tab="reports" onclick="switchTab('reports')">
         <span>📈</span> <span>Reports &amp; Analytics</span>
@@ -4205,6 +4317,8 @@ function rejectDeployment(id) {
    7. APPROVALS HUB (Combined Hub for Admin & Store Manager)
    ========================================================================== */
 function renderApprovalsHub() {
+  renderPasswordApprovalRequests();
+
   const empTable = document.querySelector('#approvalsEmpRequestsTable tbody');
   const depTable = document.querySelector('#approvalsDeploymentsTable tbody');
   const isSuperAdmin = (currentUser.role === 'admin');
