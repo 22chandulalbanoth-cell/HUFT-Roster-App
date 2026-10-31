@@ -1330,7 +1330,7 @@ body {
         </div>
 
         <!-- 1. CARDS VIEW (DEFAULT) -->
-        <div id="staffCardsContainer" class="staff-cards-grid"></div>
+        <div id="staffCardsContainer" class="staff-cards-wrapper" style="display: flex; flex-direction: column; width: 100%; margin-top: 14px;"></div>
 
         <!-- 2. TABLE VIEW (TOGGLEABLE) -->
         <div id="staffTableWrap" class="table-wrap" style="display: none; margin-top: 10px;">
@@ -4132,37 +4132,94 @@ function renderStaffProfiles() {
     return true;
   });
 
+  // Helper function to identify Groomers / SPA staff
+  const isGroomer = (e) => {
+    const r = (e.role || '').toLowerCase();
+    const d = (e.designation || '').toLowerCase();
+    return r.includes('groom') || r.includes('spa') || d.includes('groom') || d.includes('stylist');
+  };
+
   // Sort staff in proper enterprise order:
   // Managers first, then Assistant Managers, then Senior/Lead, then Groomers/Stylists, then Associates
-  staff.sort((a, b) => {
-    const getRank = (desig = '') => {
-      const d = desig.toLowerCase();
-      if (d.includes('operations manager') || d === 'store manager') return 1;
-      if (d.includes('assistant')) return 2;
-      if (d.includes('senior') || d.includes('master') || d.includes('lead')) return 3;
-      if (d.includes('stylist') || d.includes('groom')) return 4;
-      if (d.includes('specialist') || d.includes('associate')) return 5;
-      return 6;
-    };
-    const rankDiff = getRank(a.designation) - getRank(b.designation);
-    if (rankDiff !== 0) return rankDiff;
-    return a.name.localeCompare(b.name);
-  });
+  const sortStaff = (list) => {
+    return list.slice().sort((a, b) => {
+      const getRank = (desig = '') => {
+        const d = desig.toLowerCase();
+        if (d.includes('operations manager') || d === 'store manager') return 1;
+        if (d.includes('assistant')) return 2;
+        if (d.includes('senior') || d.includes('master') || d.includes('lead')) return 3;
+        if (d.includes('stylist') || d.includes('groom')) return 4;
+        if (d.includes('specialist') || d.includes('associate')) return 5;
+        return 6;
+      };
+      const rankDiff = getRank(a.designation) - getRank(b.designation);
+      if (rankDiff !== 0) return rankDiff;
+      return a.name.localeCompare(b.name);
+    });
+  };
 
-  if (countBadge) countBadge.textContent = `${staff.length} Staff`;
+  // DIVIDE INTO RETAIL AND GROOMERS
+  const retailStaff = sortStaff(staff.filter(e => !isGroomer(e)));
+  const groomStaff = sortStaff(staff.filter(e => isGroomer(e)));
 
-  // Render Grid of Premium Cards
+  if (countBadge) countBadge.textContent = `${staff.length} Staff (${retailStaff.length} Retail • ${groomStaff.length} Groomers)`;
+
+  // 1. Render Grid of Cards (Divided: Retail first, then Groomers with gap)
   if (cardsContainer) {
     if (staff.length === 0) {
-      cardsContainer.innerHTML = '<div style="grid-column: 1/-1; padding: 40px; text-align: center; color: #71809B;">No staff members found matching criteria.</div>';
+      cardsContainer.innerHTML = '<div style="padding: 40px; text-align: center; color: #71809B;">No staff members found matching criteria.</div>';
     } else {
-      cardsContainer.innerHTML = staff.map(e => `
-        <div class="huft-premium-card compact" style="cursor:default;">
-          ${renderPremiumEmployeeProfileCardHTML(e, true)}
-        </div>
-      `).join('');
+      let cardsHtml = '';
 
-      // Attach Drag & Drop to each avatar in grid
+      // A. RETAIL TEAM
+      if (retailStaff.length > 0) {
+        cardsHtml += `
+          <div class="team-division-section" style="margin-bottom: 32px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #FED7AA;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="display: inline-flex; align-items: center; gap: 7px; background: #FFF7ED; color: #C2410C; border: 1.5px solid #FDBA74; padding: 5px 14px; border-radius: 99px; font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
+                  <span>🛍️</span> Retail Team
+                </span>
+                <span style="font-size: 12px; color: #64748B; font-weight: 700;">${retailStaff.length} Team Members</span>
+              </div>
+            </div>
+            <div class="staff-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+              ${retailStaff.map(e => `
+                <div class="huft-premium-card compact" style="cursor:default;">
+                  ${renderPremiumEmployeeProfileCardHTML(e, true)}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      // B. GROOMERS TEAM (With distinct visual gap & green accent)
+      if (groomStaff.length > 0) {
+        cardsHtml += `
+          <div class="team-division-section" style="margin-top: 14px; margin-bottom: 24px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #BBF7D0;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="display: inline-flex; align-items: center; gap: 7px; background: #F0FDF4; color: #15803D; border: 1.5px solid #86EFAC; padding: 5px 14px; border-radius: 99px; font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
+                  <span>✂️</span> Groomers Team
+                </span>
+                <span style="font-size: 12px; color: #64748B; font-weight: 700;">${groomStaff.length} Team Members</span>
+              </div>
+            </div>
+            <div class="staff-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+              ${groomStaff.map(e => `
+                <div class="huft-premium-card compact" style="cursor:default;">
+                  ${renderPremiumEmployeeProfileCardHTML(e, true)}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      cardsContainer.innerHTML = cardsHtml;
+
+      // Attach Drag & Drop to each avatar
       staff.forEach(e => {
         const box = document.getElementById(`avatarBox_${e.employeeId}`);
         if (box) setupAvatarDragAndDrop(box, e.employeeId);
@@ -4170,25 +4227,69 @@ function renderStaffProfiles() {
     }
   }
 
-  // Render Table View
+  // 2. Render Table View (Divided: Retail first, then Groomers)
   if (tbody) {
-    tbody.innerHTML = staff.map(e => `
-      <tr>
-        <td><strong>${e.employeeId}</strong></td>
-        <td class="col-left">
-          <a href="javascript:void(0)" onclick="openEmployeeProfileModal('${e.employeeId}')" style="color:#24324D;font-weight:700;text-decoration:none;">
-            ${e.name}
-          </a>
-        </td>
-        <td class="col-left">${e.designation}</td>
-        <td>${e.store}</td>
-        <td>${e.phoneFormatted || e.phone}</td>
-        <td><span style="color:var(--brand-success);font-weight:700;">● Active</span></td>
-        <td>
-          <button class="btn btn-secondary" style="padding:2px 8px;font-size:10px;" onclick="openEmployeeProfileModal('${e.employeeId}')">View Profile</button>
-        </td>
-      </tr>
-    `).join('');
+    if (staff.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#94A3B8; padding:24px;">No team members found.</td></tr>';
+    } else {
+      let tHtml = '';
+
+      if (retailStaff.length > 0) {
+        tHtml += `
+          <tr style="background: #FFF7ED; border-top: 2px solid #FDBA74; border-bottom: 1.5px solid #FED7AA;">
+            <td colspan="7" style="font-weight: 800; color: #C2410C; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; padding: 9px 14px; text-align: left;">
+              🛍️ Retail Team (${retailStaff.length} Members)
+            </td>
+          </tr>
+        `;
+        tHtml += retailStaff.map(e => `
+          <tr>
+            <td><strong>${e.employeeId}</strong></td>
+            <td class="col-left">
+              <a href="javascript:void(0)" onclick="openEmployeeProfileModal('${e.employeeId}')" style="color:#24324D;font-weight:700;text-decoration:none;">
+                ${e.name}
+              </a>
+            </td>
+            <td class="col-left">${e.designation}</td>
+            <td>${e.store}</td>
+            <td>${e.phoneFormatted || e.phone}</td>
+            <td><span style="color:var(--brand-success);font-weight:700;">● Active</span></td>
+            <td>
+              <button class="btn btn-secondary" style="padding:2px 8px;font-size:10px;" onclick="openEmployeeProfileModal('${e.employeeId}')">View Profile</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      if (groomStaff.length > 0) {
+        tHtml += `
+          <tr style="background: #F0FDF4; border-top: 2px solid #86EFAC; border-bottom: 1.5px solid #BBF7D0;">
+            <td colspan="7" style="font-weight: 800; color: #15803D; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; padding: 9px 14px; text-align: left;">
+              ✂️ Groomers Team (${groomStaff.length} Members)
+            </td>
+          </tr>
+        `;
+        tHtml += groomStaff.map(e => `
+          <tr>
+            <td><strong>${e.employeeId}</strong></td>
+            <td class="col-left">
+              <a href="javascript:void(0)" onclick="openEmployeeProfileModal('${e.employeeId}')" style="color:#24324D;font-weight:700;text-decoration:none;">
+                ${e.name}
+              </a>
+            </td>
+            <td class="col-left">${e.designation}</td>
+            <td>${e.store}</td>
+            <td>${e.phoneFormatted || e.phone}</td>
+            <td><span style="color:var(--brand-success);font-weight:700;">● Active</span></td>
+            <td>
+              <button class="btn btn-secondary" style="padding:2px 8px;font-size:10px;" onclick="openEmployeeProfileModal('${e.employeeId}')">View Profile</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      tbody.innerHTML = tHtml;
+    }
   }
 }
 
