@@ -5124,6 +5124,155 @@ function setDeployFilter(mode) {
   renderDeploymentsTable();
 }
 
+
+/* ==========================================================================
+   INTER-STORE DEPLOYMENT & VIEW TOGGLE ACTION HANDLERS
+   ========================================================================== */
+
+function switchStaffView(mode) {
+  activeStaffViewMode = mode;
+  const cardsBtn = document.getElementById('viewBtnCards');
+  const tableBtn = document.getElementById('viewBtnTable');
+  const cardsWrap = document.getElementById('staffCardsContainer');
+  const tableWrap = document.getElementById('staffTableContainer');
+  if (cardsBtn) cardsBtn.classList.toggle('active', mode === 'cards');
+  if (tableBtn) tableBtn.classList.toggle('active', mode === 'table');
+  if (cardsWrap) cardsWrap.style.display = (mode === 'cards') ? 'block' : 'none';
+  if (tableWrap) tableWrap.style.display = (mode === 'table') ? 'block' : 'none';
+}
+
+function onRosterStoreFilterChange(val) {
+  currentUser.rosterFilterStore = val;
+  renderWeeklyRoster();
+}
+
+function openDeploymentRequestModal() {
+  const modal = document.getElementById('deploymentRequestModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.classList.add('open');
+  }
+  const storeSel = document.getElementById('deploySourceStore');
+  if (storeSel) {
+    const defaultStore = (currentUser.store === 'Hyderguda') ? 'Golden Mile' : 'Hyderguda';
+    if (!storeSel.value) storeSel.value = defaultStore;
+    handleDeployStoreChange(storeSel.value);
+  }
+  const startInp = document.getElementById('deployStartDate');
+  const endInp = document.getElementById('deployEndDate');
+  if (startInp && !startInp.value) startInp.value = currentSelectedDate || '2026-11-02';
+  if (endInp && !endInp.value) endInp.value = '2026-11-05';
+}
+
+function closeDeploymentRequestModal() {
+  const modal = document.getElementById('deploymentRequestModal');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('open');
+  }
+}
+
+function handleDeployStoreChange(storeName) {
+  const empSel = document.getElementById('deployEmployee');
+  if (!empSel) return;
+  if (!storeName) {
+    empSel.innerHTML = '<option value="">-- Select a store first --</option>';
+    return;
+  }
+  const emps = (window.HUFT_DATA.employees || []).filter(e => e.store === storeName && e.active !== false);
+  if (!emps.length) {
+    empSel.innerHTML = '<option value="">-- No staff in this store --</option>';
+    return;
+  }
+  empSel.innerHTML = emps.map(e => `
+    <option value="${e.id}|${e.name}|${e.employeeId}|${e.designation || e.role}">${e.name} (${e.employeeId} - ${e.designation || e.role})</option>
+  `).join('');
+}
+
+function handleDeploymentRequestSubmit(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const sourceStore = document.getElementById('deploySourceStore')?.value;
+  const empVal = document.getElementById('deployEmployee')?.value;
+  const startDate = document.getElementById('deployStartDate')?.value;
+  const endDate = document.getElementById('deployEndDate')?.value;
+  const shift = document.getElementById('deployShift')?.value || 'SPA Timings';
+  const reason = document.getElementById('deployReason')?.value?.trim() || 'Store coverage';
+
+  const myStore = (currentUser && currentUser.store && currentUser.store !== 'All Stores') ? currentUser.store : 'Hyderguda';
+
+  if (!sourceStore || !empVal || !startDate || !endDate) {
+    alert('Please fill in all required fields.');
+    return;
+  }
+
+  if (sourceStore === myStore) {
+    alert('Please select a different store to request staff from.');
+    return;
+  }
+
+  const parts = empVal.split('|');
+  const empName = parts[1] || 'Staff';
+  const epplId = parts[2] || 'EPPL';
+  const designation = parts[3] || 'Staff';
+
+  const deps = window.HUFT_DATA.deployments || [];
+  let nextNum = 1;
+  deps.forEach(d => {
+    const m = (d.id || '').match(/DEP-\d{4}-(\d+)/);
+    if (m) {
+      const n = parseInt(m[1], 10);
+      if (n >= nextNum) nextNum = n + 1;
+    }
+  });
+
+  const newId = `DEP-2026-${String(nextNum).padStart(3, '0')}`;
+
+  let dateStr = `${startDate} to ${endDate}`;
+  try {
+    const sD = new Date(startDate);
+    const eD = new Date(endDate);
+    const opts = { day: '2-digit', month: 'short', year: 'numeric' };
+    dateStr = `${sD.toLocaleDateString('en-GB', opts)} - ${eD.toLocaleDateString('en-GB', opts)}`;
+  } catch(err) {}
+
+  const newDep = {
+    id: newId,
+    employeeName: empName,
+    employeeId: epplId,
+    designation: designation,
+    fromStore: sourceStore,
+    toStore: myStore,
+    dates: dateStr,
+    fromDate: startDate,
+    toDate: endDate,
+    shift: shift,
+    reason: reason,
+    status: 'Awaiting Source Approval',
+    stage: 1,
+    createdAt: new Date().toLocaleString()
+  };
+
+  deps.unshift(newDep);
+  window.HUFT_DATA.deployments = deps;
+
+  if (typeof logEmailNotification === 'function') {
+    logEmailNotification(
+      'New Staff Request Submitted',
+      `${sourceStore.toLowerCase().replace(/\s+/g, '')}@headsupfortails.com`,
+      `${sourceStore} (Releasing)`,
+      `HUFT Action Required: Staff Deployment Request for ${empName} (${epplId})`
+    );
+  }
+
+  closeDeploymentRequestModal();
+  renderDeploymentsTable();
+  renderApprovalsHub();
+  renderDashboard();
+  if (typeof showToast === 'function') {
+    showToast(`Staff deployment request ${newId} submitted for ${empName}!`);
+  }
+}
+
 function renderDeploymentsTable() {
   const tbody = document.querySelector('#deploymentRequestsTable tbody');
   const titleElem = document.getElementById('deploymentsPanelTitle');
