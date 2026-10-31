@@ -313,6 +313,207 @@ html:fullscreen body{min-height:100vh;overflow:auto}
 @media(max-width:600px){.profile-calendar{grid-template-columns:repeat(7,minmax(38px,1fr));overflow-x:auto}.profile-calendar-head{display:block;font-size:8px}.profile-day{min-height:68px;padding:4px}.profile-day-shift,.profile-day-action{font-size:8px}}
 @media(max-width:700px){.topbar{margin:8px;top:8px}.wrap{padding:10px 10px 40px}.stores,.msgs{grid-template-columns:1fr}.inp.grow{min-width:100%}.fld,.inp,.sel{min-width:0}.fld{flex:1 1 140px}.modal .row2{grid-template-columns:1fr}.shift-row{grid-template-columns:75px minmax(60px,1fr) 24px}}
 @media print{.topbar,.progress,.tabs,.filters,.toast,.bg,.overlay,.kpis{display:none!important}body{background:#fff}.glass{box-shadow:none;background:#fff;backdrop-filter:none}.tablewrap{max-height:none}select.shift{appearance:none}}
+
+/* --- STORES & STAFF ENTERPRISE DIRECTORY STYLES --- */
+.manage-mode-toggle {
+  display: inline-flex;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 12px;
+  gap: 4px;
+  margin-bottom: 18px;
+}
+.manage-mode-btn {
+  border: none;
+  background: transparent;
+  padding: 8px 18px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.manage-mode-btn.active {
+  background: #ffffff;
+  color: var(--huft-orange);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+
+.store-directory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 18px;
+  margin-top: 14px;
+}
+.store-hub-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.store-hub-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08);
+}
+.store-hub-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--huft-orange), #ff9a5a);
+}
+.store-hub-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.store-hub-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.25;
+}
+.store-hub-code {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--huft-orange);
+  background: var(--huft-orange-light);
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+}
+.store-hub-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: #334155;
+}
+.store-info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.35;
+}
+.store-info-icon {
+  width: 16px;
+  flex: none;
+  color: #64748b;
+  margin-top: 1px;
+}
+.store-services-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+.service-chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  color: #475569;
+}
+.store-hub-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+  margin-top: auto;
+}
+.btn-view-team {
+  background: var(--huft-orange-light) !important;
+  color: var(--huft-orange) !important;
+  border: 1px solid rgba(244, 101, 36, 0.25) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.15s !important;
+}
+.btn-view-team:hover {
+  background: var(--huft-orange) !important;
+  color: #ffffff !important;
+}
+
+.employee-card {
+  border-radius: 16px !important;
+  padding: 16px !important;
+  border: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
+  transition: transform 0.15s, box-shadow 0.15s !important;
+}
+.employee-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important;
+}
+.employee-photo {
+  width: 72px !important;
+  height: 72px !important;
+  border-radius: 16px !important;
+  object-fit: cover !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+  margin: 0 auto 10px !important;
+  display: block !important;
+}
+.avatar.employee-photo {
+  display: grid !important;
+  place-items: center !important;
+  font-weight: 800 !important;
+  font-size: 22px !important;
+  background: linear-gradient(135deg, var(--huft-orange), #ff9a5a) !important;
+  color: #ffffff !important;
+}
+.employee-designation {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+.emp-contact-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.btn-contact-action {
+  flex: 1;
+  text-align: center;
+  padding: 5px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.btn-contact-action.wa {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+.btn-contact-action.call {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+}
+
 </style>
 
 <style id="huft-enterprise-styles">
@@ -1272,17 +1473,917 @@ body {
   /* ---------- server ---------- */
   // Universal Cloud Caller: Google Apps Script + Supabase Cloud Engine for GitHub Pages
   var DEFAULT_STORES = ['Hyderguda', 'Golden Mile', 'Banjara Hills', 'Nallagandla', 'Madhapur'];
-  var DEFAULT_STAFF = [
-    { id: 'Hyderguda|rahulsharma', store: 'Hyderguda', name: 'Rahul Sharma', role: 'Retail', phone: '919876543210', email: 'rahul.sharma@headsupfortails.com', employeeId: 'HUFT-101', active: true, reportsTo: 'Hyderguda' },
-    { id: 'Hyderguda|priyapatel', store: 'Hyderguda', name: 'Priya Patel', role: 'Grooming', phone: '919876543211', email: 'priya.patel@headsupfortails.com', employeeId: 'HUFT-102', active: true, reportsTo: 'Hyderguda' },
-    { id: 'Golden Mile|amitkumar', store: 'Golden Mile', name: 'Amit Kumar', role: 'Retail', phone: '919876543212', email: 'amit.kumar@headsupfortails.com', employeeId: 'HUFT-103', active: true, reportsTo: 'Golden Mile' },
-    { id: 'Golden Mile|snehadutta', store: 'Golden Mile', name: 'Sneha Dutta', role: 'Grooming', phone: '919876543213', email: 'sneha.dutta@headsupfortails.com', employeeId: 'HUFT-104', active: true, reportsTo: 'Golden Mile' },
-    { id: 'Banjara Hills|vikassingh', store: 'Banjara Hills', name: 'Vikas Singh', role: 'Retail', phone: '919876543214', email: 'vikas.singh@headsupfortails.com', employeeId: 'HUFT-105', active: true, reportsTo: 'Banjara Hills' },
-    { id: 'Banjara Hills|deepakverma', store: 'Banjara Hills', name: 'Deepak Verma', role: 'Grooming', phone: '919876543215', email: 'deepak.verma@headsupfortails.com', employeeId: 'HUFT-106', active: true, reportsTo: 'Banjara Hills' },
-    { id: 'Nallagandla|anitarao', store: 'Nallagandla', name: 'Anita Rao', role: 'Retail', phone: '919876543216', email: 'anita.rao@headsupfortails.com', employeeId: 'HUFT-107', active: true, reportsTo: 'Nallagandla' },
-    { id: 'Madhapur|kiranreddy', store: 'Madhapur', name: 'Kiran Reddy', role: 'Retail', phone: '919876543217', email: 'kiran.reddy@headsupfortails.com', employeeId: 'HUFT-108', active: true, reportsTo: 'Madhapur' },
-    { id: 'Madhapur|manojsharma', store: 'Madhapur', name: 'Manoj Sharma', role: 'Grooming', phone: '919876543218', email: 'manoj.sharma@headsupfortails.com', employeeId: 'HUFT-109', active: true, reportsTo: 'Madhapur' }
-  ];
+  var DEFAULT_STAFF = (typeof window !== 'undefined' && window.HUFT_DB && window.HUFT_DB.employees && window.HUFT_DB.employees.length) ?
+    window.HUFT_DB.employees : [
+  {
+    "id": "Hyderguda|chandu",
+    "name": "Chandu",
+    "store": "Hyderguda",
+    "role": "Retail",
+    "phone": "918331919091",
+    "email": "banoth.chandulal@hotmail.com",
+    "employeeId": "EPPL1146",
+    "active": true,
+    "reportsTo": "Hyderguda",
+    "removedOn": null,
+    "profilePhotoId": "1jWJEIyxZK0h6totizUchbSitGwOX8UeN",
+    "phoneFormatted": "+91 83319 19091",
+    "designation": "Store Operations Manager",
+    "photoUrl": "https://drive.google.com/thumbnail?id=1jWJEIyxZK0h6totizUchbSitGwOX8UeN&sz=w200"
+  },
+  {
+    "id": "Hyderguda|lumshimla",
+    "name": "Lumshimla",
+    "store": "Hyderguda",
+    "role": "Retail",
+    "phone": "918798370578",
+    "email": "lumshimla@headsupfortails.com",
+    "employeeId": "EPPL1663",
+    "active": true,
+    "reportsTo": "Hyderguda",
+    "removedOn": null,
+    "profilePhotoId": "1oeq3Nn8h15rLrupFo1oFmF1nAw_lLU8c",
+    "phoneFormatted": "+91 87983 70578",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": "https://drive.google.com/thumbnail?id=1oeq3Nn8h15rLrupFo1oFmF1nAw_lLU8c&sz=w200"
+  },
+  {
+    "id": "Hyderguda|raikhan",
+    "name": "Raikhan",
+    "store": "Hyderguda",
+    "role": "Retail",
+    "phone": "917993391198",
+    "email": "raikhan@headsupfortails.com",
+    "employeeId": "EPPL1129",
+    "active": true,
+    "reportsTo": "Hyderguda",
+    "removedOn": null,
+    "profilePhotoId": "1Qce7ry84sp3I_3mDBiovs_pcnLtQP0jF",
+    "phoneFormatted": "+91 79933 91198",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": "https://drive.google.com/thumbnail?id=1Qce7ry84sp3I_3mDBiovs_pcnLtQP0jF&sz=w200"
+  },
+  {
+    "id": "Hyderguda|tuireising",
+    "name": "Tuireising",
+    "store": "Hyderguda",
+    "role": "Grooming",
+    "phone": "919233987945",
+    "email": "tuireising@headsupfortails.com",
+    "employeeId": "EPPL1712",
+    "active": true,
+    "reportsTo": "Hyderguda",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 92339 87945",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Hyderguda|chihanso",
+    "name": "Chihanso",
+    "store": "Hyderguda",
+    "role": "Grooming",
+    "phone": "919233236047",
+    "email": "chihanso@headsupfortails.com",
+    "employeeId": "EPPL2057",
+    "active": true,
+    "reportsTo": "Hyderguda",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 92332 36047",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Hyderguda|shangreiyo",
+    "name": "Shangreiyo",
+    "store": "Hyderguda",
+    "role": "Grooming",
+    "phone": "918798304942",
+    "email": "shangreiyo@headsupfortails.com",
+    "employeeId": "EPPL1721",
+    "active": true,
+    "reportsTo": "Hyderguda",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 87983 04942",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Hyderguda|sai",
+    "name": "Sai",
+    "store": "Hyderguda",
+    "role": "Retail",
+    "phone": "917331150550",
+    "email": "sai@headsupfortails.com",
+    "employeeId": "EPPL2362",
+    "active": true,
+    "reportsTo": "Hyderguda",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 73311 50550",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Golden Mile|mayangam",
+    "name": "Mayangam",
+    "store": "Golden Mile",
+    "role": "Retail",
+    "phone": "918978742938",
+    "email": "mayangam@headsupfortails.com",
+    "employeeId": "EPPL1672",
+    "active": true,
+    "reportsTo": "Golden Mile",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 89787 42938",
+    "designation": "Store Operations Manager",
+    "photoUrl": null
+  },
+  {
+    "id": "Golden Mile|lengjuiwon",
+    "name": "Lengjuiwon",
+    "store": "Golden Mile",
+    "role": "Retail",
+    "phone": "917085637788",
+    "email": "lengjuiwon@headsupfortails.com",
+    "employeeId": "EPPL2048",
+    "active": true,
+    "reportsTo": "Golden Mile",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 70856 37788",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Golden Mile|ungshungyo",
+    "name": "Ungshungyo",
+    "store": "Golden Mile",
+    "role": "Retail",
+    "phone": "918787354792",
+    "email": "ungshungyo@headsupfortails.com",
+    "employeeId": "EPPL2046",
+    "active": true,
+    "reportsTo": "Golden Mile",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 87873 54792",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Golden Mile|maiya",
+    "name": "Maiya",
+    "store": "Golden Mile",
+    "role": "Grooming",
+    "phone": "916909684892",
+    "email": "maiya@headsupfortails.com",
+    "employeeId": "EPPL1701",
+    "active": true,
+    "reportsTo": "Golden Mile",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 69096 84892",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Golden Mile|chumah",
+    "name": "Chumah",
+    "store": "Golden Mile",
+    "role": "Grooming",
+    "phone": "917569523960",
+    "email": "chumah@headsupfortails.com",
+    "employeeId": "EPPL2039",
+    "active": true,
+    "reportsTo": "Golden Mile",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 75695 23960",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Golden Mile|khularrengshing",
+    "name": "Khular Rengshing",
+    "store": "Golden Mile",
+    "role": "Grooming",
+    "phone": "",
+    "email": "khularrengshing@headsupfortails.com",
+    "employeeId": "EPPL2346",
+    "active": true,
+    "reportsTo": "Golden Mile",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "-",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|saikiran",
+    "name": "Sai Kiran",
+    "store": "Banjara Hills",
+    "role": "Retail",
+    "phone": "916303919120",
+    "email": "saikiran@headsupfortails.com",
+    "employeeId": "EPPL2163",
+    "active": true,
+    "reportsTo": "Banjara Hills",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 63039 19120",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|william",
+    "name": "William",
+    "store": "Banjara Hills",
+    "role": "Retail",
+    "phone": "919233686997",
+    "email": "william@headsupfortails.com",
+    "employeeId": "EPPL2071",
+    "active": true,
+    "reportsTo": "Banjara Hills",
+    "removedOn": null,
+    "profilePhotoId": "1VRk8Q2LqP203rHwQLboHKsyut9xE8F9v",
+    "phoneFormatted": "+91 92336 86997",
+    "designation": "Store Operations Manager",
+    "photoUrl": "https://drive.google.com/thumbnail?id=1VRk8Q2LqP203rHwQLboHKsyut9xE8F9v&sz=w200"
+  },
+  {
+    "id": "Banjara Hills|ngamphy",
+    "name": "Ngamphy",
+    "store": "Banjara Hills",
+    "role": "Retail",
+    "phone": "918974856979",
+    "email": "ngamphy@headsupfortails.com",
+    "employeeId": "EPPL2047",
+    "active": true,
+    "reportsTo": "Banjara Hills",
+    "removedOn": null,
+    "profilePhotoId": "1NGUE8yIzOWm0UOqQiSpqzNJcCw_H-iLX",
+    "phoneFormatted": "+91 89748 56979",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": "https://drive.google.com/thumbnail?id=1NGUE8yIzOWm0UOqQiSpqzNJcCw_H-iLX&sz=w200"
+  },
+  {
+    "id": "Banjara Hills|edmund",
+    "name": "Edmund",
+    "store": "Banjara Hills",
+    "role": "Grooming",
+    "phone": "917893587252",
+    "email": "edmund@headsupfortails.com",
+    "employeeId": "EPPL2033",
+    "active": true,
+    "reportsTo": "Banjara Hills",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 78935 87252",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|themyao",
+    "name": "Themyao",
+    "store": "Banjara Hills",
+    "role": "Grooming",
+    "phone": "917085562744",
+    "email": "themyao@headsupfortails.com",
+    "employeeId": "EPPL2256",
+    "active": true,
+    "reportsTo": "Banjara Hills",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 70855 62744",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|wungachan",
+    "name": "Wungachan",
+    "store": "Banjara Hills",
+    "role": "Grooming",
+    "phone": "918132063188",
+    "email": "wungachan@headsupfortails.com",
+    "employeeId": "EPPL2249",
+    "active": true,
+    "reportsTo": "Banjara Hills",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 81320 63188",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|lokesh",
+    "name": "Lokesh",
+    "store": "Nallagandla",
+    "role": "Retail",
+    "phone": "917075188316",
+    "email": "lokesh31kings@gmail.com",
+    "employeeId": "EPPL1638",
+    "active": true,
+    "reportsTo": "Nallagandla",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 70751 88316",
+    "designation": "Store Operations Manager",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|saikumar",
+    "name": "Sai Kumar",
+    "store": "Nallagandla",
+    "role": "Retail",
+    "phone": "919032808905",
+    "email": "saikumar@headsupfortails.com",
+    "employeeId": "EPPL2365",
+    "active": true,
+    "reportsTo": "Nallagandla",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 90328 08905",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|prabhakar",
+    "name": "Prabhakar",
+    "store": "Nallagandla",
+    "role": "Retail",
+    "phone": "917386228365",
+    "email": "malaprabhakar82@gmail.com",
+    "employeeId": "EPPL2299",
+    "active": true,
+    "reportsTo": "Nallagandla",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 73862 28365",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|hepsiba",
+    "name": "Hepsiba",
+    "store": "Nallagandla",
+    "role": "Grooming",
+    "phone": "919110565509",
+    "email": "hepsiba@headsupfortails.com",
+    "employeeId": "EPPL2227",
+    "active": true,
+    "reportsTo": "Nallagandla",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 91105 65509",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|soreichan",
+    "name": "Soreichan",
+    "store": "Nallagandla",
+    "role": "Grooming",
+    "phone": "918413891346",
+    "email": "soreichan@headsupfortails.com",
+    "employeeId": "EPPL2173",
+    "active": true,
+    "reportsTo": "Nallagandla",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 84138 91346",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Madhapur|ayontonkeishing",
+    "name": "Ayonton Keishing",
+    "store": "Madhapur",
+    "role": "Retail",
+    "phone": "918899555082",
+    "email": "ayontonzingkhai@gmail.com",
+    "employeeId": "EPPL2155",
+    "active": true,
+    "reportsTo": "Madhapur",
+    "removedOn": null,
+    "profilePhotoId": "1QFh-ATSVDV1cbFnVREdhG4EUb1dza3a9",
+    "phoneFormatted": "+91 88995 55082",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": "https://drive.google.com/thumbnail?id=1QFh-ATSVDV1cbFnVREdhG4EUb1dza3a9&sz=w200"
+  },
+  {
+    "id": "Madhapur|ayyan",
+    "name": "Ayyan",
+    "store": "Madhapur",
+    "role": "Retail",
+    "phone": "916309608212",
+    "email": "legandrynetwork@gmail.com",
+    "employeeId": "EPPL2250",
+    "active": true,
+    "reportsTo": "Madhapur",
+    "removedOn": null,
+    "profilePhotoId": "1AufYgDpULe9aoPlZYYScaRJBCUpHOYqr",
+    "phoneFormatted": "+91 63096 08212",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": "https://drive.google.com/thumbnail?id=1AufYgDpULe9aoPlZYYScaRJBCUpHOYqr&sz=w200"
+  },
+  {
+    "id": "Madhapur|kamalkumar",
+    "name": "Kamal Kumar",
+    "store": "Madhapur",
+    "role": "Retail",
+    "phone": "917288074023",
+    "email": "kamalstunter12@gmail.com",
+    "employeeId": "EPPL2156",
+    "active": true,
+    "reportsTo": "Madhapur",
+    "removedOn": null,
+    "profilePhotoId": "108VlIbEgmsHW2FrmCPDb7r0mem5kj3o2",
+    "phoneFormatted": "+91 72880 74023",
+    "designation": "Store Operations Manager",
+    "photoUrl": "https://drive.google.com/thumbnail?id=108VlIbEgmsHW2FrmCPDb7r0mem5kj3o2&sz=w200"
+  },
+  {
+    "id": "Madhapur|vamshi",
+    "name": "Vamshi",
+    "store": "Madhapur",
+    "role": "Grooming",
+    "phone": "",
+    "email": "vamshi@headsupfortails.com",
+    "employeeId": "EPPL1883",
+    "active": false,
+    "reportsTo": "Madhapur",
+    "removedOn": "2026-10-25",
+    "profilePhotoId": null,
+    "phoneFormatted": "-",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Golden Mile|alex",
+    "name": "Alex",
+    "store": "Golden Mile",
+    "role": "Retail",
+    "phone": "",
+    "email": "alex@headsupfortails.com",
+    "employeeId": "EPPL1029",
+    "active": false,
+    "reportsTo": "Golden Mile",
+    "removedOn": "2026-10-25",
+    "profilePhotoId": null,
+    "phoneFormatted": "-",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|vamshi",
+    "name": "Vamshi",
+    "store": "Banjara Hills",
+    "role": "Grooming",
+    "phone": "",
+    "email": "vamshi@headsupfortails.com",
+    "employeeId": "EPPL1030",
+    "active": false,
+    "reportsTo": "Banjara Hills",
+    "removedOn": "2026-10-25",
+    "profilePhotoId": null,
+    "phoneFormatted": "-",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Hyderguda|vamshi",
+    "name": "Vamshi",
+    "store": "Hyderguda",
+    "role": "Grooming",
+    "phone": "918331919091",
+    "email": "vamshi@headsupfortails.com",
+    "employeeId": "EPPL1883",
+    "active": true,
+    "reportsTo": "Hyderguda",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 83319 19091",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|kamalkumar",
+    "name": "Kamal Kumar",
+    "store": "Nallagandla",
+    "role": "Retail",
+    "phone": "",
+    "email": "kamalkumar@headsupfortails.com",
+    "employeeId": "EPPL1032",
+    "active": false,
+    "reportsTo": "Nallagandla",
+    "removedOn": "2026-10-25",
+    "profilePhotoId": null,
+    "phoneFormatted": "-",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|themngaranzimik",
+    "name": "Themngaran Zimik",
+    "store": "Nallagandla",
+    "role": "Grooming",
+    "phone": "919863081563",
+    "email": "themngaranzimik@headsupfortails.com",
+    "employeeId": "EPPL2347",
+    "active": true,
+    "reportsTo": "Nallagandla",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 98630 81563",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|zimik",
+    "name": "Zimik",
+    "store": "Nallagandla",
+    "role": "Retail",
+    "phone": "",
+    "email": "zimik@headsupfortails.com",
+    "employeeId": "EPPL1034",
+    "active": false,
+    "reportsTo": "Nallagandla",
+    "removedOn": "2026-10-25",
+    "profilePhotoId": null,
+    "phoneFormatted": "-",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Golden Mile|wungachan",
+    "name": "Wungachan",
+    "store": "Golden Mile",
+    "role": "Grooming",
+    "phone": "",
+    "email": "wungachan@headsupfortails.com",
+    "employeeId": "EPPL1035",
+    "active": false,
+    "reportsTo": "Golden Mile",
+    "removedOn": "2026-10-25",
+    "profilePhotoId": null,
+    "phoneFormatted": "-",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Golden Mile|mahaingam",
+    "name": "Mahaingam",
+    "store": "Golden Mile",
+    "role": "Grooming",
+    "phone": "918790697823",
+    "email": "mahaingam@headsupfortails.com",
+    "employeeId": "EPPL1233",
+    "active": true,
+    "reportsTo": "Golden Mile",
+    "removedOn": null,
+    "profilePhotoId": null,
+    "phoneFormatted": "+91 87906 97823",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Madhapur|yireingamzimik",
+    "name": "Yireingam Zimik",
+    "store": "Madhapur",
+    "role": "Grooming",
+    "phone": "919366423224",
+    "email": "yireingamzimik@gmail.com",
+    "employeeId": "EPPL1538",
+    "active": true,
+    "reportsTo": "Madhapur",
+    "removedOn": null,
+    "profilePhotoId": "1YjtZ0rnCHvflf-iVKsJx5BL7R4HHXVTJ",
+    "phoneFormatted": "+91 93664 23224",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": "https://drive.google.com/thumbnail?id=1YjtZ0rnCHvflf-iVKsJx5BL7R4HHXVTJ&sz=w200"
+  },
+  {
+    "id": "Madhapur|wungyohoramshimray",
+    "name": "Wungyo Horam Shimray",
+    "store": "Madhapur",
+    "role": "Grooming",
+    "phone": "917085300416",
+    "email": "wungyohoramshimray@headsupfortails.com",
+    "employeeId": "EPPL2348",
+    "active": true,
+    "reportsTo": "Madhapur",
+    "removedOn": null,
+    "profilePhotoId": "1zzKnQM0tmtyJd_W-YjPfny5LPodynz6E",
+    "phoneFormatted": "+91 70853 00416",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": "https://drive.google.com/thumbnail?id=1zzKnQM0tmtyJd_W-YjPfny5LPodynz6E&sz=w200"
+  },
+  {
+    "id": "Hyderguda|khalan",
+    "name": "Khalan",
+    "store": "Hyderguda",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "khalan@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Golden Mile|yireingam",
+    "name": "Yireingam",
+    "store": "Golden Mile",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "yireingam@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|milui",
+    "name": "Milui",
+    "store": "Banjara Hills",
+    "role": "Retail",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "milui@headsupfortails.com",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|ngayinpam",
+    "name": "Ngayinpam",
+    "store": "Banjara Hills",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "ngayinpam@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|khayaising",
+    "name": "Khayaising",
+    "store": "Banjara Hills",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "khayaising@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|kapingshang",
+    "name": "kapingshang",
+    "store": "Banjara Hills",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "kapingshang@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|siddhu",
+    "name": "Siddhu",
+    "store": "Banjara Hills",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "siddhu@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Hyderguda|banoth",
+    "name": "Banoth",
+    "store": "Hyderguda",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "banoth@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Hyderguda|wungshung",
+    "name": "Wungshung",
+    "store": "Hyderguda",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "wungshung@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|ayonton",
+    "name": "Ayonton",
+    "store": "Banjara Hills",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "ayonton@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Madhapur|banoth",
+    "name": "Banoth",
+    "store": "Madhapur",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "banoth@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|dayanand",
+    "name": "Dayanand",
+    "store": "Banjara Hills",
+    "role": "Retail",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "dayanand@headsupfortails.com",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Hyderguda|chetan",
+    "name": "Chetan",
+    "store": "Hyderguda",
+    "role": "Retail",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "chetan@headsupfortails.com",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|nakkalasaikiran",
+    "name": "NAKKALA SAIKIRAN",
+    "store": "Banjara Hills",
+    "role": "Retail",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "nakkala.saikiran@headsupfortails.com",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Banjara Hills|banjara",
+    "name": "Banjara",
+    "store": "Banjara Hills",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "banjara@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|kamal",
+    "name": "Kamal",
+    "store": "Nallagandla",
+    "role": "Retail",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "kamal@headsupfortails.com",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|saikiran",
+    "name": "Saikiran",
+    "store": "Nallagandla",
+    "role": "Retail",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "saikiran@headsupfortails.com",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|ngayinpam",
+    "name": "Ngayinpam",
+    "store": "Nallagandla",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "ngayinpam@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|hyderguda",
+    "name": "Hyderguda",
+    "store": "Nallagandla",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "hyderguda@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Hyderguda|milui",
+    "name": "Milui",
+    "store": "Hyderguda",
+    "role": "Retail",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "milui@headsupfortails.com",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|hebsiba",
+    "name": "hebsiba",
+    "store": "Nallagandla",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "hebsiba@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|banjara",
+    "name": "Banjara",
+    "store": "Nallagandla",
+    "role": "Grooming",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "banjara@headsupfortails.com",
+    "designation": "Professional Pet Groomer",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|ayan",
+    "name": "Ayan",
+    "store": "Nallagandla",
+    "role": "Retail",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "ayan@headsupfortails.com",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|nallagandla",
+    "name": "Nallagandla",
+    "store": "Nallagandla",
+    "role": "Retail",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "nallagandla@headsupfortails.com",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  },
+  {
+    "id": "Nallagandla|goldenmile",
+    "name": "Goldenmile",
+    "store": "Nallagandla",
+    "role": "Retail",
+    "active": true,
+    "phone": "",
+    "phoneFormatted": "-",
+    "email": "goldenmile@headsupfortails.com",
+    "designation": "Retail Sales Specialist",
+    "photoUrl": null
+  }
+];
 
   async function handleClientCloudCall(fn, args) {
     var sb = state.supabase;
@@ -2068,41 +3169,110 @@ body {
   function viewManage(md) {
     if (!md || !md.found) return '<div class="panel glass empty">Loading directory...</div>';
     var emps = filtered(md, state.date, 'manage');
-    fetchPhotosFor(emps.map(function (e) { return e.id; }));
+    var db = (typeof window !== 'undefined' && window.HUFT_DB) ? window.HUFT_DB : {};
+    var allStores = db.stores || [];
+    var activeMode = state.manageViewMode || 'stores'; // 'stores' or 'staff'
 
     var canEditAny = state.isAdmin || state.accessStores.length > 0;
     var addBtn = canEditAny ? '<button class="btn primary" id="btnAddStaff">+ Add Employee</button>' : '';
     var addStoreBtn = state.isAdmin ? '<button class="btn" id="btnAddStore">+ Register Store</button>' : '';
 
-    var cards = emps.map(function (e) {
-      var photoSrc = state.photos[e.id];
-      var avatarHtml = photoSrc ? '<img src="' + photoSrc + '" class="employee-photo" alt="' + esc(e.name) + '">' :
-        '<div class="avatar employee-photo" style="--h:' + hue(e.name) + '">' + initials(e.name) + '</div>';
-      
-      var canEditThis = canEditStoreClient(e.store);
-      var actions = '<div class="employee-actions">' +
-        (canEditThis ? '<button class="btn sm btn-edit-staff" data-id="' + esc(e.id) + '">✏️ Edit</button>' : '') +
-        (canEditThis ? '<button class="btn sm btn-punc-staff" data-id="' + esc(e.id) + '" data-store="' + esc(e.store) + '" data-name="' + esc(e.name) + '" data-empid="' + esc(e.employeeId) + '">⏱ Punctuality</button>' : '') +
-        (canEditThis ? '<button class="btn sm danger btn-remove-staff" data-id="' + esc(e.id) + '" data-store="' + esc(e.store) + '" data-name="' + esc(e.name) + '">✕ Remove</button>' : '') +
-        '</div>';
+    var html = '<div class="panel glass staff-store-panel">';
+    html += '<div class="panel-head"><div><h2>Stores &amp; Staff Directory</h2><div class="sub">Official operational registry for 5 Hyderabad stores and 63 permanent workforce personnel.</div></div>';
+    html += '<div class="controls">' + addBtn + addStoreBtn + '</div></div>';
 
-      return '<div class="employee-card glass">' +
-        avatarHtml +
-        '<h3>' + esc(e.name) + '</h3>' +
-        '<span class="employee-role">' + esc(roleTitle(e.role)) + ' · ' + esc(e.store) + '</span>' +
-        '<div class="employee-details">' +
-        '<div class="employee-detail"><span>Emp ID:</span><strong>' + esc(e.employeeId || '—') + '</strong></div>' +
-        '<div class="employee-detail"><span>Phone:</span><strong>' + (e.phone ? '<a href="tel:' + e.phone + '">' + esc(e.phone) + '</a>' : '—') + '</strong></div>' +
-        '<div class="employee-detail"><span>Email:</span><strong>' + esc(e.email || '—') + '</strong></div>' +
-        '</div>' +
-        actions +
-        '</div>';
-    }).join('');
+    // Sub Navigation Toggle: Stores vs Staff
+    html += '<div class="manage-mode-toggle">';
+    html += '  <button class="manage-mode-btn ' + (activeMode === 'stores' ? 'active' : '') + '" onclick="state.manageViewMode=\'stores\'; renderView();">🏬 Hyderabad Stores (' + allStores.length + ')</button>';
+    html += '  <button class="manage-mode-btn ' + (activeMode === 'staff' ? 'active' : '') + '" onclick="state.manageViewMode=\'staff\'; renderView();">👥 Staff Directory (' + emps.length + ')</button>';
+    html += '</div>';
 
-    return '<div class="panel glass staff-store-panel">' +
-      '<div class="panel-head"><div><h2>Stores &amp; Staff Directory (' + emps.length + ')</h2><div class="sub">Manage permanent profiles, roles, and cloud-stored employee photos.</div></div>' +
-      '<div class="controls">' + addBtn + addStoreBtn + '</div></div>' +
-      '<div class="employee-grid">' + (cards || '<div class="empty">No staff found matching filters.</div>') + '</div></div>';
+    // 1. STORES DIRECTORY VIEW
+    if (activeMode === 'stores') {
+      html += '<div class="store-directory-grid">';
+      allStores.forEach(function(s) {
+        var cleanPh = s.phone ? s.phone.replace(/[^0-9]/g, '') : '';
+        html += '<div class="store-hub-card">';
+        html += '  <div class="store-hub-head">';
+        html += '    <div>';
+        html += '      <div class="store-hub-name">' + esc(s.officialName || s.name) + '</div>';
+        html += '      <span style="font-size:12px;color:#64748b">Managed by <strong>' + esc(s.manager || 'Store Manager') + '</strong></span>';
+        html += '    </div>';
+        html += '    <span class="store-hub-code">' + esc(s.code || s.name.toUpperCase().substring(0, 3)) + '</span>';
+        html += '  </div>';
+
+        html += '  <div class="store-hub-info">';
+        html += '    <div class="store-info-row"><span class="store-info-icon">📍</span> <span>' + esc(s.address || s.location) + '</span></div>';
+        if (s.landmark) html += '    <div class="store-info-row" style="font-size:11px;color:#64748b"><span class="store-info-icon">📌</span> <span>Landmark: ' + esc(s.landmark) + '</span></div>';
+        html += '    <div class="store-info-row"><span class="store-info-icon">🕒</span> <span>' + esc(s.operatingHours || '10:00 AM – 09:30 PM (All 7 Days)') + '</span></div>';
+        html += '    <div class="store-info-row"><span class="store-info-icon">📞</span> <span><strong>' + esc(s.phoneFormatted || s.phone || 'N/A') + '</strong></span></div>';
+        html += '    <div class="store-info-row"><span class="store-info-icon">✉️</span> <span>' + esc(s.managerEmail || (s.name.toLowerCase().replace(/\s+/g, '') + '@headsupfortails.com')) + '</span></div>';
+        
+        if (s.services && s.services.length) {
+          html += '    <div style="margin-top:6px"><span style="font-size:11px;font-weight:700;color:#64748b">Services:</span><div class="store-services-list">';
+          s.services.forEach(function(svc) {
+            html += '      <span class="service-chip">' + esc(svc) + '</span>';
+          });
+          html += '    </div></div>';
+        }
+        html += '  </div>';
+
+        html += '  <div class="store-hub-footer">';
+        html += '    <span style="font-size:12px;font-weight:700;color:#16a34a">● Active Store</span>';
+        html += '    <button class="btn-view-team" onclick="state.store=\'' + esc(s.name) + '\'; state.manageViewMode=\'staff\'; var sel=document.getElementById(\'storeSel\'); if(sel) sel.value=\'' + esc(s.name) + '\'; renderView();">View Store Team (' + (s.activeStaffCount || 'Team') + ') →</button>';
+        html += '  </div>';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+
+    // 2. STAFF DIRECTORY VIEW
+    else {
+      // Store filter chips
+      html += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;align-items:center">';
+      html += '  <span style="font-size:12px;font-weight:700;color:#64748b;margin-right:4px">Filter Store:</span>';
+      var storeList = ['All', 'Hyderguda', 'Golden Mile', 'Banjara Hills', 'Nallagandla', 'Madhapur'];
+      storeList.forEach(function(st) {
+        var isSel = (state.store === st);
+        html += '  <button class="btn sm" style="' + (isSel ? 'background:var(--huft-orange);color:#fff;font-weight:700' : 'background:#fff;border:1px solid #e2e8f0;color:#475569') + '" onclick="state.store=\'' + st + '\'; var sel=document.getElementById(\'storeSel\'); if(sel) sel.value=\'' + st + '\'; renderView();">' + st + '</button>';
+      });
+      html += '</div>';
+
+      var cards = emps.map(function (e) {
+        var photoSrc = e.photoUrl || state.photos[e.id];
+        var avatarHtml = photoSrc ? '<img src="' + photoSrc + '" class="employee-photo" alt="' + esc(e.name) + '" onerror="this.outerHTML=\'<div class=\\\"avatar employee-photo\\\" style=\\\"--h:' + hue(e.name) + '\\\">' + initials(e.name) + '</div>\'">' :
+          '<div class="avatar employee-photo" style="--h:' + hue(e.name) + '">' + initials(e.name) + '</div>';
+        
+        var canEditThis = canEditStoreClient(e.store);
+        var actions = '<div class="employee-actions">' +
+          (canEditThis ? '<button class="btn sm btn-edit-staff" data-id="' + esc(e.id) + '">✏️ Edit</button>' : '') +
+          (canEditThis ? '<button class="btn sm btn-punc-staff" data-id="' + esc(e.id) + '" data-store="' + esc(e.store) + '" data-name="' + esc(e.name) + '" data-empid="' + esc(e.employeeId) + '">⏱ Punctuality</button>' : '') +
+          (canEditThis ? '<button class="btn sm danger btn-remove-staff" data-id="' + esc(e.id) + '" data-store="' + esc(e.store) + '" data-name="' + esc(e.name) + '">✕ Remove</button>' : '') +
+          '</div>';
+
+        var cleanPh = e.phone ? cleanPhone(e.phone) : '';
+        var displayPh = e.phoneFormatted || (cleanPh ? '+' + cleanPh : '—');
+
+        return '<div class="employee-card">' +
+          avatarHtml +
+          '<h3 style="margin:0 0 2px;font-size:15px;color:#0f172a">' + esc(e.name) + '</h3>' +
+          '<div class="employee-designation">' + esc(e.designation || roleTitle(e.role)) + '</div>' +
+          '<span class="employee-role" style="background:#f1f5f9;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;color:var(--huft-orange)">' + esc(roleTitle(e.role)) + ' · ' + esc(e.store) + '</span>' +
+          '<div class="employee-details" style="margin-top:10px">' +
+          '<div class="employee-detail"><span>Emp ID:</span><strong>' + esc(e.employeeId || '—') + '</strong></div>' +
+          '<div class="employee-detail"><span>Phone:</span><strong>' + (cleanPh ? '<a href="tel:' + cleanPh + '">' + esc(displayPh) + '</a>' : '—') + '</strong></div>' +
+          '<div class="employee-detail"><span>Email:</span><strong>' + esc(e.email || '—') + '</strong></div>' +
+          '</div>' +
+          (cleanPh ? '<div class="emp-contact-actions"><a href="https://wa.me/' + cleanPh + '" target="_blank" class="btn-contact-action wa">💬 WhatsApp</a><a href="tel:' + cleanPh + '" class="btn-contact-action call">📞 Call</a></div>' : '') +
+          actions +
+          '</div>';
+      }).join('');
+
+      html += '<div class="employee-grid">' + (cards || '<div class="empty">No staff found matching filters.</div>') + '</div>';
+    }
+
+    html += '</div>';
+    return html;
   }
 
   /* ---------- removed employees ---------- */

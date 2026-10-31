@@ -1,39 +1,129 @@
 {
   "stores": [
     {
+      "storeId": "STORE-HYD-01",
       "name": "Hyderguda",
+      "officialName": "HUFT Hyderguda (Earth Paws Pvt Ltd)",
+      "code": "HYD-01",
       "active": true,
       "location": "Hyderguda Main Road",
-      "manager": "Chandu",
-      "managerEmail": "hyderguda@headsupfortails.com"
+      "address": "Shop No. 3-6-290, Hyderguda Main Road, Basheer Bagh, Hyderabad, Telangana 500029",
+      "landmark": "Opposite Old MLA Quarters, Near St. Joseph Degree College",
+      "manager": "Chandu (Banoth Chandulal)",
+      "managerRole": "Store Operations Manager",
+      "managerEmail": "hyderguda@headsupfortails.com",
+      "managerAltEmail": "banoth.chandulal@hotmail.com",
+      "phone": "918331919091",
+      "phoneFormatted": "+91 83319 19091",
+      "operatingHours": "10:00 AM – 09:30 PM (Mon – Sun)",
+      "services": [
+        "Premium Pet Food & Nutrition",
+        "Full Spa & Grooming Salon",
+        "Pet Accessories & Toys",
+        "Dietary Consultations"
+      ],
+      "activeStaffCount": 13,
+      "status": "Active"
     },
     {
+      "storeId": "STORE-GLD-02",
       "name": "Golden Mile",
+      "officialName": "HUFT Golden Mile - Kokapet",
+      "code": "GLD-02",
       "active": true,
       "location": "Golden Mile Business Park, Kokapet",
+      "address": "Unit 4 & 5, Ground Floor, Golden Mile Commercial Complex, Kokapet, Gandipet Mandal, Hyderabad, Telangana 500075",
+      "landmark": "Near Outer Ring Road (ORR) Exit 1, Kokapet Main Junction",
       "manager": "Mayangam",
-      "managerEmail": "golden.mile@headsupfortails.com"
+      "managerRole": "Store Operations Manager",
+      "managerEmail": "golden.mile@headsupfortails.com",
+      "managerAltEmail": "mayangam@headsupfortails.com",
+      "phone": "918978742938",
+      "phoneFormatted": "+91 89787 42938",
+      "operatingHours": "10:00 AM – 09:30 PM (Mon – Sun)",
+      "services": [
+        "Luxury Pet Grooming",
+        "Pet Spa & Hydrotherapy",
+        "Premium Pet Merchandise",
+        "Breed-Specific Grooming"
+      ],
+      "activeStaffCount": 10,
+      "status": "Active"
     },
     {
+      "storeId": "STORE-BNJ-03",
       "name": "Banjara Hills",
+      "officialName": "HUFT Banjara Hills Flagship Experience Store",
+      "code": "BNJ-03",
       "active": true,
       "location": "Road No. 12, Banjara Hills",
+      "address": "Plot No. 8-2-686/B/1, Road No. 12, MLA Colony, Banjara Hills, Hyderabad, Telangana 500034",
+      "landmark": "Opposite Minar Towers, Near Century Hospital",
       "manager": "William",
-      "managerEmail": "banjarahills@headsupfortails.com"
+      "managerRole": "Store Operations Manager",
+      "managerEmail": "banjarahills@headsupfortails.com",
+      "managerAltEmail": "william@headsupfortails.com",
+      "phone": "919233686997",
+      "phoneFormatted": "+91 92336 86997",
+      "operatingHours": "10:00 AM – 09:30 PM (Mon – Sun)",
+      "services": [
+        "Flagship Retail Experience",
+        "Certified Master Grooming",
+        "Fresh Pet Bakery Treats",
+        "Puppy Socialization Lounge"
+      ],
+      "activeStaffCount": 16,
+      "status": "Active"
     },
     {
+      "storeId": "STORE-NAL-04",
       "name": "Nallagandla",
+      "officialName": "HUFT Nallagandla Experience Store",
+      "code": "NAL-04",
       "active": true,
-      "location": "Aparna Sarovar Grande Road",
+      "location": "Aparna Sarovar Grande Road, Nallagandla",
+      "address": "Survey No. 308, Ground Floor, Near Aparna Sarovar Grande, Nallagandla, Serilingampally, Hyderabad, Telangana 500019",
+      "landmark": "Adjacent to Aparna Sarovar Zenith Gate, Gachibowli Extended Corridor",
       "manager": "Lokesh",
-      "managerEmail": "nallagandla@headsupfortails.com"
+      "managerRole": "Store Operations Manager",
+      "managerEmail": "nallagandla@headsupfortails.com",
+      "managerAltEmail": "lokesh31kings@gmail.com",
+      "phone": "917075188316",
+      "phoneFormatted": "+91 70751 88316",
+      "operatingHours": "10:00 AM – 09:30 PM (Mon – Sun)",
+      "services": [
+        "Pet Supplies & Health Essentials",
+        "Spa & Hygienic Grooming",
+        "Pet Nutrition Guidance",
+        "Doorstep Home Delivery"
+      ],
+      "activeStaffCount": 17,
+      "status": "Active"
     },
     {
+      "storeId": "STORE-MAD-05",
       "name": "Madhapur",
+      "officialName": "HUFT Madhapur Hitech City Hub",
+      "code": "MAD-05",
       "active": true,
       "location": "Hitech City Road, Madhapur",
+      "address": "Shop 7 & 8, Cyber Hills, VIP Hills, Hitech City Main Road, Madhapur, Hyderabad, Telangana 500081",
+      "landmark": "Near Durgam Cheruvu Metro Station & Inorbit Mall Road",
       "manager": "Kamal Kumar",
-      "managerEmail": "madhapur@headsupfortails.com"
+      "managerRole": "Store Operations Manager",
+      "managerEmail": "madhapur@headsupfortails.com",
+      "managerAltEmail": "kamalstunter12@gmail.com",
+      "phone": "917288074023",
+      "phoneFormatted": "+91 72880 74023",
+      "operatingHours": "10:00 AM – 09:30 PM (Mon – Sun)",
+      "services": [
+        "Tech Corridor Pet Express",
+        "Professional Pet Styling",
+        "Gourmet Treats & Diet",
+        "Cat & Dog Grooming"
+      ],
+      "activeStaffCount": 7,
+      "status": "Active"
     }
   ],
   "employees": [
@@ -48,7 +138,10 @@
       "active": true,
       "reportsTo": "Hyderguda",
       "removedOn": null,
-      "profilePhotoId": "1jWJEIyxZK0h6totizUchbSitGwOX8UeN"
+      "profilePhotoId": "1jWJEIyxZK0h6totizUchbSitGwOX8UeN",
+      "phoneFormatted": "+91 83319 19091",
+      "designation": "Store Operations Manager",
+      "photoUrl": "https://drive.google.com/thumbnail?id=1jWJEIyxZK0h6totizUchbSitGwOX8UeN&sz=w200"
     },
     {
       "id": "Hyderguda|lumshimla",
@@ -61,7 +154,10 @@
       "active": true,
       "reportsTo": "Hyderguda",
       "removedOn": null,
-      "profilePhotoId": "1oeq3Nn8h15rLrupFo1oFmF1nAw_lLU8c"
+      "profilePhotoId": "1oeq3Nn8h15rLrupFo1oFmF1nAw_lLU8c",
+      "phoneFormatted": "+91 87983 70578",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": "https://drive.google.com/thumbnail?id=1oeq3Nn8h15rLrupFo1oFmF1nAw_lLU8c&sz=w200"
     },
     {
       "id": "Hyderguda|raikhan",
@@ -74,124 +170,154 @@
       "active": true,
       "reportsTo": "Hyderguda",
       "removedOn": null,
-      "profilePhotoId": "1Qce7ry84sp3I_3mDBiovs_pcnLtQP0jF"
+      "profilePhotoId": "1Qce7ry84sp3I_3mDBiovs_pcnLtQP0jF",
+      "phoneFormatted": "+91 79933 91198",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": "https://drive.google.com/thumbnail?id=1Qce7ry84sp3I_3mDBiovs_pcnLtQP0jF&sz=w200"
     },
     {
       "id": "Hyderguda|tuireising",
       "name": "Tuireising",
       "store": "Hyderguda",
       "role": "Grooming",
-      "phone": "9.19233987945E11",
+      "phone": "919233987945",
       "email": "tuireising@headsupfortails.com",
       "employeeId": "EPPL1712",
       "active": true,
       "reportsTo": "Hyderguda",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 92339 87945",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Hyderguda|chihanso",
       "name": "Chihanso",
       "store": "Hyderguda",
       "role": "Grooming",
-      "phone": "9.19233236047E11",
+      "phone": "919233236047",
       "email": "chihanso@headsupfortails.com",
       "employeeId": "EPPL2057",
       "active": true,
       "reportsTo": "Hyderguda",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 92332 36047",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Hyderguda|shangreiyo",
       "name": "Shangreiyo",
       "store": "Hyderguda",
       "role": "Grooming",
-      "phone": "9.18798304942E11",
+      "phone": "918798304942",
       "email": "shangreiyo@headsupfortails.com",
       "employeeId": "EPPL1721",
       "active": true,
       "reportsTo": "Hyderguda",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 87983 04942",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Hyderguda|sai",
       "name": "Sai",
       "store": "Hyderguda",
       "role": "Retail",
-      "phone": "7.33115055E9",
+      "phone": "917331150550",
       "email": "sai@headsupfortails.com",
       "employeeId": "EPPL2362",
       "active": true,
       "reportsTo": "Hyderguda",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 73311 50550",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Golden Mile|mayangam",
       "name": "Mayangam",
       "store": "Golden Mile",
       "role": "Retail",
-      "phone": "9.18978742938E11",
+      "phone": "918978742938",
       "email": "mayangam@headsupfortails.com",
       "employeeId": "EPPL1672",
       "active": true,
       "reportsTo": "Golden Mile",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 89787 42938",
+      "designation": "Store Operations Manager",
+      "photoUrl": null
     },
     {
       "id": "Golden Mile|lengjuiwon",
       "name": "Lengjuiwon",
       "store": "Golden Mile",
       "role": "Retail",
-      "phone": "9.17085637788E11",
+      "phone": "917085637788",
       "email": "lengjuiwon@headsupfortails.com",
       "employeeId": "EPPL2048",
       "active": true,
       "reportsTo": "Golden Mile",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 70856 37788",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Golden Mile|ungshungyo",
       "name": "Ungshungyo",
       "store": "Golden Mile",
       "role": "Retail",
-      "phone": "9.18787354792E11",
+      "phone": "918787354792",
       "email": "ungshungyo@headsupfortails.com",
       "employeeId": "EPPL2046",
       "active": true,
       "reportsTo": "Golden Mile",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 87873 54792",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Golden Mile|maiya",
       "name": "Maiya",
       "store": "Golden Mile",
       "role": "Grooming",
-      "phone": "9.16909684892E11",
+      "phone": "916909684892",
       "email": "maiya@headsupfortails.com",
       "employeeId": "EPPL1701",
       "active": true,
       "reportsTo": "Golden Mile",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 69096 84892",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Golden Mile|chumah",
       "name": "Chumah",
       "store": "Golden Mile",
       "role": "Grooming",
-      "phone": "9.1756952396E11",
+      "phone": "917569523960",
       "email": "chumah@headsupfortails.com",
       "employeeId": "EPPL2039",
       "active": true,
       "reportsTo": "Golden Mile",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 75695 23960",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Golden Mile|khularrengshing",
@@ -204,20 +330,26 @@
       "active": true,
       "reportsTo": "Golden Mile",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "-",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|saikiran",
       "name": "Sai Kiran",
       "store": "Banjara Hills",
       "role": "Retail",
-      "phone": "9.1630391912E11",
+      "phone": "916303919120",
       "email": "saikiran@headsupfortails.com",
       "employeeId": "EPPL2163",
       "active": true,
       "reportsTo": "Banjara Hills",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 63039 19120",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|william",
@@ -230,7 +362,10 @@
       "active": true,
       "reportsTo": "Banjara Hills",
       "removedOn": null,
-      "profilePhotoId": "1VRk8Q2LqP203rHwQLboHKsyut9xE8F9v"
+      "profilePhotoId": "1VRk8Q2LqP203rHwQLboHKsyut9xE8F9v",
+      "phoneFormatted": "+91 92336 86997",
+      "designation": "Store Operations Manager",
+      "photoUrl": "https://drive.google.com/thumbnail?id=1VRk8Q2LqP203rHwQLboHKsyut9xE8F9v&sz=w200"
     },
     {
       "id": "Banjara Hills|ngamphy",
@@ -243,46 +378,58 @@
       "active": true,
       "reportsTo": "Banjara Hills",
       "removedOn": null,
-      "profilePhotoId": "1NGUE8yIzOWm0UOqQiSpqzNJcCw_H-iLX"
+      "profilePhotoId": "1NGUE8yIzOWm0UOqQiSpqzNJcCw_H-iLX",
+      "phoneFormatted": "+91 89748 56979",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": "https://drive.google.com/thumbnail?id=1NGUE8yIzOWm0UOqQiSpqzNJcCw_H-iLX&sz=w200"
     },
     {
       "id": "Banjara Hills|edmund",
       "name": "Edmund",
       "store": "Banjara Hills",
       "role": "Grooming",
-      "phone": "9.17893587252E11",
+      "phone": "917893587252",
       "email": "edmund@headsupfortails.com",
       "employeeId": "EPPL2033",
       "active": true,
       "reportsTo": "Banjara Hills",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 78935 87252",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|themyao",
       "name": "Themyao",
       "store": "Banjara Hills",
       "role": "Grooming",
-      "phone": "9.17085562744E11",
+      "phone": "917085562744",
       "email": "themyao@headsupfortails.com",
       "employeeId": "EPPL2256",
       "active": true,
       "reportsTo": "Banjara Hills",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 70855 62744",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|wungachan",
       "name": "Wungachan",
       "store": "Banjara Hills",
       "role": "Grooming",
-      "phone": "9.18132063188E11",
+      "phone": "918132063188",
       "email": "wungachan@headsupfortails.com",
       "employeeId": "EPPL2249",
       "active": true,
       "reportsTo": "Banjara Hills",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 81320 63188",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|lokesh",
@@ -295,7 +442,10 @@
       "active": true,
       "reportsTo": "Nallagandla",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 70751 88316",
+      "designation": "Store Operations Manager",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|saikumar",
@@ -308,7 +458,10 @@
       "active": true,
       "reportsTo": "Nallagandla",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 90328 08905",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|prabhakar",
@@ -321,33 +474,42 @@
       "active": true,
       "reportsTo": "Nallagandla",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 73862 28365",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|hepsiba",
       "name": "Hepsiba",
       "store": "Nallagandla",
       "role": "Grooming",
-      "phone": "9.19110565509E11",
+      "phone": "919110565509",
       "email": "hepsiba@headsupfortails.com",
       "employeeId": "EPPL2227",
       "active": true,
       "reportsTo": "Nallagandla",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 91105 65509",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|soreichan",
       "name": "Soreichan",
       "store": "Nallagandla",
       "role": "Grooming",
-      "phone": "9.18413891346E11",
+      "phone": "918413891346",
       "email": "soreichan@headsupfortails.com",
       "employeeId": "EPPL2173",
       "active": true,
       "reportsTo": "Nallagandla",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 84138 91346",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Madhapur|ayontonkeishing",
@@ -360,7 +522,10 @@
       "active": true,
       "reportsTo": "Madhapur",
       "removedOn": null,
-      "profilePhotoId": "1QFh-ATSVDV1cbFnVREdhG4EUb1dza3a9"
+      "profilePhotoId": "1QFh-ATSVDV1cbFnVREdhG4EUb1dza3a9",
+      "phoneFormatted": "+91 88995 55082",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": "https://drive.google.com/thumbnail?id=1QFh-ATSVDV1cbFnVREdhG4EUb1dza3a9&sz=w200"
     },
     {
       "id": "Madhapur|ayyan",
@@ -373,7 +538,10 @@
       "active": true,
       "reportsTo": "Madhapur",
       "removedOn": null,
-      "profilePhotoId": "1AufYgDpULe9aoPlZYYScaRJBCUpHOYqr"
+      "profilePhotoId": "1AufYgDpULe9aoPlZYYScaRJBCUpHOYqr",
+      "phoneFormatted": "+91 63096 08212",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": "https://drive.google.com/thumbnail?id=1AufYgDpULe9aoPlZYYScaRJBCUpHOYqr&sz=w200"
     },
     {
       "id": "Madhapur|kamalkumar",
@@ -386,7 +554,10 @@
       "active": true,
       "reportsTo": "Madhapur",
       "removedOn": null,
-      "profilePhotoId": "108VlIbEgmsHW2FrmCPDb7r0mem5kj3o2"
+      "profilePhotoId": "108VlIbEgmsHW2FrmCPDb7r0mem5kj3o2",
+      "phoneFormatted": "+91 72880 74023",
+      "designation": "Store Operations Manager",
+      "photoUrl": "https://drive.google.com/thumbnail?id=108VlIbEgmsHW2FrmCPDb7r0mem5kj3o2&sz=w200"
     },
     {
       "id": "Madhapur|vamshi",
@@ -399,7 +570,10 @@
       "active": false,
       "reportsTo": "Madhapur",
       "removedOn": "2026-10-25",
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "-",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Golden Mile|alex",
@@ -412,7 +586,10 @@
       "active": false,
       "reportsTo": "Golden Mile",
       "removedOn": "2026-10-25",
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "-",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|vamshi",
@@ -425,7 +602,10 @@
       "active": false,
       "reportsTo": "Banjara Hills",
       "removedOn": "2026-10-25",
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "-",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Hyderguda|vamshi",
@@ -438,7 +618,10 @@
       "active": true,
       "reportsTo": "Hyderguda",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 83319 19091",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|kamalkumar",
@@ -451,7 +634,10 @@
       "active": false,
       "reportsTo": "Nallagandla",
       "removedOn": "2026-10-25",
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "-",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|themngaranzimik",
@@ -464,7 +650,10 @@
       "active": true,
       "reportsTo": "Nallagandla",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 98630 81563",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|zimik",
@@ -477,7 +666,10 @@
       "active": false,
       "reportsTo": "Nallagandla",
       "removedOn": "2026-10-25",
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "-",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Golden Mile|wungachan",
@@ -490,7 +682,10 @@
       "active": false,
       "reportsTo": "Golden Mile",
       "removedOn": "2026-10-25",
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "-",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Golden Mile|mahaingam",
@@ -503,7 +698,10 @@
       "active": true,
       "reportsTo": "Golden Mile",
       "removedOn": null,
-      "profilePhotoId": null
+      "profilePhotoId": null,
+      "phoneFormatted": "+91 87906 97823",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Madhapur|yireingamzimik",
@@ -516,7 +714,10 @@
       "active": true,
       "reportsTo": "Madhapur",
       "removedOn": null,
-      "profilePhotoId": "1YjtZ0rnCHvflf-iVKsJx5BL7R4HHXVTJ"
+      "profilePhotoId": "1YjtZ0rnCHvflf-iVKsJx5BL7R4HHXVTJ",
+      "phoneFormatted": "+91 93664 23224",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": "https://drive.google.com/thumbnail?id=1YjtZ0rnCHvflf-iVKsJx5BL7R4HHXVTJ&sz=w200"
     },
     {
       "id": "Madhapur|wungyohoramshimray",
@@ -529,182 +730,310 @@
       "active": true,
       "reportsTo": "Madhapur",
       "removedOn": null,
-      "profilePhotoId": "1zzKnQM0tmtyJd_W-YjPfny5LPodynz6E"
+      "profilePhotoId": "1zzKnQM0tmtyJd_W-YjPfny5LPodynz6E",
+      "phoneFormatted": "+91 70853 00416",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": "https://drive.google.com/thumbnail?id=1zzKnQM0tmtyJd_W-YjPfny5LPodynz6E&sz=w200"
     },
     {
       "id": "Hyderguda|khalan",
       "name": "Khalan",
       "store": "Hyderguda",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "khalan@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Golden Mile|yireingam",
       "name": "Yireingam",
       "store": "Golden Mile",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "yireingam@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|milui",
       "name": "Milui",
       "store": "Banjara Hills",
       "role": "Retail",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "milui@headsupfortails.com",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|ngayinpam",
       "name": "Ngayinpam",
       "store": "Banjara Hills",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "ngayinpam@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|khayaising",
       "name": "Khayaising",
       "store": "Banjara Hills",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "khayaising@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|kapingshang",
       "name": "kapingshang",
       "store": "Banjara Hills",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "kapingshang@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|siddhu",
       "name": "Siddhu",
       "store": "Banjara Hills",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "siddhu@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Hyderguda|banoth",
       "name": "Banoth",
       "store": "Hyderguda",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "banoth@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Hyderguda|wungshung",
       "name": "Wungshung",
       "store": "Hyderguda",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "wungshung@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|ayonton",
       "name": "Ayonton",
       "store": "Banjara Hills",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "ayonton@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Madhapur|banoth",
       "name": "Banoth",
       "store": "Madhapur",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "banoth@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|dayanand",
       "name": "Dayanand",
       "store": "Banjara Hills",
       "role": "Retail",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "dayanand@headsupfortails.com",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Hyderguda|chetan",
       "name": "Chetan",
       "store": "Hyderguda",
       "role": "Retail",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "chetan@headsupfortails.com",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|nakkalasaikiran",
       "name": "NAKKALA SAIKIRAN",
       "store": "Banjara Hills",
       "role": "Retail",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "nakkala.saikiran@headsupfortails.com",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Banjara Hills|banjara",
       "name": "Banjara",
       "store": "Banjara Hills",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "banjara@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|kamal",
       "name": "Kamal",
       "store": "Nallagandla",
       "role": "Retail",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "kamal@headsupfortails.com",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|saikiran",
       "name": "Saikiran",
       "store": "Nallagandla",
       "role": "Retail",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "saikiran@headsupfortails.com",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|ngayinpam",
       "name": "Ngayinpam",
       "store": "Nallagandla",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "ngayinpam@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|hyderguda",
       "name": "Hyderguda",
       "store": "Nallagandla",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "hyderguda@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Hyderguda|milui",
       "name": "Milui",
       "store": "Hyderguda",
       "role": "Retail",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "milui@headsupfortails.com",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|hebsiba",
       "name": "hebsiba",
       "store": "Nallagandla",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "hebsiba@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|banjara",
       "name": "Banjara",
       "store": "Nallagandla",
       "role": "Grooming",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "banjara@headsupfortails.com",
+      "designation": "Professional Pet Groomer",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|ayan",
       "name": "Ayan",
       "store": "Nallagandla",
       "role": "Retail",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "ayan@headsupfortails.com",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|nallagandla",
       "name": "Nallagandla",
       "store": "Nallagandla",
       "role": "Retail",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "nallagandla@headsupfortails.com",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     },
     {
       "id": "Nallagandla|goldenmile",
       "name": "Goldenmile",
       "store": "Nallagandla",
       "role": "Retail",
-      "active": true
+      "active": true,
+      "phone": "",
+      "phoneFormatted": "-",
+      "email": "goldenmile@headsupfortails.com",
+      "designation": "Retail Sales Specialist",
+      "photoUrl": null
     }
   ],
   "months": [
@@ -8836,6 +9165,17 @@
   ],
   "emailDeliveries": [
     {
+      "id": "DELIV-6ed04814",
+      "templateId": "store_password_approved",
+      "referenceId": "REQ-PASS-MVW1ZQ81",
+      "recipient": "golden.mile@headsupfortails.com",
+      "subject": "HUFT Official Portal – Your Login Credentials",
+      "status": "Sent",
+      "attempts": 1,
+      "updatedAt": "2026-10-31 07:02:06",
+      "message": "Hello Golden Mile Team,\n\nYour password request (REQ-PASS-MVW1ZQ81) has been APPROVED by the HUFT System Administrator.\n\nStore Name: Golden Mile\nRegistered Email: golden.mile@headsupfortails.com\nTemporary Password: Huft#GLD!x@M8\nPortal Link: http://localhost:3000\n\nPlease log in using your official registered email and this temporary password."
+    },
+    {
       "id": "DELIV-3d2d0459",
       "templateId": "store_password_approved",
       "referenceId": "REQ-PASS-MVW1F7U4",
@@ -9091,7 +9431,7 @@
     "salt": "c7a1c29f2317c052d628dd5767e91e89",
     "status": "Active",
     "createdAt": "2026-10-25 10:00:00",
-    "lastLogin": "2026-10-31 06:46:09"
+    "lastLogin": "2026-10-31 07:02:06"
   },
   "storeAccounts": [
     {
@@ -9104,7 +9444,7 @@
       "status": "Active",
       "mustChangePassword": true,
       "createdAt": "2026-10-25 10:00:00",
-      "lastLogin": "2026-10-31 06:46:09",
+      "lastLogin": "2026-10-31 07:02:06",
       "lastLoginIp": "127.0.0.1",
       "failedAttempts": 0
     },
@@ -9113,12 +9453,12 @@
       "storeName": "Golden Mile",
       "email": "golden.mile@headsupfortails.com",
       "role": "store",
-      "passwordHash": "744be4a80f910d086fd5d3e4fd555c5a53915ee683256fdec5be8ba9654bd839",
-      "salt": "2410a830278649e37795afb8ece4ab79",
+      "passwordHash": "c4c74a95492cccf14c0316915111f4cb2b7dcd0785c8983a63dc7ec366af0b67",
+      "salt": "19ec2d92f1457f1966c06647c498fc9e",
       "status": "Active",
       "mustChangePassword": true,
       "createdAt": "2026-10-25 10:00:00",
-      "lastLogin": "2026-10-31 06:46:09",
+      "lastLogin": "2026-10-31 07:02:06",
       "lastLoginIp": "127.0.0.1",
       "failedAttempts": 0
     },
@@ -9166,6 +9506,20 @@
     }
   ],
   "passwordRequests": [
+    {
+      "requestId": "REQ-PASS-MVW1ZQ81",
+      "storeName": "Golden Mile",
+      "storeId": "STORE-GLD-02",
+      "email": "golden.mile@headsupfortails.com",
+      "type": "Password Creation / Reset",
+      "reason": "Official Manager Password Reset",
+      "status": "APPROVED",
+      "requestedAt": "2026-10-31 07:02:06",
+      "reviewedBy": "admin@headsupfortails.com",
+      "reviewedAt": "2026-10-31 07:02:06",
+      "decisionNotes": "Approved for Golden Mile Store Manager",
+      "deliveredEmail": true
+    },
     {
       "requestId": "REQ-PASS-MVW1F7U4",
       "storeName": "Golden Mile",
@@ -9222,6 +9576,102 @@
     }
   ],
   "securityLogs": [
+    {
+      "id": "SEC-edfd4415",
+      "timestamp": "2026-10-31 07:02:06",
+      "actor": "golden.mile@headsupfortails.com",
+      "role": "store",
+      "action": "LOGIN_SUCCESS",
+      "store": "Golden Mile",
+      "ip": "127.0.0.1",
+      "userAgent": "Automated Enterprise Test Runner",
+      "status": "SUCCESS",
+      "details": "Store authenticated successfully"
+    },
+    {
+      "id": "SEC-e2c78ca7",
+      "timestamp": "2026-10-31 07:02:06",
+      "actor": "golden.mile@headsupfortails.com",
+      "role": "store",
+      "action": "LOGIN_FAILED",
+      "store": "Golden Mile",
+      "ip": "127.0.0.1",
+      "userAgent": "Automated Enterprise Test Runner",
+      "status": "FAILED",
+      "details": "Incorrect password attempt (Failure count: 1)"
+    },
+    {
+      "id": "SEC-27d6fb32",
+      "timestamp": "2026-10-31 07:02:06",
+      "actor": "admin@headsupfortails.com",
+      "role": "admin",
+      "action": "PASSWORD_REQUEST_APPROVED",
+      "store": "Golden Mile",
+      "ip": "127.0.0.1",
+      "userAgent": "Automated Enterprise Test Runner",
+      "status": "SUCCESS",
+      "details": "Approved password request REQ-PASS-MVW1ZQ81. Credentials dispatched to golden.mile@headsupfortails.com."
+    },
+    {
+      "id": "SEC-b998c05f",
+      "timestamp": "2026-10-31 07:02:06",
+      "actor": "golden.mile@headsupfortails.com",
+      "role": "store",
+      "action": "LOGIN_BLOCKED_PENDING_APPROVAL",
+      "store": "Golden Mile",
+      "ip": "127.0.0.1",
+      "userAgent": "Automated Enterprise Test Runner",
+      "status": "BLOCKED",
+      "details": "Login blocked: Request REQ-PASS-MVW1ZQ81 is PENDING ADMIN APPROVAL"
+    },
+    {
+      "id": "SEC-d98ba060",
+      "timestamp": "2026-10-31 07:02:06",
+      "actor": "golden.mile@headsupfortails.com",
+      "role": "store",
+      "action": "PASSWORD_REQUEST_SUBMITTED",
+      "store": "Golden Mile",
+      "ip": "127.0.0.1",
+      "userAgent": "Automated Enterprise Test Runner",
+      "status": "PENDING",
+      "details": "Password request created: REQ-PASS-MVW1ZQ81"
+    },
+    {
+      "id": "SEC-94fbff7c",
+      "timestamp": "2026-10-31 07:02:06",
+      "actor": "hyderguda@headsupfortails.com",
+      "role": "store",
+      "action": "LOGIN_SUCCESS",
+      "store": "Hyderguda",
+      "ip": "127.0.0.1",
+      "userAgent": "Automated Enterprise Test Runner",
+      "status": "SUCCESS",
+      "details": "Store authenticated successfully"
+    },
+    {
+      "id": "SEC-6a3af842",
+      "timestamp": "2026-10-31 07:02:06",
+      "actor": "admin@headsupfortails.com",
+      "role": "admin",
+      "action": "LOGIN_FAILED",
+      "store": "All",
+      "ip": "127.0.0.1",
+      "userAgent": "Automated Enterprise Test Runner",
+      "status": "FAILED",
+      "details": "Invalid administrator password attempt"
+    },
+    {
+      "id": "SEC-26b512c1",
+      "timestamp": "2026-10-31 07:02:06",
+      "actor": "admin@headsupfortails.com",
+      "role": "admin",
+      "action": "LOGIN_SUCCESS",
+      "store": "All stores",
+      "ip": "127.0.0.1",
+      "userAgent": "Automated Enterprise Test Runner",
+      "status": "SUCCESS",
+      "details": "Admin authenticated successfully"
+    },
     {
       "id": "SEC-91dfb2ad",
       "timestamp": "2026-10-31 06:46:09",
