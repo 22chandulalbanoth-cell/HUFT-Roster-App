@@ -118,11 +118,6 @@ function generateWeeklyStoreWhatsAppText(storeName, mondayDateStr) {
     `👥 Total Team Members: ${storeStaff.length}\n\n` +
     `📋 *Weekly Schedule by Team Member:*\n\n` +
     `${staffSchedules}\n\n` +
-    `⏰ *Standard Shift Timings:*\n` +
-    `• Opening: 10:00 AM – 07:00 PM\n` +
-    `• Mid Shift: 11:00 AM – 08:00 PM / 12:00 PM – 09:00 PM\n` +
-    `• Closing: 01:00 PM – 10:00 PM\n` +
-    `• SPA Timings: 11:00 AM – 08:00 PM\n\n` +
     `Please report on time.\n` +
     `_Heads Up For Tails · People & Pets. Always Better Together._`;
 }
@@ -140,7 +135,7 @@ function generateIndividualStaffWhatsAppText(emp, dateStr) {
     `Hello ${emp.name},\n\n` +
     `Here are your assigned duty details for *${formattedDate}*:\n\n` +
     `🏪 *Store:* HUFT ${emp.store}\n` +
-    `⏰ *Shift:* *${shift}* (${timing})\n` +
+    `⏰ *Shift:* *${shift}*\n` +
     `👤 *Role:* ${emp.role} · ${emp.designation}\n` +
     `🆔 *Employee ID:* ${emp.employeeId}\n\n` +
     `Please report on time. Have a wonderful day caring for our pets! 🐶🐱`;
