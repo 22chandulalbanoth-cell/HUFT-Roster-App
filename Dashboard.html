@@ -4442,14 +4442,67 @@ function renderDeploymentsTable() {
   }).join('');
 }
 
-function openDeploymentRequestModal() {
-  const sel = document.getElementById('deployEmployee');
-  const emps = window.HUFT_DATA.employees || [];
-  const otherEmps = emps.filter(e => e.store !== currentUser.store && e.active);
+function formatDeployDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+  const day = String(d.getDate()).padStart(2, '0');
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const month = months[d.getMonth()];
+  const year = d.getFullYear();
+  return `${day} ${month} ${year}`;
+}
 
-  sel.innerHTML = otherEmps.map(e => `
-    <option value="${e.id}">${e.name} (${e.employeeId} - ${e.store} Store - ${e.designation})</option>
+function handleDeployStoreChange(selectedStore) {
+  const empSelect = document.getElementById('deployEmployee');
+  if (!empSelect) return;
+
+  if (!selectedStore) {
+    empSelect.innerHTML = '<option value="">-- Please select a store first --</option>';
+    return;
+  }
+
+  const emps = window.HUFT_DATA.employees || [];
+  const storeEmps = emps.filter(e => e.store === selectedStore && e.active);
+
+  if (storeEmps.length === 0) {
+    empSelect.innerHTML = '<option value="">No active employees in this store</option>';
+    return;
+  }
+
+  // Strictly formatted as: Employee ID and Name (e.g. EPPL2033 - Edmund)
+  empSelect.innerHTML = storeEmps.map(e => `
+    <option value="${e.employeeId}">${e.employeeId} - ${e.name}</option>
   `).join('');
+}
+
+function openDeploymentRequestModal() {
+  const storeSelect = document.getElementById('deploySourceStore');
+  const myStore = (currentUser && currentUser.store && currentUser.store !== 'All Stores') ? currentUser.store : 'Hyderguda';
+
+  const allStores = ['Banjara Hills', 'Golden Mile', 'Hyderguda', 'Madhapur', 'Nallagandla'];
+  if (storeSelect) {
+    const defaultOther = allStores.find(s => s !== myStore) || 'Banjara Hills';
+    storeSelect.innerHTML = allStores.map(s => `
+      <option value="${s}" ${s === defaultOther ? 'selected' : ''}>${s} Store</option>
+    `).join('');
+
+    handleDeployStoreChange(storeSelect.value);
+  }
+
+  // Default From & To dates
+  const startDateInput = document.getElementById('deployStartDate');
+  const endDateInput = document.getElementById('deployEndDate');
+  if (startDateInput && endDateInput) {
+    const today = new Date();
+    const dStart = new Date(today);
+    dStart.setDate(today.getDate() + 2);
+    const dEnd = new Date(today);
+    dEnd.setDate(today.getDate() + 5);
+
+    startDateInput.value = dStart.toISOString().split('T')[0];
+    endDateInput.value = dEnd.toISOString().split('T')[0];
+  }
 
   document.getElementById('deploymentRequestModal').classList.add('open');
 }
@@ -4458,40 +4511,95 @@ function closeDeploymentRequestModal() {
   document.getElementById('deploymentRequestModal').classList.remove('open');
 }
 
+function openDeploymentFromProfile(empId) {
+  closeEmployeeProfileCardModal();
+  openDeploymentRequestModal();
+
+  setTimeout(() => {
+    const emp = (window.HUFT_DATA.employees || []).find(e => e.employeeId === empId || e.id === empId);
+    if (!emp) return;
+
+    const storeSelect = document.getElementById('deploySourceStore');
+    if (storeSelect) {
+      storeSelect.value = emp.store;
+      handleDeployStoreChange(emp.store);
+    }
+
+    const empSelect = document.getElementById('deployEmployee');
+    if (empSelect) {
+      empSelect.value = emp.employeeId;
+    }
+  }, 60);
+}
+
 function handleDeploymentRequestSubmit(e) {
   e.preventDefault();
+  const sourceStore = document.getElementById('deploySourceStore').value;
   const empId = document.getElementById('deployEmployee').value;
-  const dates = document.getElementById('deployDates').value.trim();
+  const startDate = document.getElementById('deployStartDate').value;
+  const endDate = document.getElementById('deployEndDate').value;
   const shift = document.getElementById('deployShift').value;
   const reason = document.getElementById('deployReason').value.trim();
 
-  const emp = (window.HUFT_DATA.employees || []).find(x => x.id === empId);
+  if (!sourceStore) {
+    alert('Please select a store to request staff from.');
+    return;
+  }
+  if (!empId) {
+    alert('Please select an employee.');
+    return;
+  }
+  if (!startDate || !endDate) {
+    alert('Please select both From and To dates.');
+    return;
+  }
+  if (new Date(startDate) > new Date(endDate)) {
+    alert('From Date cannot be later than To Date.');
+    return;
+  }
+
+  const emp = (window.HUFT_DATA.employees || []).find(x => x.employeeId === empId || x.id === empId);
   if (!emp) return;
 
+  const datesFormatted = `${formatDeployDate(startDate)} - ${formatDeployDate(endDate)}`;
   const newId = `DEP-2026-00${(window.HUFT_DATA.deployments || []).length + 1}`;
+  const targetStore = (currentUser && currentUser.store && currentUser.store !== 'All Stores') ? currentUser.store : 'Hyderguda';
+
   const newDep = {
     id: newId,
     employeeName: emp.name,
     employeeId: emp.employeeId,
     designation: emp.designation,
     fromStore: emp.store,
-    toStore: currentUser.store === 'All Stores' ? 'Hyderguda' : currentUser.store,
-    dates: dates,
+    toStore: targetStore,
+    dates: datesFormatted,
     shift: shift,
     reason: reason,
     status: 'Awaiting Source Approval',
     stage: 1,
-    createdAt: '2026-10-31 16:30'
+    createdAt: new Date().toISOString().replace('T', ' ').substring(0, 16)
   };
 
+  if (!window.HUFT_DATA.deployments) window.HUFT_DATA.deployments = [];
   window.HUFT_DATA.deployments.unshift(newDep);
-  logEmailNotification('New Staff Request Submitted', `${emp.store.toLowerCase().replace(/\s+/g, '')}@headsupfortails.com`, `${emp.store} (Releasing)`, `HUFT Action Required: Staff Request for ${emp.name} (${emp.employeeId})`);
+
+  // Dispatch email notification
+  if (typeof logEmailNotification === 'function') {
+    logEmailNotification(
+      'New Staff Deployment Request',
+      `${emp.store.toLowerCase().replace(/\s+/g, '')}@headsupfortails.com`,
+      emp.store,
+      `Action Required: Deployment request for ${emp.employeeId} - ${emp.name} to ${targetStore} Store.`
+    );
+  }
+
   closeDeploymentRequestModal();
+  showToast(`Deployment request submitted for ${emp.employeeId} - ${emp.name}!`);
+
   renderDeploymentsTable();
-  renderApprovalsHub();
-  renderDashboard();
-  showToast(`Staff request ${newId} submitted to ${emp.store} Store Manager.`);
+  if (typeof renderApprovalsHub === 'function') renderApprovalsHub();
 }
+
 
 function approveDeploymentStep1(id) {
   const dep = (window.HUFT_DATA.deployments || []).find(d => d.id === id);
