@@ -1311,7 +1311,16 @@ body {
           </div>
 
           <div style="display: flex; align-items: center; gap: 10px;">
-            <input type="text" id="staffSearchInput" placeholder="🔍 Search staff by name, ID, role..." oninput="renderStaffProfiles()" style="padding: 5px 12px; font-size: 11.5px; border: 1.5px solid var(--brand-border); border-radius: 8px; width: 220px; outline:none;">
+            <!-- STORE FILTER: ONLY SHOW MENTIONED STORE -->
+            <select id="staffStoreFilter" onchange="handleStaffStoreFilterChange(this.value)" style="padding: 5px 12px; font-size: 12px; font-weight: 700; border: 1.5px solid #CBD5E1; border-radius: 8px; background: #FFFFFF; color: #0F172A; outline: none; cursor: pointer;">
+              <option value="Hyderguda">Hyderguda Store</option>
+              <option value="Golden Mile">Golden Mile Store</option>
+              <option value="Banjara Hills">Banjara Hills Store</option>
+              <option value="Nallagandla">Nallagandla Store</option>
+              <option value="Madhapur">Madhapur Store</option>
+            </select>
+
+            <input type="text" id="staffSearchInput" placeholder="🔍 Search staff by name, ID, role..." oninput="renderStaffProfiles()" style="padding: 5px 12px; font-size: 11.5px; border: 1.5px solid var(--brand-border); border-radius: 8px; width: 200px; outline:none;">
             
             <div class="view-toggle-group">
               <button id="viewBtnCards" class="view-toggle-btn active" onclick="switchStaffView('cards')">📇 Cards View</button>
@@ -2530,6 +2539,10 @@ function applyUserSession() {
   if (isSuperAdmin) {
     adminSelectWrap.style.display = 'block';
     storeBadge.style.display = 'none';
+    const adminSelect = document.getElementById('adminStoreSelect');
+    if (adminSelect) {
+      adminSelect.value = (currentUser.store && currentUser.store !== 'All Stores') ? currentUser.store : 'Hyderguda';
+    }
   } else {
     adminSelectWrap.style.display = 'none';
     storeBadge.style.display = 'flex';
@@ -2660,10 +2673,12 @@ function switchTab(tabId) {
 
 function handleAdminStoreSwitch(val) {
   if (val === 'ALL') {
-    currentUser.store = 'All Stores';
+    currentUser.store = 'Hyderguda';
   } else {
     currentUser.store = val;
   }
+  const staffFilter = document.getElementById('staffStoreFilter');
+  if (staffFilter) staffFilter.value = currentUser.store;
   renderDashboard();
   renderWeeklyRoster();
   renderStaffProfiles();
@@ -4079,15 +4094,40 @@ This will safely mark the employee inactive while preserving all historical shif
 // ----------------------------------------------------
 // RENDER STAFF PROFILES (GRID OF PREMIUM CARDS)
 // ----------------------------------------------------
+function handleStaffStoreFilterChange(val) {
+  currentUser.store = val;
+  const adminSelect = document.getElementById('adminStoreSelect');
+  if (adminSelect) adminSelect.value = val;
+  renderStaffProfiles();
+}
+
 function renderStaffProfiles() {
   const cardsContainer = document.getElementById('staffCardsContainer');
   const tbody = document.querySelector('#staffRegistryTable tbody');
   const countBadge = document.getElementById('staffCountBadge');
   const search = (document.getElementById('staffSearchInput')?.value || '').toLowerCase();
-  const isSuperAdmin = (currentUser.role === 'admin');
 
+  // STRICTLY SHOW ONLY MENTIONED STORE
+  let activeStore = document.getElementById('staffStoreFilter')?.value || currentUser.store || 'Hyderguda';
+  if (activeStore === 'All Stores' || activeStore === 'ALL') {
+    activeStore = (currentUser.store && currentUser.store !== 'All Stores') ? currentUser.store : 'Hyderguda';
+  }
+
+  // Synchronize dropdown selection
+  const staffFilterElem = document.getElementById('staffStoreFilter');
+  if (staffFilterElem && staffFilterElem.value !== activeStore) {
+    staffFilterElem.value = activeStore;
+  }
+
+  // Update Section Header to reflect the specific store
+  const titleSpan = document.getElementById('staffSectionTitle');
+  if (titleSpan) {
+    titleSpan.textContent = `${activeStore} Store Team Members`;
+  }
+
+  // Filter staff to ONLY the mentioned store!
   const staff = (window.HUFT_DATA.employees || []).filter(e => {
-    if (!isSuperAdmin && currentUser.store !== 'All Stores' && e.store !== currentUser.store) return false;
+    if (e.store !== activeStore) return false;
     if (search && !e.name.toLowerCase().includes(search) && !e.employeeId.toLowerCase().includes(search) && !e.designation.toLowerCase().includes(search)) return false;
     return true;
   });
