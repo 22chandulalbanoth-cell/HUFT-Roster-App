@@ -288,19 +288,77 @@ body {
   width: 100%;
 }
 
+.staff-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  width: 100%;
+  margin-top: 14px;
+  align-items: stretch;
+}
+
 .huft-premium-card {
   background: #FFFFFF;
-  border-radius: 22px;
+  border-radius: 20px;
   border: 1px solid #E8EAF0;
-  box-shadow: 0 14px 40px rgba(36, 50, 77, 0.08), 0 2px 6px rgba(0,0,0,0.02);
+  box-shadow: 0 10px 30px rgba(36, 50, 77, 0.06), 0 2px 6px rgba(0,0,0,0.02);
   width: 100%;
-  max-width: 420px;
-  padding: 28px 24px 22px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   position: relative;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: var(--font-heading);
+}
+
+.huft-premium-card.compact {
+  padding: 20px 18px 16px;
+  border-radius: 18px;
+}
+
+.huft-premium-card.compact .huft-avatar-container {
+  width: 76px;
+  height: 76px;
+  margin-bottom: 8px;
+}
+
+.huft-premium-card.compact .huft-avatar-initials {
+  font-size: 26px;
+}
+
+.huft-premium-card.compact .huft-avatar-upload-badge {
+  width: 26px;
+  height: 26px;
+  font-size: 11px;
+}
+
+.huft-premium-card.compact .huft-card-name {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.huft-premium-card.compact .huft-single-designation-tag {
+  font-size: 11px;
+  padding: 3px 12px;
+}
+
+.huft-premium-card.compact .huft-card-header {
+  margin-bottom: 12px;
+}
+
+.huft-premium-card.compact .huft-info-row {
+  padding: 7px 2px;
+  font-size: 11.5px;
+}
+
+.huft-premium-card.compact .huft-card-info-table {
+  margin-bottom: 14px;
+}
+
+.huft-premium-card.compact .huft-action-btn {
+  padding: 7px 10px;
+  font-size: 11.5px;
 }
 
 .huft-premium-card:hover {
@@ -2933,6 +2991,23 @@ function renderStaffProfiles() {
     return true;
   });
 
+  // Sort staff in proper enterprise order:
+  // Managers first, then Assistant Managers, then Senior/Lead, then Groomers/Stylists, then Associates
+  staff.sort((a, b) => {
+    const getRank = (desig = '') => {
+      const d = desig.toLowerCase();
+      if (d.includes('operations manager') || d === 'store manager') return 1;
+      if (d.includes('assistant')) return 2;
+      if (d.includes('senior') || d.includes('master') || d.includes('lead')) return 3;
+      if (d.includes('stylist') || d.includes('groom')) return 4;
+      if (d.includes('specialist') || d.includes('associate')) return 5;
+      return 6;
+    };
+    const rankDiff = getRank(a.designation) - getRank(b.designation);
+    if (rankDiff !== 0) return rankDiff;
+    return a.name.localeCompare(b.name);
+  });
+
   if (countBadge) countBadge.textContent = `${staff.length} Staff`;
 
   // Render Grid of Premium Cards
@@ -2941,7 +3016,7 @@ function renderStaffProfiles() {
       cardsContainer.innerHTML = '<div style="grid-column: 1/-1; padding: 40px; text-align: center; color: #71809B;">No staff members found matching criteria.</div>';
     } else {
       cardsContainer.innerHTML = staff.map(e => `
-        <div class="huft-premium-card" style="cursor:default;">
+        <div class="huft-premium-card compact" style="cursor:default;">
           ${renderPremiumEmployeeProfileCardHTML(e, true)}
         </div>
       `).join('');
