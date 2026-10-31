@@ -1058,9 +1058,8 @@ body {
             <thead>
               <tr>
                 <th style="text-align: left;">Staff Name</th>
-                <th style="text-align: left;">Role &amp; Designation</th>
+                <th style="text-align: left;">Role</th>
                 <th>Assigned Shift</th>
-                <th>Timing</th>
                 <th>Contact</th>
               </tr>
             </thead>
@@ -1185,7 +1184,7 @@ body {
           <table class="simple-table" id="empFullRosterTable">
             <thead>
               <tr>
-                <th>Date</th><th>Day</th><th>Assigned Shift</th><th>Timing Details</th><th>Location</th>
+                <th>Date</th><th>Day</th><th>Assigned Shift</th><th>Location</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -1746,7 +1745,7 @@ body {
         <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 8px;">
           <div>
             <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">
-              <span>Opening Shifts (10:00 AM - 07:00 PM)</span>
+              <span>Opening Shifts</span>
               <span>24 Staff (38%)</span>
             </div>
             <div style="width: 100%; height: 8px; background: #E5E7EB; border-radius: 99px; overflow: hidden;">
@@ -1755,7 +1754,7 @@ body {
           </div>
           <div>
             <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">
-              <span>Mid Shifts (11:00 AM - 08:00 PM)</span>
+              <span>Mid Shifts</span>
               <span>18 Staff (29%)</span>
             </div>
             <div style="width: 100%; height: 8px; background: #E5E7EB; border-radius: 99px; overflow: hidden;">
@@ -1764,7 +1763,7 @@ body {
           </div>
           <div>
             <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">
-              <span>Closing Shifts (12:30 PM - 09:30 PM)</span>
+              <span>Closing Shifts</span>
               <span>15 Staff (24%)</span>
             </div>
             <div style="width: 100%; height: 8px; background: #E5E7EB; border-radius: 99px; overflow: hidden;">
@@ -1933,9 +1932,9 @@ body {
           Required Shift <span style="color: #EA580C;">*</span>
         </label>
         <select id="deployShift" class="form-input" required style="height: 42px; font-size: 13px; font-weight: 600; border-radius: 10px; border: 1.5px solid #CBD5E1; background: #F8FAFC; width: 100%;">
-          <option value="Opening">Opening Shift (10:00 AM)</option>
-          <option value="Mid Shift">Mid Shift (11:00 AM)</option>
-          <option value="Closing">Closing Shift (12:30 PM)</option>
+          <option value="Opening">Opening Shift</option>
+          <option value="Mid Shift">Mid Shift</option>
+          <option value="Closing">Closing Shift</option>
           <option value="SPA Timings">SPA Timings</option>
         </select>
       </div>
@@ -2416,13 +2415,7 @@ function formatWhatsAppPhone(rawPhone) {
 }
 
 function getShiftTimingDisplay(shift) {
-  const s = (shift || '').toLowerCase();
-  if (s.includes('close') || s.includes('closing')) return '01:00 PM – 10:00 PM';
-  if (s.includes('mid')) return '11:00 AM – 08:00 PM / 12:00 PM – 09:00 PM';
-  if (s.includes('spa')) return '11:00 AM – 08:00 PM';
-  if (s.includes('open') || s.includes('opening')) return '10:00 AM – 07:00 PM';
-  if (s.includes('off') || s.includes('leave')) return 'Scheduled Off / Leave';
-  return 'Store Shift';
+  return shift || 'Shift';
 }
 
 function onWhatsAppDateChange(val) {
@@ -3688,20 +3681,15 @@ function renderDashboard() {
   const todayTbody = document.querySelector('#dashboardTodayTable tbody');
   if (todayTbody) {
     if (todayShifts.length === 0) {
-      todayTbody.innerHTML = '<tr><td colspan="5" style="color:var(--brand-muted);">No staff scheduled on duty for this date.</td></tr>';
+      todayTbody.innerHTML = '<tr><td colspan="4" style="color:var(--brand-muted);">No staff scheduled on duty for this date.</td></tr>';
     } else {
       todayTbody.innerHTML = todayShifts.map(item => {
-        let timing = '10:00 AM – 07:00 PM';
-        if (item.shift === 'Closing') timing = '12:30 PM – 09:30 PM';
-        if (item.shift === 'Mid Shift') timing = '11:00 AM – 08:00 PM';
-        if (item.shift === 'SPA Timings') timing = '10:30 AM – 07:30 PM (SPA)';
 
         return `
           <tr>
             <td class="col-left"><strong>${item.employee.name}</strong> <span style="font-size:10px;color:var(--brand-muted);">(${item.employee.employeeId})</span></td>
             <td class="col-left"><span class="role-pill role-${getEmployeeSimpleRole(item.employee).toLowerCase()}">${getEmployeeSimpleRole(item.employee)}</span></td>
             <td><span class="shift-select s-${item.shift.replace(/\s+/g, '')}">${item.shift}</span></td>
-            <td>${timing}</td>
             <td><a href="tel:${item.employee.phone}" style="color:var(--brand-orange);text-decoration:none;">📞 ${item.employee.phoneFormatted || item.employee.phone}</a></td>
           </tr>
         `;
@@ -4028,17 +4016,17 @@ function renderWeeklyRoster() {
   if (tfoot) {
     tfoot.innerHTML = `
       <tr style="background:#F9FAFB;font-weight:700;">
-        <td colspan="2" class="col-left"><span style="color:#0369A1;">• Opening Shifts (10:00 AM)</span></td>
+        <td colspan="2" class="col-left"><span style="color:#0369A1;">• Opening Shifts</span></td>
         ${opCount.map(c => `<td style="color:#0369A1;font-weight:800;text-align:center;">${c}</td>`).join('')}
         <td colspan="2">--</td>
       </tr>
       <tr style="background:#F9FAFB;font-weight:700;">
-        <td colspan="2" class="col-left"><span style="color:#B45309;">• Mid Shifts (11:00 AM)</span></td>
+        <td colspan="2" class="col-left"><span style="color:#B45309;">• Mid Shifts</span></td>
         ${midCount.map(c => `<td style="color:#B45309;font-weight:800;text-align:center;">${c}</td>`).join('')}
         <td colspan="2">--</td>
       </tr>
       <tr style="background:#F9FAFB;font-weight:700;">
-        <td colspan="2" class="col-left"><span style="color:#6D28D9;">• Closing Shifts (12:30 PM)</span></td>
+        <td colspan="2" class="col-left"><span style="color:#6D28D9;">• Closing Shifts</span></td>
         ${clCount.map(c => `<td style="color:#6D28D9;font-weight:800;text-align:center;">${c}</td>`).join('')}
         <td colspan="2">--</td>
       </tr>
@@ -4858,7 +4846,7 @@ function openMonthlyCalendarFromProfile(empId) {
   const title = document.getElementById('empCalendarModalTitle');
   const grid = document.getElementById('empCalendarModalGrid');
 
-  title.textContent = `Monthly Roster Calendar – ${emp.name} (${emp.designation || 'Specialist'})`;
+  title.textContent = `Monthly Roster Calendar – ${emp.name} (${getEmployeeSimpleRole(emp)})`;
 
   const shifts = window.HUFT_DATA.shifts || {};
   let html = '';
@@ -5532,7 +5520,7 @@ function renderDeploymentsTable() {
     return `
       <tr>
         <td><code>${d.id}</code></td>
-        <td class="col-left"><strong>${d.employeeName}</strong> <span style="font-size:10px;color:var(--brand-muted);">(${d.employeeId})</span></td>
+        <td class="col-left"><strong>${d.employeeName}</strong> <span style="font-size:10px;color:var(--brand-muted);">(${d.employeeId} · ${getEmployeeSimpleRole(d.designation || d.role)})</span></td>
         <td><span style="color:var(--brand-orange);font-weight:700;">${d.toStore}</span></td>
         <td>${d.fromStore}</td>
         <td>${d.dates}</td>
@@ -5700,7 +5688,7 @@ function renderEmployeePortal() {
 
   // Greeting
   const greeting = document.getElementById('empGreetingSub');
-  if (greeting) greeting.textContent = `Welcome, ${empObj.name}! ${empObj.designation} at ${empObj.store} Store`;
+  if (greeting) greeting.textContent = `Welcome, ${empObj.name}! (${getEmployeeSimpleRole(empObj)}) at ${empObj.store} Store`;
 
   // Profile Card (Premium Component)
   const selfCard = document.getElementById('selfEmpProfileCard');
@@ -5713,7 +5701,7 @@ function renderEmployeePortal() {
   // Today's shift badge
   const todayShift = shifts[`${empObj.id}|${currentSelectedDate}`] || 'Opening';
   const todayBadge = document.getElementById('empTodayShiftBadge');
-  if (todayBadge) todayBadge.textContent = `${todayShift} Shift (10:00 AM - 07:00 PM)`;
+  if (todayBadge) todayBadge.textContent = `${todayShift} Shift`;
 
   // Weekly Schedule Table
   const schedTbody = document.querySelector('#empWeeklyScheduleTable tbody');
@@ -5787,17 +5775,12 @@ function renderEmployeePortal() {
       d.setDate(baseDate.getDate() + i);
       const iso = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
       const s = shifts[`${empObj.id}|${iso}`] || ((d.getDay() === 2) ? 'Week Off' : 'Opening');
-      let timing = '10:00 AM – 07:00 PM';
-      if (s === 'Closing') timing = '12:30 PM – 09:30 PM';
-      if (s === 'Week Off') timing = 'Scheduled Weekly Rest Day';
-      if (s === 'Leave') timing = 'Approved Leave';
 
       html += `
         <tr ${iso === currentSelectedDate ? 'style="background:#FFF7ED;font-weight:700;"' : ''}>
           <td>${d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</td>
           <td>${d.toLocaleDateString('en-US',{weekday:'short'})}</td>
           <td><span class="shift-select s-${s.replace(/\s+/g,'')}">${s}</span></td>
-          <td>${timing}</td>
           <td>🏬 ${empObj.store} Store</td>
         </tr>
       `;
