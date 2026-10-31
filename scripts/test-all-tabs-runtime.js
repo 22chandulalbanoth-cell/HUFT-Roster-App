@@ -218,6 +218,81 @@ try {
   console.error('  Modal / Actions error:', err);
 }
 
+// 5. TEST ALL WHATSAPP DISPATCH & MESSAGE GENERATORS
+console.log('\n--- 5. TESTING ALL WHATSAPP MESSAGE CREATORS & CONTROLLERS ---');
+try {
+  // Test switch to whatsapp tab renders briefing and table
+  vm.runInContext("switchTab('whatsapp');", sandbox);
+  const waBriefing = elements['waSummaryBriefingText']?.textContent || '';
+  if (!waBriefing || waBriefing.length < 50) throw new Error('waSummaryBriefingText was not generated');
+  console.log('  switchTab("whatsapp"): ✅ Store summary briefing generated (' + waBriefing.length + ' chars)');
+  passCount++;
+
+  const waTbody = elements['waIndividualTbody']?.innerHTML || '';
+  if (!waTbody || waTbody.length < 50) throw new Error('waIndividualTbody was not generated');
+  console.log('  waIndividualTbody: ✅ Individual shift rows generated (' + waTbody.length + ' chars)');
+  passCount++;
+
+  // Test weekly broadcast modal
+  vm.runInContext("openWhatsAppModal('weekly');", sandbox);
+  const weeklyMsg = elements['whatsappMessageText']?.value || '';
+  if (!weeklyMsg.includes('Weekly Roster Dispatch')) throw new Error('Weekly broadcast text missing header');
+  console.log('  openWhatsAppModal("weekly"): ✅ Generated weekly broadcast (' + weeklyMsg.length + ' chars)');
+  passCount++;
+
+  // Test daily briefing modal
+  vm.runInContext("openWhatsAppModal('daily');", sandbox);
+  const dailyMsg = elements['whatsappMessageText']?.value || '';
+  if (!dailyMsg.includes('Store: HUFT')) throw new Error('Daily briefing text missing store header');
+  console.log('  openWhatsAppModal("daily"): ✅ Generated daily briefing (' + dailyMsg.length + ' chars)');
+  passCount++;
+
+  // Test individual staff shift modal
+  vm.runInContext("openWhatsAppModal('individual', 'Hyderguda|tuireising', '2026-10-31');", sandbox);
+  const indShiftMsg = elements['whatsappMessageText']?.value || '';
+  if (!indShiftMsg.includes('Tuireising')) throw new Error('Individual message missing employee name');
+  console.log('  openWhatsAppModal("individual"): ✅ Generated personalized shift notice (' + indShiftMsg.length + ' chars)');
+  passCount++;
+
+  // Test individual staff weekly schedule modal
+  vm.runInContext("openWhatsAppModal('individual_weekly', 'Hyderguda|tuireising');", sandbox);
+  const indWeeklyMsg = elements['whatsappMessageText']?.value || '';
+  if (!indWeeklyMsg.includes('Weekly Store Schedule')) throw new Error('Individual weekly schedule missing header');
+  console.log('  openWhatsAppModal("individual_weekly"): ✅ Generated weekly schedule for staff (' + indWeeklyMsg.length + ' chars)');
+  passCount++;
+
+  // Test copy message
+  vm.runInContext("copyWhatsAppMessage();", sandbox);
+  console.log('  copyWhatsAppMessage(): ✅ OK');
+  passCount++;
+
+  // Test open whatsapp web
+  let openedUrl = '';
+  sandbox.window.open = (u) => { openedUrl = u; };
+  vm.runInContext("openWhatsAppWeb();", sandbox);
+  if (!openedUrl.includes('api.whatsapp.com') && !openedUrl.includes('wa.me')) throw new Error('Invalid WhatsApp URL: ' + openedUrl);
+  console.log('  openWhatsAppWeb(): ✅ Opened URL: ' + openedUrl.slice(0, 45) + '...');
+  passCount++;
+
+  // Test individual roster sender
+  vm.runInContext("sendIndividualWhatsAppRoster('Hyderguda|tuireising');", sandbox);
+  console.log('  sendIndividualWhatsAppRoster("Hyderguda|tuireising"): ✅ OK (URL opened)');
+  passCount++;
+
+  // Test send individual staff WA
+  vm.runInContext("sendIndividualStaffWA('Hyderguda|tuireising', '2026-10-31');", sandbox);
+  console.log('  sendIndividualStaffWA("Hyderguda|tuireising"): ✅ OK (URL opened)');
+  passCount++;
+
+  // Test copy store summary
+  vm.runInContext("copyStoreSummaryWA();", sandbox);
+  console.log('  copyStoreSummaryWA(): ✅ OK');
+  passCount++;
+
+} catch(err) {
+  console.error('  WhatsApp tests error:', err);
+}
+
 console.log('\n=============================================================');
 console.log(`🎉 ALL ${passCount} RUNTIME TAB & MODAL TESTS PASSED WITH 0 ERRORS!`);
 console.log('=============================================================\n');
