@@ -942,13 +942,13 @@ body {
     </section>
 
     <!-- ==========================================
-         TAB: ROSTER MANAGEMENT (WEEKLY & MONTHLY)
+         TAB: ROSTER MANAGEMENT (WEEKLY FROM MONDAY TO SUNDAY)
          ========================================== -->
     <section id="tab-roster" class="tab-pane">
       <div class="page-title-row">
         <div>
           <h1 class="page-heading">Roster Management</h1>
-          <p class="page-subheading">Assign shifts, track weekly balance, and publish real-time rosters</p>
+          <p class="page-subheading">Weekly schedule from Monday to Sunday • Shift assignments &amp; workforce balance</p>
         </div>
         <div style="display: flex; gap: 8px;">
           <button class="btn btn-secondary" onclick="openWhatsAppModal()">💬 Generate WhatsApp Roster</button>
@@ -956,11 +956,72 @@ body {
         </div>
       </div>
 
-      <div class="panel">
-        <div class="panel-header">
-          <span class="panel-title">Weekly Roster Matrix</span>
-          <div style="font-size: 11px; color: var(--brand-muted);">Click on any shift pill to change</div>
+      <!-- WEEKLY NAVIGATION TOOLBAR (Monday to Sunday by Week) -->
+      <div class="panel" style="padding: 12px 16px; margin-bottom: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; background: #FFFFFF;">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <!-- Store Selector -->
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 11px; font-weight: 700; color: var(--brand-muted);">Select Store:</span>
+            <select id="rosterStoreFilter" class="form-input" style="padding: 5px 10px; font-size: 12px; font-weight: 700; width: 180px;" onchange="onRosterStoreFilterChange(this.value)">
+              <option value="Hyderguda">🏬 Hyderguda Store</option>
+              <option value="Golden Mile">🏬 Golden Mile Store</option>
+              <option value="Banjara Hills">🏬 Banjara Hills Store</option>
+              <option value="Nallagandla">🏬 Nallagandla Store</option>
+              <option value="Madhapur">🏬 Madhapur Store</option>
+              <option value="ALL">🌐 All Stores (HQ Global)</option>
+            </select>
+          </div>
+
+          <!-- Week Dropdown Selector -->
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 11px; font-weight: 700; color: var(--brand-muted);">Select Week:</span>
+            <select id="rosterWeekDropdown" class="form-input" style="padding: 5px 10px; font-size: 12px; font-weight: 700; width: 260px;" onchange="onRosterWeekDropdownChange(this.value)">
+              <!-- Options populated by JS -->
+            </select>
+          </div>
         </div>
+
+        <!-- Stepper Buttons (Monday to Sunday) -->
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button class="btn btn-secondary" style="padding: 5px 10px; font-weight: 700;" onclick="navigateRosterWeek(-1)">
+            ◀ Previous Week
+          </button>
+          
+          <div id="rosterCurrentWeekBadge" style="background: var(--brand-orange-subtle); border: 1.5px solid #FDBA74; border-radius: 8px; padding: 5px 14px; font-size: 12px; font-weight: 800; color: #C2410C; min-width: 220px; text-align: center;">
+            Mon, 26 Oct 2026 – Sun, 01 Nov 2026
+          </div>
+
+          <button class="btn btn-secondary" style="padding: 5px 10px; font-weight: 700;" onclick="navigateRosterWeek(1)">
+            Next Week ▶
+          </button>
+
+          <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 11px;" onclick="resetRosterToCurrentWeek()">
+            📅 Current Week
+          </button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header" style="flex-wrap: wrap; gap: 10px;">
+          <div>
+            <span class="panel-title" id="rosterPanelTitle">Weekly Roster Matrix (Monday – Sunday)</span>
+            <div style="font-size: 11px; color: var(--brand-muted); margin-top: 2px;">
+              Click any shift badge to change. All updates automatically sync with Cloud Database.
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+            <span style="font-size: 10.5px; font-weight: 700; color: #4B5563;">Shift Legend:</span>
+            <span class="shift-select s-Opening" style="font-size: 10px;">Opening</span>
+            <span class="shift-select s-MidShift" style="font-size: 10px;">Mid Shift</span>
+            <span class="shift-select s-Closing" style="font-size: 10px;">Closing</span>
+            <span class="shift-select s-SPATimings" style="font-size: 10px;">SPA</span>
+            <span class="shift-select s-WeekOff" style="font-size: 10px;">Week Off</span>
+            <span class="shift-select s-CompOff" style="font-size: 10px;">Comp Off</span>
+            <span class="shift-select s-Leave" style="font-size: 10px;">Leave</span>
+          </div>
+        </div>
+
         <div class="table-wrap">
           <table class="simple-table" id="rosterWeeklyTable">
             <thead>
@@ -1705,22 +1766,85 @@ function renderDashboard() {
 }
 
 /* ==========================================================================
-   4. ROSTER MANAGEMENT (Weekly Matrix & Instant Save)
+   4. ROSTER MANAGEMENT (WEEKLY FROM MONDAY TO SUNDAY)
    ========================================================================== */
+let currentRosterMonday = '2026-10-26'; // Default current week Monday
+
+function initRosterWeekDropdown() {
+  const sel = document.getElementById('rosterWeekDropdown');
+  if (!sel) return;
+
+  const baseMonday = new Date(2026, 9, 26); // 26 Oct 2026
+  let html = '';
+
+  for (let offset = -6; offset <= 8; offset++) {
+    const mon = new Date(baseMonday);
+    mon.setDate(baseMonday.getDate() + (offset * 7));
+    const sun = new Date(mon);
+    sun.setDate(mon.getDate() + 6);
+
+    const monIso = `${mon.getFullYear()}-${String(mon.getMonth() + 1).padStart(2, '0')}-${String(mon.getDate()).padStart(2, '0')}`;
+    const monLabel = mon.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+    const sunLabel = sun.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    const isCurrent = (offset === 0);
+
+    html += `<option value="${monIso}" ${isCurrent ? 'selected' : ''}>Week ${44 + offset}: Mon ${monLabel} – Sun ${sunLabel} ${isCurrent ? '(Current)' : ''}</option>`;
+  }
+
+  sel.innerHTML = html;
+}
+
+function onRosterWeekDropdownChange(monIso) {
+  currentRosterMonday = monIso;
+  renderWeeklyRoster();
+}
+
+function onRosterStoreFilterChange(store) {
+  if (store === 'ALL') {
+    currentUser.rosterFilterStore = 'ALL';
+  } else {
+    currentUser.rosterFilterStore = store;
+  }
+  renderWeeklyRoster();
+}
+
+function navigateRosterWeek(step) {
+  const parts = currentRosterMonday.split('-');
+  const d = new Date(parts[0], parts[1] - 1, parts[2]);
+  d.setDate(d.getDate() + (step * 7));
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  currentRosterMonday = `${y}-${m}-${day}`;
+
+  // Update dropdown value
+  const sel = document.getElementById('rosterWeekDropdown');
+  if (sel) sel.value = currentRosterMonday;
+
+  renderWeeklyRoster();
+}
+
+function resetRosterToCurrentWeek() {
+  currentRosterMonday = '2026-10-26';
+  const sel = document.getElementById('rosterWeekDropdown');
+  if (sel) sel.value = currentRosterMonday;
+  renderWeeklyRoster();
+}
+
 function renderWeeklyRoster() {
+  initRosterWeekDropdown();
+
   const thead = document.getElementById('rosterWeeklyHeadRow');
   const tbody = document.getElementById('rosterWeeklyBody');
   const tfoot = document.getElementById('rosterWeeklyFoot');
   if (!thead || !tbody) return;
 
-  const parts = currentSelectedDate.split('-');
-  const baseDate = new Date(parts[0], parts[1] - 1, parts[2]);
-  const dayOfWeek = baseDate.getDay();
-  const mondayOffset = (dayOfWeek + 6) % 7;
-  const weekStart = new Date(baseDate);
-  weekStart.setDate(baseDate.getDate() - mondayOffset);
+  const parts = currentRosterMonday.split('-');
+  const weekStart = new Date(parts[0], parts[1] - 1, parts[2]); // Guaranteed Monday
 
   const days = [];
+  const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
   for (let i = 0; i < 7; i++) {
     const d = new Date(weekStart);
     d.setDate(weekStart.getDate() + i);
@@ -1729,46 +1853,91 @@ function renderWeeklyRoster() {
     const day = String(d.getDate()).padStart(2, '0');
     days.push({
       iso: `${y}-${m}-${day}`,
-      name: d.toLocaleDateString('en-US', { weekday: 'short' }),
-      short: `${d.getDate()}/${d.getMonth() + 1}`
+      name: dayNames[i],
+      dateNumber: d.getDate(),
+      monthNumber: d.getMonth() + 1,
+      fullFormatted: d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })
     });
   }
 
-  let headHtml = '<th style="text-align:left;min-width:140px;">Team Member</th><th style="text-align:left;min-width:120px;">Role</th>';
+  // Update Week Badge
+  const weekBadge = document.getElementById('rosterCurrentWeekBadge');
+  if (weekBadge && days.length === 7) {
+    const monStr = `Mon, ${days[0].fullFormatted}`;
+    const sunStr = `Sun, ${days[6].fullFormatted} ${parts[0]}`;
+    weekBadge.textContent = `${monStr} – ${sunStr}`;
+  }
+
+  // Build Table Head (Monday to Sunday)
+  let headHtml = '<th style="text-align:left;min-width:150px;">Team Member</th><th style="text-align:left;min-width:130px;">Role</th>';
   days.forEach(d => {
     const isToday = (d.iso === currentSelectedDate);
     headHtml += `
-      <th>
-        ${d.name} <span style="display:block;font-size:9px;color:var(--brand-muted);">${d.short}</span>
-        ${isToday ? '<span style="font-size:8px;background:var(--brand-orange);color:#fff;padding:1px 4px;border-radius:4px;">TODAY</span>' : ''}
+      <th style="min-width: 95px;">
+        <span style="font-size:12px;font-weight:800;display:block;">${d.name}</span>
+        <span style="font-size:10px;color:var(--brand-muted);font-weight:600;">${d.dateNumber}/${d.monthNumber}</span>
+        ${isToday ? '<span style="display:inline-block;font-size:8px;background:var(--brand-orange);color:#fff;padding:1px 5px;border-radius:4px;margin-top:2px;font-weight:800;">TODAY</span>' : ''}
       </th>
     `;
   });
-  headHtml += '<th>Offs</th>';
+  headHtml += '<th style="min-width:55px;">Offs</th>';
   thead.innerHTML = headHtml;
 
-  const isSuperAdmin = (currentUser.role === 'admin');
+  // Determine active store
+  const storeFilterSel = document.getElementById('rosterStoreFilter');
+  let targetStore = currentUser.rosterFilterStore || (currentUser.role === 'admin' ? 'Hyderguda' : currentUser.store);
+  if (storeFilterSel) {
+    if (!currentUser.rosterFilterStore) {
+      storeFilterSel.value = currentUser.role === 'admin' ? 'Hyderguda' : currentUser.store;
+    } else {
+      storeFilterSel.value = currentUser.rosterFilterStore;
+    }
+    targetStore = storeFilterSel.value;
+  }
+
   const emps = window.HUFT_DATA.employees || [];
   const shifts = window.HUFT_DATA.shifts || {};
 
-  const storeStaff = isSuperAdmin && currentUser.store === 'All Stores'
+  const storeStaff = targetStore === 'ALL'
     ? emps.filter(e => e.active)
-    : emps.filter(e => e.store === currentUser.store && e.active);
+    : emps.filter(e => e.store === targetStore && e.active);
+
+  const panelTitle = document.getElementById('rosterPanelTitle');
+  if (panelTitle) {
+    panelTitle.textContent = `${targetStore === 'ALL' ? 'All Stores Global' : targetStore + ' Store'} – Weekly Roster Matrix (Monday – Sunday)`;
+  }
 
   let bodyHtml = '';
   const opCount = new Array(7).fill(0);
+  const midCount = new Array(7).fill(0);
   const clCount = new Array(7).fill(0);
+  const spaCount = new Array(7).fill(0);
+  const totalOnDuty = new Array(7).fill(0);
+  const totalOff = new Array(7).fill(0);
 
   storeStaff.forEach(e => {
     let offCount = 0;
-    bodyHtml += `<tr><td class="col-left"><strong>${e.name}</strong></td><td class="col-left" style="font-size:11px;">${e.designation}</td>`;
+    bodyHtml += `
+      <tr>
+        <td class="col-left">
+          <strong>${e.name}</strong>
+          ${targetStore === 'ALL' ? `<span style="font-size:9.5px;color:var(--brand-muted);display:block;">${e.store}</span>` : ''}
+        </td>
+        <td class="col-left" style="font-size:11px;color:#4B5563;">${e.designation}</td>
+    `;
 
     days.forEach((d, idx) => {
       const shiftKey = `${e.id}|${d.iso}`;
-      const shift = shifts[shiftKey] || 'Opening';
-      if (shift === 'Opening' || shift === 'Mid Shift') opCount[idx]++;
-      if (shift === 'Closing') clCount[idx]++;
-      if (shift === 'Week Off' || shift === 'Leave') offCount++;
+      const shift = shifts[shiftKey] || ((idx === 1 || (idx === 6 && e.role === 'Grooming')) ? 'Week Off' : 'Opening');
+      
+      if (shift === 'Opening') { opCount[idx]++; totalOnDuty[idx]++; }
+      else if (shift === 'Mid Shift') { midCount[idx]++; totalOnDuty[idx]++; }
+      else if (shift === 'Closing') { clCount[idx]++; totalOnDuty[idx]++; }
+      else if (shift === 'SPA Timings') { spaCount[idx]++; totalOnDuty[idx]++; }
+      else if (shift === 'Week Off' || shift === 'Leave' || shift === 'Comp Off') {
+        offCount++;
+        totalOff[idx]++;
+      }
 
       bodyHtml += `
         <td>
@@ -1785,7 +1954,7 @@ function renderWeeklyRoster() {
       `;
     });
 
-    bodyHtml += `<td><strong>${offCount}</strong></td></tr>`;
+    bodyHtml += `<td><strong style="color:${offCount > 2 ? 'var(--brand-danger)' : 'var(--brand-text)'};">${offCount}</strong></td></tr>`;
   });
 
   tbody.innerHTML = bodyHtml;
@@ -1793,13 +1962,28 @@ function renderWeeklyRoster() {
   if (tfoot) {
     tfoot.innerHTML = `
       <tr style="background:#F9FAFB;font-weight:700;">
-        <td colspan="2" class="col-left"><strong>Opening Coverage</strong></td>
+        <td colspan="2" class="col-left"><span style="color:#0369A1;">● Opening Shifts (10:00 AM)</span></td>
         ${opCount.map(c => `<td style="color:#0369A1;font-weight:800;">${c}</td>`).join('')}
         <td>--</td>
       </tr>
       <tr style="background:#F9FAFB;font-weight:700;">
-        <td colspan="2" class="col-left"><strong>Closing Coverage</strong></td>
+        <td colspan="2" class="col-left"><span style="color:#B45309;">● Mid Shifts (11:00 AM)</span></td>
+        ${midCount.map(c => `<td style="color:#B45309;font-weight:800;">${c}</td>`).join('')}
+        <td>--</td>
+      </tr>
+      <tr style="background:#F9FAFB;font-weight:700;">
+        <td colspan="2" class="col-left"><span style="color:#6D28D9;">● Closing Shifts (12:30 PM)</span></td>
         ${clCount.map(c => `<td style="color:#6D28D9;font-weight:800;">${c}</td>`).join('')}
+        <td>--</td>
+      </tr>
+      <tr style="background:#F0FDF4;font-weight:800;border-top:2px solid var(--brand-border);">
+        <td colspan="2" class="col-left"><strong style="color:#15803D;">Total On Duty Coverage</strong></td>
+        ${totalOnDuty.map(c => `<td style="color:#15803D;font-weight:800;font-size:13px;">${c}</td>`).join('')}
+        <td>--</td>
+      </tr>
+      <tr style="background:#F9FAFB;font-weight:700;">
+        <td colspan="2" class="col-left"><span style="color:#6B7280;">Total Scheduled Offs</span></td>
+        ${totalOff.map(c => `<td style="color:#6B7280;font-weight:700;">${c}</td>`).join('')}
         <td>--</td>
       </tr>
     `;
