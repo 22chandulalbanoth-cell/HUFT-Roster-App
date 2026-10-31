@@ -1726,37 +1726,93 @@ body {
 </div>
 
 <!-- Modal: Request Staff Deployment -->
-<div class="modal-overlay" id="deploymentRequestModal">
-  <div class="modal-card">
-    <div class="modal-header">
-      <div class="modal-title">Request Staff from Another Store</div>
-      <button class="close-btn" onclick="closeDeploymentRequestModal()">&times;</button>
+<div class="modal-overlay" id="deploymentRequestModal" style="z-index: 20000 !important; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px;">
+  <div class="modal-card" style="max-width: 480px; width: 100%; padding: 26px; border-radius: 20px; background: #FFFFFF; box-shadow: 0 25px 70px rgba(0,0,0,0.25); border: 1px solid #E2E8F0;">
+    <div class="modal-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #F1F5F9;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 40px; height: 40px; border-radius: 12px; background: #FFF7ED; border: 1.5px solid #FFEDD5; display: flex; align-items: center; justify-content: center; font-size: 19px; color: #EA580C; flex-shrink: 0;">
+          🚀
+        </div>
+        <div>
+          <div class="modal-title" style="font-size: 17px; font-weight: 800; color: #0F172A; letter-spacing: -0.3px;">Request Staff from Another Store</div>
+          <div style="font-size: 11.5px; color: #64748B; margin-top: 2px;">Select source store, choose staff, and set deployment dates.</div>
+        </div>
+      </div>
+      <button class="close-btn" type="button" onclick="closeDeploymentRequestModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #94A3B8; padding: 2px 6px; line-height: 1;">&times;</button>
     </div>
-    <form onsubmit="handleDeploymentRequestSubmit(event)" style="display: flex; flex-direction: column; gap: 10px;">
+
+    <form onsubmit="handleDeploymentRequestSubmit(event)" style="display: flex; flex-direction: column; gap: 13px;">
+      <!-- 1. FIRST DROPDOWN: STORE -->
       <div class="form-group">
-        <label class="form-label">Select Employee from Other Store</label>
-        <select id="deployEmployee" class="form-input" required></select>
+        <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px;">
+          Store <span style="color: #EA580C;">*</span>
+        </label>
+        <select id="deploySourceStore" class="form-input" onchange="handleDeployStoreChange(this.value)" required style="height: 42px; font-size: 13px; font-weight: 600; border-radius: 10px; border: 1.5px solid #CBD5E1; background: #F8FAFC; width: 100%;">
+          <option value="">-- Select Store --</option>
+          <option value="Banjara Hills">Banjara Hills Store</option>
+          <option value="Golden Mile">Golden Mile Store</option>
+          <option value="Hyderguda">Hyderguda Store</option>
+          <option value="Madhapur">Madhapur Store</option>
+          <option value="Nallagandla">Nallagandla Store</option>
+        </select>
       </div>
+
+      <!-- 2. NEXT DROPDOWN: SELECTED STORE STAFF (Employee ID and Name) -->
       <div class="form-group">
-        <label class="form-label">Deployment Dates</label>
-        <input type="text" id="deployDates" class="form-input" placeholder="e.g. 05 Nov 2026 - 08 Nov 2026" required value="05 Nov 2026 - 08 Nov 2026">
+        <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px;">
+          Selected Store Staff <span style="color: #EA580C;">*</span>
+        </label>
+        <select id="deployEmployee" class="form-input" required style="height: 42px; font-size: 13px; font-weight: 600; border-radius: 10px; border: 1.5px solid #CBD5E1; background: #F8FAFC; width: 100%;">
+          <option value="">-- Select a store first --</option>
+        </select>
       </div>
+
+      <!-- 3. FROM & TO DATES (FROM TO TAB) -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="form-group">
+          <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px;">
+            From Date <span style="color: #EA580C;">*</span>
+          </label>
+          <input type="date" id="deployStartDate" class="form-input" required style="height: 42px; font-size: 13px; border-radius: 10px; border: 1.5px solid #CBD5E1; background: #F8FAFC; width: 100%;">
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px;">
+            To Date <span style="color: #EA580C;">*</span>
+          </label>
+          <input type="date" id="deployEndDate" class="form-input" required style="height: 42px; font-size: 13px; border-radius: 10px; border: 1.5px solid #CBD5E1; background: #F8FAFC; width: 100%;">
+        </div>
+      </div>
+
+      <!-- 4. SHIFT SELECTOR -->
       <div class="form-group">
-        <label class="form-label">Required Shift</label>
-        <select id="deployShift" class="form-input">
-          <option value="Opening">Opening</option>
-          <option value="Mid Shift">Mid Shift</option>
-          <option value="Closing">Closing</option>
+        <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px;">
+          Required Shift <span style="color: #EA580C;">*</span>
+        </label>
+        <select id="deployShift" class="form-input" required style="height: 42px; font-size: 13px; font-weight: 600; border-radius: 10px; border: 1.5px solid #CBD5E1; background: #F8FAFC; width: 100%;">
+          <option value="Opening">Opening Shift (10:00 AM)</option>
+          <option value="Mid Shift">Mid Shift (11:00 AM)</option>
+          <option value="Closing">Closing Shift (12:30 PM)</option>
           <option value="SPA Timings">SPA Timings</option>
         </select>
       </div>
+
+      <!-- 5. REASON FOR REQUEST -->
       <div class="form-group">
-        <label class="form-label">Reason for Request</label>
-        <textarea id="deployReason" class="form-input" rows="3" placeholder="Explain need for inter-store deployment..." required>Weekend customer rush support</textarea>
+        <label class="form-label" style="font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px;">
+          Reason for Request <span style="color: #EA580C;">*</span>
+        </label>
+        <textarea id="deployReason" class="form-input" rows="2" placeholder="Explain reason for inter-store deployment..." required style="font-size: 13px; border-radius: 10px; border: 1.5px solid #CBD5E1; background: #F8FAFC; padding: 10px 12px; resize: vertical; width: 100%;">Weekend customer rush support</textarea>
       </div>
-      <button type="submit" class="btn btn-primary" style="padding: 10px; justify-content: center; margin-top: 6px;">
-        Submit Request for Source Store Approval
-      </button>
+
+      <!-- ACTIONS -->
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px;">
+        <button type="button" class="btn btn-secondary" onclick="closeDeploymentRequestModal()" style="padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569;">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" style="padding: 10px 22px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; background: linear-gradient(135deg, #FF7138 0%, #FF5100 100%); color: #FFFFFF; border: none; box-shadow: 0 4px 14px rgba(255, 113, 56, 0.35);">
+          Submit Request →
+        </button>
+      </div>
     </form>
   </div>
 </div>
